@@ -53,7 +53,7 @@
               inherit (finalAttrs) pname version src;
               inherit pnpm;
               fetcherVersion = 4;
-              hash = "sha256-AngrKVYz5iPHcHppK/Mhbw6i+bqnvtKNWBSKtES62ag=";
+              hash = "sha256-C8Y8OwqValmuZWnkRIvSePWk81rCEBLeLHP/HdnT3lY=";
             };
 
             nativeBuildInputs = [
@@ -78,7 +78,7 @@
             src = self;
 
             proxyVendor = true;
-            vendorHash = "sha256-pFGH7efOZyeOtCnGmP2XBn0f0KynnV40hQpn1ntsrgQ=";
+            vendorHash = "sha256-GEJWgnechxBZfOf1PlIqZXpk4wCr3q39a3cCZ1OWpvk=";
 
             outputs = [
               "out"
