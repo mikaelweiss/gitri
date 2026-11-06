@@ -1,0 +1,14 @@
+name: deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: pika
+    steps:
+      - name: Build
+        run: nix build "git+${{ gitea.server_url }}/${{ gitea.repository }}?rev=${{ gitea.sha }}&shallow=1" --no-link --print-build-logs
+      - name: Deploy
+        run: systemctl start "gitri-deploy@${{ gitea.sha }}"
