@@ -110,7 +110,12 @@
 		</table>
 	</div>
 	{{else}}
-	<div class="ui attached segment tw-text-center">{{ctx.Locale.Tr "actions.runners.none"}}</div>
+	<div class="ui attached segment">
+		<div class="empty-placeholder">
+			{{svg "octicon-server" 48}}
+			<h2>{{ctx.Locale.Tr "actions.runners.none"}}</h2>
+		</div>
+	</div>
 	{{end}}
 
 	{{template "base/paginate" .}}

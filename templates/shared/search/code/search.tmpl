@@ -23,7 +23,10 @@
 		{{if .SearchResults}}
 			{{template "shared/search/code/results" .}}
 		{{else if .Keyword}}
-			<div>{{ctx.Locale.Tr "search.no_results"}}</div>
+			<div class="empty-placeholder">
+				{{svg "octicon-search" 48}}
+				<h2>{{ctx.Locale.Tr "search.no_results"}}</h2>
+			</div>
 		{{else}}
 			<div class="empty-placeholder">
 				{{svg "octicon-search" 48}}

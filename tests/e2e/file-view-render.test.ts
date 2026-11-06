@@ -19,7 +19,11 @@ test('3d model file', async ({page, request, browserName}) => {
   await assertFlushWithParent(iframe, page.locator('.file-view'));
   // bgcolor passed via gitea-iframe-bgcolor; 3D viewer reads it from body bgcolor — must match parent
   const [parentBg, iframeBg] = await Promise.all([
-    page.evaluate(() => getComputedStyle(document.body).backgroundColor),
+    iframe.evaluate((el) => {
+      let bg = 'rgba(0, 0, 0, 0)';
+      for (let node = el.parentElement; node && bg === 'rgba(0, 0, 0, 0)'; node = node.parentElement) bg = getComputedStyle(node).backgroundColor;
+      return bg;
+    }),
     frame.locator('body').evaluate((el) => getComputedStyle(el).backgroundColor),
   ]);
   expect(iframeBg).toBe(parentBg);

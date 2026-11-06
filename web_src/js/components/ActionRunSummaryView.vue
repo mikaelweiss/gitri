@@ -164,7 +164,7 @@ onBeforeUnmount(() => {
 .action-run-summary-label {
   display: block;
   margin-bottom: 4px;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   line-height: 1.4;
   color: var(--color-text-light-2);
 }
@@ -196,10 +196,10 @@ onBeforeUnmount(() => {
   max-width: 200px;
   min-height: 20px;
   padding: 0 6px;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-small);
   background: var(--color-primary-light-6);
   color: var(--color-primary);
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   line-height: 20px;
   font-family: var(--fonts-monospace);
 }
@@ -232,7 +232,8 @@ onBeforeUnmount(() => {
 .action-run-summary-stat-value {
   display: block;
   margin-top: auto; /* pin value to the bottom so all column values share a baseline */
-  font-size: 16px;
+  font-size: var(--font-size-lg);
+  letter-spacing: var(--letter-spacing-snug);
   line-height: 1.25;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text);

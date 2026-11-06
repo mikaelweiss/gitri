@@ -1,3 +1,7 @@
+.tag-list-row {
+  padding: var(--page-spacing);
+}
+
 #release-list {
   display: flex;
   flex-direction: column;
@@ -6,8 +10,10 @@
 }
 
 #release-list .release-list-title {
-  font-size: 2rem;
-  font-weight: var(--font-weight-normal);
+  font-family: var(--fonts-headline);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-tight);
   display: flex;
   align-items: center;
   gap: 0.25em;
@@ -61,12 +67,12 @@
 
 #release-list .release-entry .attachment-list {
   border: 1px solid var(--color-secondary);
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-medium);
 }
 
 #release-list .release-entry .attachment-list > .item {
   display: flex;
-  padding: 8px;
+  padding: 9px 14px;
   flex-wrap: wrap;
 }
 
@@ -92,6 +98,7 @@
 }
 
 #tags-table .tag-list-row-title {
-  font-size: 18px;
-  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-snug);
 }

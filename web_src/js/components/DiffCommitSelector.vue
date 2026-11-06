@@ -314,6 +314,22 @@ function commitClickedShift(commit: Commit) {
     width: 350px;
   }
 
+  @media (max-width: 767.98px) {
+    .ui.dropdown.diff-commit-selector {
+      position: static; /* the menu spans the toolbar, it's wider than the room beside the button */
+    }
+
+    .ui.dropdown.diff-commit-selector .menu {
+      inset-inline: 8px;
+      top: auto;
+      min-width: 0;
+    }
+
+    .ui.dropdown.diff-commit-selector .menu .loading-indicator {
+      width: auto;
+    }
+  }
+
   .ui.dropdown.diff-commit-selector .menu > .item,
   .ui.dropdown.diff-commit-selector .menu > .info {
     display: flex;
@@ -322,13 +338,13 @@ function commitClickedShift(commit: Commit) {
     gap: 0.25em;
     width: auto;
     margin: 0;
-    padding: 7px 14px !important;
+    padding: 7px 14px !important; /* .ui.dropdown .menu > .item padding is !important */
     border-radius: 0;
   }
 
   .ui.dropdown.diff-commit-selector .menu > .item:not(:first-child),
   .ui.dropdown.diff-commit-selector .menu > .info:not(:first-child) {
-    border-top: 1px solid var(--color-secondary) !important;
+    border-top: 1px solid var(--color-secondary);
   }
 
   .ui.dropdown.diff-commit-selector .menu > .item:focus {

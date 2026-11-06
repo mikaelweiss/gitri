@@ -28,7 +28,8 @@
 
 .repo-home-sidebar-header {
   font-weight: var(--font-weight-semibold);
-  font-size: 16px;
+  font-size: var(--font-size-lg);
+  letter-spacing: var(--letter-spacing-snug);
   margin-top: 0.5em;
 }
 
@@ -86,12 +87,18 @@
   display: flex;
   gap: 2px;
   padding: 0;
-  height: 10px;
+  height: 8px;
   white-space: nowrap;
-  border-radius: 5px;
+  border-radius: var(--border-radius-full);
   overflow: hidden;
   width: 100%;
-  margin: 5px 0;
+  margin: 6px 0;
+}
+
+@supports (corner-shape: squircle) {
+  .language-stats {
+    corner-shape: round;
+  }
 }
 
 .language-stats-details {
@@ -100,11 +107,12 @@
 }
 
 .language-stats-details .item {
-  height: 30px;
+  height: var(--control-height-small);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.25em;
   padding: 0 0.5em; /* make the UI look better for narrow (mobile) view */
+  font-size: var(--font-size-sm);
   text-decoration: none;
 }

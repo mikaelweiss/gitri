@@ -5,8 +5,10 @@
 			{{/* left part */}}
 			<div class="flex-text-block">
 				{{template "repo/icon" .}}
-				<div class="flex-text-block tw-flex-wrap tw-text-18">
-					<a class="muted tw-font-normal" href="{{.Owner.HomeLink}}">{{.Owner.Name}}</a>/<a class="muted" href="{{$.RepoLink}}">{{.Name}}</a>
+				<div class="flex-text-block tw-flex-wrap">
+					<div class="repo-header-title">
+						<a class="muted repo-header-owner" href="{{.Owner.HomeLink}}">{{.Owner.Name}}</a><span class="repo-header-separator">/</span><a class="muted" href="{{$.RepoLink}}">{{.Name}}</a>
+					</div>
 					{{if $.IsSigned}}{{/* actually the switch also works for anonymous users, GitHub only shows it for sign-in users */}}
 						<div class="ui custom dropdown" data-global-init="initRepoSwitcher" data-current-full-name="{{.FullName}}" data-tooltip-content="{{ctx.Locale.Tr "repo.switch_repository"}}"
 							data-query-url="{{AppSubUrl}}/repo/search?q={query}&uid={{.Owner.ID}}&exclusive=true" {{/* only search the repo owned by "uid" */}}
@@ -98,13 +100,13 @@
 				<div class="overflow-menu-items">
 					{{if .Permission.CanRead ctx.Consts.RepoUnitTypeCode}}
 						{{$codeLinkUseCurrentRef := and (ne .BranchName .Repository.DefaultBranch) (not $.PageIsWiki)}}
-						<a class="{{if .PageIsViewCode}}active{{end}} item" href="{{.RepoLink}}{{if $codeLinkUseCurrentRef}}/src/{{.RefTypeNameSubURL}}{{end}}" data-shortcut-keys="g c">
+						<a class="{{if or .PageIsViewCode (and .PageIsDiff (not .PageIsWiki))}}active{{end}} item" href="{{.RepoLink}}{{if $codeLinkUseCurrentRef}}/src/{{.RefTypeNameSubURL}}{{end}}" data-shortcut-keys="g c">
 							{{svg "octicon-code"}} {{ctx.Locale.Tr "repo.code"}}
 						</a>
 					{{end}}
 
 					{{if .Permission.CanRead ctx.Consts.RepoUnitTypeIssues}}
-						<a class="{{if .PageIsIssueList}}active{{end}} item" href="{{.RepoLink}}/issues" data-shortcut-keys="g i">
+						<a class="{{if or .PageIsIssueList .PageIsMilestones .Milestone}}active{{end}} item" href="{{.RepoLink}}/issues" data-shortcut-keys="g i">
 							{{svg "octicon-issue-opened"}} {{ctx.Locale.Tr "repo.issues"}}
 							{{if .Repository.NumOpenIssues}}
 								<span class="ui small label">{{CountFmt .Repository.NumOpenIssues}}</span>
@@ -206,5 +208,4 @@
 			{{end}}
 		</overflow-menu>
 	</div>
-	<div class="ui tabs divider"></div>
 </div>

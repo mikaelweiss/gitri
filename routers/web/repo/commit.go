@@ -214,6 +214,8 @@ func FileHistory(ctx *context.Context) {
 		return
 	}
 
+	ctx.Data["PageIsViewCode"] = true
+
 	followRename := ctx.FormBool("follow-rename")
 	ctx.Data["ShowFollowRename"] = true
 	ctx.Data["FollowRenameChecked"] = followRename

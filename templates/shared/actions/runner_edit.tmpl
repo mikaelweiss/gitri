@@ -47,7 +47,7 @@
 
 			<div class="divider"></div>
 
-			<div class="field">
+			<div class="field flex-text-block tw-flex-wrap">
 				<button type="submit" class="ui primary button" data-url="{{.Link}}">{{ctx.Locale.Tr "actions.runners.update_runner"}}</button>
 				<button type="button" class="ui button link-action" data-url="{{.Link}}/update-runner?disabled={{not .Runner.IsDisabled}}">
 					{{if .Runner.IsDisabled}}{{ctx.Locale.Tr "actions.runners.enable_runner"}}{{else}}{{ctx.Locale.Tr "actions.runners.disable_runner"}}{{end}}
@@ -61,7 +61,7 @@
 	<h4 class="ui top attached header">
 		{{ctx.Locale.Tr "actions.runners.task_list"}}
 	</h4>
-	<div class="ui attached segment">
+	<div class="ui attached segment tw-overflow-x-auto">
 		<table class="ui very basic table unstackable">
 			<thead>
 				<tr>
@@ -88,7 +88,12 @@
 				{{end}}
 				{{if not .Tasks}}
 				<tr>
-					<td colspan="5">{{ctx.Locale.Tr "actions.runners.task_list.no_tasks"}}</td>
+					<td colspan="5">
+						<div class="empty-placeholder">
+							{{svg "octicon-tasklist" 48}}
+							<h2>{{ctx.Locale.Tr "actions.runners.task_list.no_tasks"}}</h2>
+						</div>
+					</td>
 				</tr>
 				{{end}}
 			</tbody>

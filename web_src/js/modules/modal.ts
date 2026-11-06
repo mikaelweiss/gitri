@@ -88,6 +88,7 @@ export function showModal(elModal: HTMLDialogElement, opts: ModalOpts = {}) {
 
   hideToastsAll();
   hideAll();
+  elBackdrop.classList.add('modal-backdrop-open'); // before blockPage flushes the style: Safari gives no focus to a dialog opening inside a hidden backdrop
   blockPage(elBackdrop);
 
   elModal.show(); // not showModal: popups and toasts mounted on body must stay usable above it, see https://github.com/whatwg/html/issues/9936
@@ -99,6 +100,7 @@ export function hideModal(elModal: HTMLDialogElement) {
   const {opts, opener} = modalStates.get(elModal)!;
   const elBackdrop = elModal.parentElement!;
   elModal.close();
+  elBackdrop.classList.remove('modal-backdrop-open');
   blockPage(topModal()?.parentElement);
 
   // don't leave the focus in the closed dialog when the opener is gone

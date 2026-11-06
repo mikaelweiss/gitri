@@ -14,10 +14,21 @@
   padding-bottom: 5px;
 }
 
+.profile-name {
+  font-family: var(--fonts-headline);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-snug);
+}
+
+.profile-full-name {
+  color: var(--color-text-light-2);
+}
+
 .user-badges {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 8px;
   margin: 0;
   min-width: 0;
 }
@@ -32,17 +43,17 @@
   object-fit: contain;
 }
 
-.user-badge-chip {
-  max-width: none !important;
-  overflow: visible !important;
-  text-overflow: clip !important;
+.ui.label.user-badge-chip {
+  max-width: none;
+  overflow: visible;
+  text-overflow: clip;
   white-space: nowrap;
   min-width: max-content;
 }
 
 #readme_profile {
   padding: 1em 2em;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-medium);
   background: var(--color-card);
   border: 1px solid var(--color-secondary);
 }
@@ -50,7 +61,8 @@
 #notification_table {
   background: var(--color-box-body);
   border: 1px solid var(--color-secondary);
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-medium);
+  overflow: hidden;
 }
 
 .notifications-item {
@@ -60,6 +72,11 @@
   gap: 0.5em;
   padding: 0.5em 1em;
   overflow-wrap: anywhere;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.notifications-item + .notifications-item {
+  border-top: 1px solid var(--color-secondary);
 }
 
 .notifications-item:hover {
@@ -75,13 +92,40 @@
   display: flex;
 }
 
-.notifications-item:hover .notifications-buttons {
+.notifications-item:is(:hover, :focus-within) .notifications-buttons {
   display: flex;
   align-items: center;
   justify-content: end;
-  gap: 0.25em;
+  gap: 4px;
 }
 
-.notifications-item:hover .notifications-updated {
+.notifications-item:is(:hover, :focus-within) .notifications-updated {
   display: none;
+}
+
+@media (hover: none) {
+  .notifications-item .notifications-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 4px;
+  }
+}
+
+.page-content.user > .ui.page.grid > .column {
+  max-width: 460px;
+  margin-inline: auto;
+}
+
+.page-content.user > .ui.page.grid .ui.top.attached.header {
+  padding-block: 16px;
+  font-family: var(--fonts-headline);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-snug);
+  text-align: center;
+}
+
+.page-content.user > .ui.page.grid .ui.attached.segment {
+  padding: 24px;
 }

@@ -143,17 +143,20 @@ function updateState(visible: boolean) {
 .diff-file-search-input {
   flex: 1;
   min-width: 0;
-  height: 32px;
+  height: var(--control-height);
   padding: 0 28px;
-  border: 1px solid var(--color-secondary);
-  border-radius: var(--border-radius-medium);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--border-radius);
   background: var(--color-input-background);
   color: var(--color-text);
+  font-size: var(--font-size-sm);
+  transition: border-color var(--duration-normal) var(--ease-standard), box-shadow var(--duration-normal) var(--ease-standard);
 }
 
 .diff-file-search-input:focus {
   outline: none;
   border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
 }
 
 .diff-file-search-clear {
@@ -170,6 +173,7 @@ function updateState(visible: boolean) {
   justify-content: center;
   margin: auto 0;
   padding: 0;
+  transition: color var(--duration-fast) var(--ease-standard);
 }
 
 .diff-file-search-clear:hover {

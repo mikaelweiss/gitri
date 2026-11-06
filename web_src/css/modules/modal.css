@@ -4,14 +4,15 @@
 
 .modal-dialog {
   text-align: left;
-  background: var(--color-body);
-  border: none;
+  background: var(--color-box-body);
+  border: 1px solid var(--color-secondary);
   margin: 0;
   padding: 0;
   color: inherit;
-  box-shadow: 1px 3px 3px 0 var(--color-shadow), 1px 3px 15px 2px var(--color-shadow);
-  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-modal);
+  border-radius: var(--border-radius-large);
   user-select: text;
+  transition: opacity var(--duration-normal) var(--ease-standard), transform var(--duration-normal) var(--ease-standard);
 
   width: fit-content;
   /* on small screens, the modal should not exceed 90% of the viewport width;
@@ -22,29 +23,29 @@
   min-width: min(800px, max(min(300px, 90vw), 30vw));
 }
 
-.modal-dialog > :first-child {
-  border-top-left-radius: var(--border-radius);
-  border-top-right-radius: var(--border-radius);
+.modal-dialog:not([open]) {
+  opacity: 0;
+  transform: translateY(8px);
 }
 
-.modal-dialog > :last-child {
-  border-bottom-left-radius: var(--border-radius);
-  border-bottom-right-radius: var(--border-radius);
+.modal-dialog[open] {
+  animation: fade-rise var(--duration-slow) var(--ease-standard) backwards;
 }
 
 .modal-dialog .close-modal {
   cursor: pointer;
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 1rem;
+  top: 18px;
+  inset-inline-end: 16px;
   z-index: 1;
   opacity: 0.5;
   padding: 0;
   border: none;
+  border-radius: var(--border-radius);
   background: none;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: var(--control-height-tiny);
+  height: var(--control-height-tiny);
+  transition: var(--transition-hover-fade), background-color var(--duration-fast) var(--ease-standard);
 }
 
 .modal-dialog .close-modal::before {
@@ -59,47 +60,45 @@
 
 .modal-dialog .close-modal:hover {
   opacity: 1;
+  background: var(--color-hover);
 }
 
 .modal-dialog > .header {
   display: block;
   position: relative;
-  font-size: 18px;
-  font-weight: var(--font-weight-medium);
-  background: var(--color-body);
+  font-family: var(--fonts-headline);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-snug);
   margin: 0;
-  padding: 1.25rem 3rem 1.25rem 1.5rem; /* leave more right space for the "close" button */
-  box-shadow: none;
+  padding: 20px 48px 8px 24px; /* leave more right space for the "close" button */
   color: var(--color-text-dark);
-  border-bottom: 1px solid var(--color-secondary);
-  border-top-left-radius: var(--border-radius);
-  border-top-right-radius: var(--border-radius);
 }
 
 .modal-dialog > .content,
 .modal-dialog form > .content {
   display: block;
   width: 100%;
-  font-size: 1em;
+  font-size: var(--font-size-md);
   line-height: 1.4;
-  padding: 1.5em;
-  background: var(--color-body);
-  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  padding: 20px 24px;
+}
+
+.modal-dialog > .header + .content,
+.modal-dialog > .header + form > .content {
+  padding-top: 8px;
 }
 
 .modal-dialog > .actions,
 .modal-dialog .content + .actions,
 .modal-dialog .content + form > .actions {
-  background: var(--color-secondary-bg);
-  padding: 1rem;
-  border-top: 1px solid var(--color-secondary);
+  padding: 4px 24px 20px;
   text-align: right;
-  border-radius: 0 0 var(--border-radius) var(--border-radius);
 }
 
 .modal-dialog .content > form > .actions,
 .modal-dialog .content > .actions {
-  padding-top: 1em;
+  padding-top: var(--page-spacing);
   text-align: right;
 }
 
@@ -108,7 +107,7 @@
   gap: var(--gap-inline);
   align-items: center;
   padding-inline: 10px 12px;
-  margin-left: 0.75em;
+  margin-left: var(--gap-block);
   margin-right: 0;
 }
 

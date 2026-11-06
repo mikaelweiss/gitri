@@ -8,12 +8,12 @@ kbd {
   justify-content: center;
   min-width: 18px;
   padding: 2px 4px;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   line-height: 1;
   color: var(--color-text-light-2);
   background-color: var(--color-box-body);
   border: 1px solid var(--color-secondary);
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-small);
 }
 
 .global-shortcut-wrapper > kbd {

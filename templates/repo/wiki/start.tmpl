@@ -8,6 +8,8 @@
 			<p>{{ctx.Locale.Tr "repo.wiki.welcome_desc"}}</p>
 			{{if and .CanWriteWiki (not .Repository.IsMirror)}}
 				<a class="ui primary button tw-mr-0" href="{{.RepoLink}}/wiki?action=_new">{{ctx.Locale.Tr "repo.wiki.create_first_page"}}</a>
+			{{else if .Permission.CanRead ctx.Consts.RepoUnitTypeCode}}
+				<a class="ui button tw-mr-0" href="{{.RepoLink}}">{{ctx.Locale.Tr "repo.wiki.view_code"}}</a>
 			{{end}}
 		</div>
 	</div>

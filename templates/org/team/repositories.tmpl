@@ -12,9 +12,9 @@
 				{{if $canAddRemove}}
 					{{$hasTopAttachedSegment = true}}
 					<div class="ui top attached segment flex-text-block tw-flex-wrap">
-						<form class="ui form ignore-dirty tw-flex-1 tw-flex" action="{{$.OrgLink}}/teams/{{$.Team.LowerName | PathEscape}}/action/repo/add" method="post">
-							<div data-global-init="initSearchRepoBox" data-uid="{{.Org.ID}}" class="ui search">
-								<div class="ui input">
+						<form class="ui form ignore-dirty tw-flex-[1_1_240px] tw-flex" action="{{$.OrgLink}}/teams/{{$.Team.LowerName | PathEscape}}/action/repo/add" method="post">
+							<div data-global-init="initSearchRepoBox" data-uid="{{.Org.ID}}" class="ui search tw-flex-1">
+								<div class="ui input tw-w-full">
 									<input class="prompt" name="repo_name" placeholder="{{ctx.Locale.Tr "search.repo_kind"}}" autocomplete="off" required>
 								</div>
 							</div>
@@ -51,8 +51,9 @@
 								</div>
 							</div>
 						{{else}}
-							<div class="item">
-								<span class="tw-text-text-light tw-italic">{{ctx.Locale.Tr "org.teams.repos.none"}}</span>
+							<div class="empty-placeholder">
+								{{svg "octicon-repo" 48}}
+								<h2>{{ctx.Locale.Tr "org.teams.repos.none"}}</h2>
 							</div>
 						{{end}}
 					</div>

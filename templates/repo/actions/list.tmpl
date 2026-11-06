@@ -101,7 +101,7 @@
 				{{end}}
 
 				<div class="ui attached segment">
-					{{template "repo/actions/runs_list" dict "ActionRunListData" $.ActionRunListData "CurWorkflowIsReusable" $.CurWorkflowIsReusable}}
+					{{template "repo/actions/runs_list" dict "ActionRunListData" $.ActionRunListData "CurWorkflowIsReusable" $.CurWorkflowIsReusable "CurWorkflowRepoID" $.CurWorkflowRepoID}}
 					{{template "base/paginate" dict "Page" $.Page}}
 				</div>
 			</div>

@@ -6,7 +6,7 @@ import {hideElem, querySingleVisibleElem, showElem} from '../utils/dom.ts';
 import {errorMessage} from '../modules/errors.ts';
 import {triggerUploadStateChanged} from './comp/EditorUpload.ts';
 import {convertHtmlToMarkdown} from '../markup/html2markdown.ts';
-import {applyAreYouSure} from '../modules/are-you-sure.ts';
+import {applyAreYouSure, recheckAreYouSure} from '../modules/are-you-sure.ts';
 import {registerShortcutHandler} from '../modules/shortcut.ts';
 import {registerGlobalEventFunc} from '../modules/observer.ts';
 
@@ -33,6 +33,11 @@ async function onConvContentEdit(clickTarget: HTMLElement) {
     renderContent.classList.add('is-loading');
     showElem(renderContent);
     hideElem(editContentZone);
+    const reopenEditor = () => {
+      hideElem(renderContent);
+      showElem(editContentZone);
+      recheckAreYouSure(editContentZone.querySelector('form')!);
+    };
     try {
       const params = new URLSearchParams({
         content: comboMarkdownEditor.value(),
@@ -44,9 +49,10 @@ async function onConvContentEdit(clickTarget: HTMLElement) {
       }
 
       const response = await POST(editContentZone.getAttribute('data-update-url')!, {data: params});
-      const data = await response.json();
+      const data = response.headers.get('content-type')?.includes('json') ? await response.json() : null;
       if (!response.ok) {
         showErrorToast(data?.errorMessage ?? window.config.i18n.error_occurred);
+        reopenEditor();
         return;
       }
 
@@ -74,6 +80,7 @@ async function onConvContentEdit(clickTarget: HTMLElement) {
     } catch (error) {
       showErrorToast(`Failed to save the content: ${errorMessage(error)}`);
       console.error(error);
+      reopenEditor();
     } finally {
       renderContent.classList.remove('is-loading');
     }

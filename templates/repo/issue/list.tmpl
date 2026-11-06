@@ -29,7 +29,7 @@
 			{{else}}
 				{{/* archived, view compare page only */}}
 				{{if not .PageIsIssueList}}
-					<a class="ui small primary small button issue-list-new" href="{{.PullRequestCtx.MakeDefaultCompareLink .Repository.DefaultBranch}}">{{ctx.Locale.Tr "action.compare_commits_general"}}</a>
+					<a class="ui small primary button issue-list-new" href="{{.PullRequestCtx.MakeDefaultCompareLink .Repository.DefaultBranch}}">{{ctx.Locale.Tr "action.compare_commits_general"}}</a>
 				{{end}}
 			{{end}}
 		</div>

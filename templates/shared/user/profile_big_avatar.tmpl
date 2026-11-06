@@ -12,17 +12,17 @@
 		</div>
 
 		<div class="item flex-relaxed-list">
-			<span class="tw-text-center">
+			<span class="tw-text-center profile-name">
 				{{.ContextUser.Name}}{{template "shared/user/user_type_label" .ContextUser}}
 				{{if .IsAdmin}}
 					<a href="{{AppSubUrl}}/-/admin/users/{{.ContextUser.ID}}" data-tooltip-content="{{ctx.Locale.Tr "admin.users.details"}}">{{svg "octicon-gear" 18}}</a>
 				{{end}}
 			</span>
 			{{if .ContextUser.FullName}}
-				<span class="tw-text-center">{{.ContextUser.FullName}}</span>
+				<span class="tw-text-center profile-full-name">{{.ContextUser.FullName}}</span>
 			{{end}}
 			<div class="tw-text-center">
-				<a href="{{.ContextUser.HomeLink}}?tab=followers">{{svg "octicon-person" 18 "tw-mr-1"}}{{.NumFollowers}} {{ctx.Locale.Tr "user.followers"}}</a> · <a href="{{.ContextUser.HomeLink}}?tab=following">{{.NumFollowing}} {{ctx.Locale.Tr "user.following"}}</a>
+				<a href="{{.ContextUser.HomeLink}}?tab=followers">{{svg "octicon-person" 18 "tw-mr-1"}}{{.NumFollowers}} {{ctx.Locale.TrN .NumFollowers "user.follower" "user.followers"}}</a> · <a href="{{.ContextUser.HomeLink}}?tab=following">{{.NumFollowing}} {{ctx.Locale.Tr "user.following"}}</a>
 				{{if .EnableFeed}}
 					<a href="{{.ContextUser.HomeLink}}.rss"><i class="ui tw-text-text-light tw-ml-2" data-tooltip-content="{{ctx.Locale.Tr "rss_feed"}}">{{svg "octicon-rss" 18}}</i></a>
 				{{end}}

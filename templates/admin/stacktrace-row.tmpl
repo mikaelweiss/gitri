@@ -11,7 +11,7 @@
 				{{svg "octicon-code" 16}}
 			{{end}}
 		</div>
-		<div class="content tw-flex-1">
+		<div class="content tw-flex-1 tw-min-w-0 tw-break-anywhere">
 			<div class="header">{{.Process.Description}}</div>
 			<div class="description">{{if ne .Process.Type "none"}}{{DateUtils.TimeSince .Process.Start}}{{end}}</div>
 		</div>
@@ -30,8 +30,8 @@
 				<div class="item">
 					<details>
 						<summary>
-							<div class="flex-text-inline">
-								<div class="header tw-ml-2">
+							<div class="flex-text-inline tw-flex-wrap tw-align-top tw-max-w-[calc(100%-20px)]">
+								<div class="header tw-ml-2 tw-min-w-0 tw-break-anywhere">
 									<span class="icon tw-mr-2">{{svg "octicon-code" 16}}</span>{{.Description}}{{if gt .Count 1}} * {{.Count}}{{end}}
 								</div>
 								<div class="description">
@@ -45,7 +45,7 @@
 							{{range .Entry}}
 								<div class="item tw-flex tw-items-center">
 									<span class="icon tw-mr-4">{{svg "octicon-dot-fill" 16}}</span>
-									<div class="content tw-flex-1">
+									<div class="content tw-flex-1 tw-min-w-0 tw-break-anywhere">
 										<div class="header">{{.Function}}</div>
 										<div class="description">{{.File}}:{{.Line}}</div>
 									</div>

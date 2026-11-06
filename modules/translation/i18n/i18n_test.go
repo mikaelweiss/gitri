@@ -63,6 +63,9 @@ func TestLocaleStore(t *testing.T) {
 	assert.False(t, found)
 	found = lang2.HasKey("only_in_default")
 	assert.True(t, found)
+	assert.True(t, lang2.HasOwnKey("section.sub"))
+	assert.False(t, lang2.HasOwnKey(".dot.name"))
+	assert.True(t, lang2.HasKey(".dot.name"))
 
 	assert.NoError(t, ls.Close())
 

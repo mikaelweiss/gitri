@@ -15,7 +15,7 @@
 	{{if $statusCheckData.RequireApprovalRunCount}}
 	<div class="item flex-left-right" id="approve-status-checks">
 		<div>
-			<strong>{{ctx.Locale.Tr "repo.pulls.status_checks_need_approvals" $statusCheckData.RequireApprovalRunCount}}</strong>
+			<strong>{{ctx.Locale.TrN $statusCheckData.RequireApprovalRunCount "repo.pulls.status_checks_need_approvals_1" "repo.pulls.status_checks_need_approvals" $statusCheckData.RequireApprovalRunCount}}</strong>
 			<p>{{ctx.Locale.Tr "repo.pulls.status_checks_need_approvals_helper"}}</p>
 		</div>
 		{{if $statusCheckData.CanApprove}}

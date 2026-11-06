@@ -210,6 +210,10 @@
 								</div>
 							</td>
 						</tr>
+					{{else}}
+						<tr>
+							<td class="tw-text-center tw-py-4" colspan="4">{{if .Keyword}}{{ctx.Locale.Tr "no_results_found"}}{{else}}{{ctx.Locale.Tr "repo.branch.no_other_branches"}}{{end}}</td>
+						</tr>
 					{{end}}
 				</tbody>
 			</table>

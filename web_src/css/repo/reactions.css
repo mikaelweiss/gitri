@@ -16,19 +16,26 @@
 
 .bottom-reactions .select-reaction,
 .bottom-reactions .ui.label {
-  height: 28px;
+  height: var(--control-height-small);
+  transition: color var(--duration-fast) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);
 }
 
 .bottom-reactions .select-reaction {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
+  width: var(--control-height-small);
   padding: 0;
   border-radius: var(--border-radius-full);
   border: 1px solid var(--color-light-border);
   background: var(--color-reaction-bg);
   color: var(--color-text-light-1);
+}
+
+@supports (corner-shape: squircle) {
+  .bottom-reactions .select-reaction {
+    corner-shape: round;
+  }
 }
 
 .bottom-reactions .select-reaction:hover,
@@ -59,7 +66,7 @@
 }
 
 .bottom-reactions .ui.label .reaction {
-  font-size: 16px;
+  font-size: var(--font-size-lg);
   display: flex;
 }
 
@@ -77,11 +84,11 @@
 
 .tippy-box .reaction-picker .item {
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: var(--control-height);
+  height: var(--control-height);
   margin: 0;
   padding: 0;
-  font-size: 17.5px;
+  font-size: var(--font-size-xl);
 }
 
 .tippy-box .reaction-picker .item[data-has-reacted="true"] {

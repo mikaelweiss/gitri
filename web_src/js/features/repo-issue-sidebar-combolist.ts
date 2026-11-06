@@ -152,6 +152,7 @@ export class IssueSidebarComboList {
   }
 
   onItemClick(elItem: HTMLElement, e: Event) {
+    if (elItem.matches('.issue-sidebar-picker-link')) return;
     e.preventDefault();
     if (elItem.hasAttribute('data-can-change') && elItem.getAttribute('data-can-change') !== 'true') return;
 

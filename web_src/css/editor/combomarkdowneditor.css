@@ -6,12 +6,13 @@
   cursor: default;
   display: flex;
   align-items: center;
-  padding-bottom: 10px;
+  padding-bottom: 8px;
   flex-wrap: wrap;
 }
 
 .combo-markdown-editor .markdown-toolbar-group {
   display: flex;
+  gap: 2px;
   border-left: 1px solid var(--color-secondary);
   padding: 0 0.5em;
 }
@@ -33,19 +34,27 @@
   background: none;
   user-select: none;
   padding: 5px;
+  border-radius: var(--border-radius-small);
   cursor: pointer;
-  color: var(--color-text);
+  color: var(--color-text-light-1);
+  transition: color var(--duration-fast) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
 }
 
 .combo-markdown-editor .markdown-toolbar-button:hover {
-  color: var(--color-primary);
+  color: var(--color-text);
+  background: var(--color-hover);
+}
+
+.combo-markdown-editor .markdown-toolbar-button:active {
+  background: var(--color-active);
+  transform: scale(0.97);
 }
 
 .combo-markdown-editor md-header {
   position: relative;
 }
 .combo-markdown-editor md-header::after {
-  font-size: 10px;
+  font-size: var(--font-size-xs);
   position: absolute;
   top: 7px;
 }

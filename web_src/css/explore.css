@@ -1,6 +1,6 @@
 /* FIXME: need to refactor the repo branches list page and move these styles to proper place */
 .ui.repository.branches .info {
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   color: var(--color-text-light);
   display: flex;
   white-space: pre;

@@ -132,7 +132,9 @@ function delegateDropdownModule($dropdown: JQueryElem<AriaDropdownElement>) {
     // detect whether the menu is outside the viewport, and adjust the position
     // there is a bug in fomantic's builtin `direction` function, in some cases (when the menu width is only a little larger) it wrongly opens the menu at right and triggers the scrollbar.
     elMenu.classList.add(classNames.loading);
-    if (elMenu.getBoundingClientRect().right > document.documentElement.clientWidth) {
+    const menuRect = elMenu.getBoundingClientRect();
+    const isRtl = getComputedStyle(elMenu).direction === 'rtl';
+    if (isRtl ? menuRect.left < 0 : menuRect.right > document.documentElement.clientWidth) {
       elMenu.classList.add(classNames.leftward);
     }
     elMenu.classList.remove(classNames.loading);
@@ -294,6 +296,10 @@ function attachDomEvents(dropdown: AriaDropdownElement, focusable: HTMLElement, 
     dropdown.classList.remove('keyboard-nav');
     deferredRefreshAriaActiveItem(100);
   }, {capture: true});
+  // Fomantic only hides on blur when the search input is a direct child, a filter input inside the menu would keep it open
+  dropdown.addEventListener('focusout', (e) => {
+    if (e.relatedTarget instanceof Node && !dropdown.contains(e.relatedTarget)) $(dropdown).dropdown('hide');
+  });
   dropdown.addEventListener('mouseup', () => {
     setTimeout(() => {
       ignoreClickPreVisible = ignoreClickPreEvents = 0;

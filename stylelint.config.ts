@@ -3,8 +3,10 @@ import type {Config} from 'stylelint';
 
 const cssVarFiles = [
   fileURLToPath(new URL('web_src/css/base.css', import.meta.url)),
+  fileURLToPath(new URL('web_src/css/shared/flex-list.css', import.meta.url)),
   fileURLToPath(new URL('web_src/css/themes/theme-gitea-light.css', import.meta.url)),
   fileURLToPath(new URL('web_src/css/themes/theme-gitea-dark.css', import.meta.url)),
+  fileURLToPath(new URL('web_src/css/themes/shared/xterm-palette.css', import.meta.url)),
 ];
 
 export default {
@@ -131,7 +133,7 @@ export default {
     'no-unknown-custom-media': null, // disabled until stylelint supports multi-file linting
     'no-unknown-custom-properties': null,  // disabled until stylelint supports multi-file linting
     'plugin/declaration-block-no-ignored-properties': true,
-    'property-no-vendor-prefix': true,
+    'property-no-vendor-prefix': [true, {ignoreProperties: ['-webkit-backdrop-filter']}], // Safari before 18 only knows the prefixed form
     'scale-unlimited/declaration-strict-value': [['/color$/', 'fill', 'stroke', 'font-weight'], {ignoreValues: '/^(inherit|transparent|unset|initial|currentcolor|none)$/', ignoreAtRules: ['@font-face', '@page'], ignoreFunctions: true, disableFix: true, expandShorthand: true}],
     'selector-attribute-quotes': 'always',
     'selector-no-vendor-prefix': true,

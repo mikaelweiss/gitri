@@ -5,7 +5,7 @@
 }
 
 .dashboard.issues .context.user.menu .ui.header {
-  font-size: 1rem;
+  font-size: var(--font-size-md);
 }
 
 .dashboard.issues .filter.menu {
@@ -13,33 +13,16 @@
 }
 
 .dashboard.issues .filter.menu .item {
-  text-align: left;
+  text-align: start;
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-/* Sort */
-.dashboard.issues .filter.menu .jump.item {
-  margin: 1px;
-  padding-right: 0;
-}
-
-.dashboard.issues .filter.menu .menu {
-  max-height: 300px;
-  overflow-x: auto;
-  right: 0 !important;
-  left: auto !important;
 }
 
 @media (max-width: 767.98px) {
   .dashboard.issues .filter.menu {
     width: 100%;
   }
-}
-
-.dashboard.issues .right.stackable.menu > .item.active {
-  color: var(--color-red);
 }
 
 .dashboard .dashboard-repos,
@@ -52,9 +35,13 @@
 }
 
 .dashboard .secondary-nav .org-visibility .label {
-  margin-left: 5px;
+  margin-inline-start: 4px;
 }
 
 .dashboard .secondary-nav .ui.dropdown {
   max-width: 100%;
+}
+
+#dashboard-repo-list .empty-placeholder {
+  padding-block: 24px;
 }

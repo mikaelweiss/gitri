@@ -7,8 +7,8 @@
   border: 1px solid var(--color-secondary);
   position: relative;
   min-height: 1em;
-  margin: 1em 0;
-  padding: 1em 1.5em;
+  margin: var(--page-spacing) 0;
+  padding: 12px var(--page-spacing);
   border-radius: var(--border-radius);
 }
 
@@ -17,12 +17,12 @@ details.ui.message {
 }
 
 details.ui.message summary {
-  padding: 1em 1.5em;
+  padding: 12px var(--page-spacing);
 }
 
 details.ui.message pre {
-  margin: -1.25em 0 0;
-  padding: 0.5em 1.5em;
+  margin: 0;
+  padding: 0 var(--page-spacing) 12px;
   white-space: pre-wrap;
 }
 
@@ -46,9 +46,7 @@ details.ui.message:not(:has(pre)) summary {
 
 .ui.attached.message {
   margin-bottom: -1px;
-  border-radius: var(--border-radius) var(--border-radius) 0 0;
-  margin-left: -1px;
-  margin-right: -1px;
+  border-radius: var(--border-radius-medium) var(--border-radius-medium) 0 0;
 }
 
 .ui.attached + .ui.attached.message:not(.top):not(.bottom) {
@@ -90,11 +88,22 @@ details.ui.message:not(:has(pre)) summary {
 .ui.message > .close.icon {
   cursor: pointer;
   position: absolute;
-  top: 9px;
-  right: 9px;
+  top: 5px;
+  inset-inline-end: 5px;
+  padding: 4px;
   opacity: .7;
+  transition: opacity var(--duration-normal) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard);
 }
 
 .ui.message > .close.icon:hover {
+  opacity: 1;
+  background: var(--color-hover);
+}
+
+.ui.message > .close.icon:active {
+  background: var(--color-active);
+}
+
+.ui.message > .close.icon:focus-visible {
   opacity: 1;
 }

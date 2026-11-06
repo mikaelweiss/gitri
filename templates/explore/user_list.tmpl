@@ -1,4 +1,4 @@
-<div class="flex-divided-list items-with-main">
+<div class="flex-divided-list items-with-main list-card">
 	{{range .Users}}
 		<div class="item tw-items-center">
 			<div class="item-leading">
@@ -26,8 +26,9 @@
 			</div>
 		</div>
 	{{else}}
-		<div class="item">
-			{{ctx.Locale.Tr "search.no_results"}}
+		<div class="empty-placeholder">
+			{{svg "octicon-search" 48}}
+			<h2>{{ctx.Locale.Tr "search.no_results"}}</h2>
 		</div>
 	{{end}}
 </div>

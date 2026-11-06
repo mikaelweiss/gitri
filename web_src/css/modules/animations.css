@@ -4,8 +4,8 @@
 }
 
 .is-loading {
-  pointer-events: none !important;
-  position: relative !important;
+  pointer-events: none;
+  position: relative;
 }
 
 .is-loading > * {
@@ -35,21 +35,18 @@
   border-radius: var(--border-radius-full);
 }
 
+@supports (corner-shape: squircle) {
+  .is-loading::after {
+    corner-shape: round;
+  }
+}
+
 .is-loading.loading-icon-2px::after {
   border-width: 2px;
 }
 
 .is-loading.loading-icon-3px::after {
   border-width: 3px;
-}
-
-/* for single form button, the loading state should be on the button, but not go semi-transparent, just replace the text on the button with the loader. */
-form.single-button-form.is-loading > * {
-  opacity: 1;
-}
-
-form.single-button-form.is-loading .button {
-  color: transparent;
 }
 
 .markup pre.is-loading,
@@ -84,6 +81,17 @@ code.language-math.is-loading::after {
   }
 }
 
+@keyframes fade-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* 1p5 means 1-point-5. it can't use "pulse" here, otherwise the animation is not right (maybe due to some conflicts */
 @keyframes pulse-1p5 {
   0% {
@@ -97,9 +105,8 @@ code.language-math.is-loading::after {
   }
 }
 
-/* pulse animation for scale(1.5) in 200ms */
 .pulse-1p5-200 {
-  animation: pulse-1p5 200ms linear;
+  animation: pulse-1p5 var(--duration-normal) var(--ease-standard);
 }
 
 .rotate-clockwise {

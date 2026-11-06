@@ -29,7 +29,7 @@ The variables in "ctx.Data" are different in each case, making this template fra
 			</div>
 			<div class="tw-flex tw-items-center">
 				{{if or $invalid $resolved}}
-					<button type="button" id="show-outdated-{{$firstComment.ID}}" data-comment="{{$firstComment.ID}}" class="{{if not $resolved}}tw-hidden{{end}} btn tiny show-outdated">
+					<button type="button" id="show-outdated-{{$firstComment.ID}}" data-comment="{{$firstComment.ID}}" class="{{if not $resolved}}tw-hidden{{end}} btn interact-fg tiny show-outdated">
 						{{svg "octicon-unfold" 16 "tw-mr-2"}}
 						{{if $resolved}}
 							{{ctx.Locale.Tr "repo.issues.review.show_resolved"}}
@@ -37,7 +37,7 @@ The variables in "ctx.Data" are different in each case, making this template fra
 							{{ctx.Locale.Tr "repo.issues.review.show_outdated"}}
 						{{end}}
 					</button>
-					<button type="button" id="hide-outdated-{{$firstComment.ID}}" data-comment="{{$firstComment.ID}}" class="{{if $resolved}}tw-hidden{{end}} btn tiny hide-outdated">
+					<button type="button" id="hide-outdated-{{$firstComment.ID}}" data-comment="{{$firstComment.ID}}" class="{{if $resolved}}tw-hidden{{end}} btn interact-fg tiny hide-outdated">
 						{{svg "octicon-fold" 16 "tw-mr-2"}}
 						{{if $resolved}}
 							{{ctx.Locale.Tr "repo.issues.review.hide_resolved"}}

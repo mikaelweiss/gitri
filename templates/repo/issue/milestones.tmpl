@@ -8,7 +8,7 @@
 			{{template "repo/issue/navbar" .}}
 			{{template "repo/issue/search" .}}
 			{{if and (or .CanWriteIssues .CanWritePulls) (not .Repository.IsArchived)}}
-				<a class="ui small primary button" href="{{$.Link}}/new">{{ctx.Locale.Tr "repo.milestones.new"}}</a>
+				<a class="ui small primary button issue-list-new" href="{{$.Link}}/new">{{ctx.Locale.Tr "repo.milestones.new"}}</a>
 			{{end}}
 		</div>
 
@@ -84,6 +84,19 @@
 						<div class="render-content markup">{{.RenderedContent}}</div>
 					{{end}}
 				</div>
+			{{else}}
+				{{if or .Keyword .OpenCount .ClosedCount}}
+					<div class="empty-placeholder">
+						{{svg "octicon-search" 48}}
+						<h2>{{ctx.Locale.Tr "repo.milestones.no_results"}}</h2>
+					</div>
+				{{else}}
+					<div class="empty-placeholder">
+						{{svg "octicon-milestone" 48}}
+						<h2>{{ctx.Locale.Tr "repo.milestones.empty"}}</h2>
+						<p>{{ctx.Locale.Tr "repo.milestones.empty_description"}}</p>
+					</div>
+				{{end}}
 			{{end}}
 
 			{{template "base/paginate" .}}

@@ -16,7 +16,7 @@
 						<div class="ui dropdown selection search tw-flex-1 tw-mr-2 tw-max-w-96">
 							{{svg "octicon-triangle-down" 14 "dropdown icon"}}
 							<input type="hidden" name="branch" value="{{.Repository.DefaultBranch}}">
-							<div class="default text">{{.Repository.DefaultBranch}}</div>
+							<div class="text">{{.Repository.DefaultBranch}}</div>
 							<div class="menu">
 								{{range .Branches}}
 									<div class="item" data-value="{{.}}">{{.}}</div>

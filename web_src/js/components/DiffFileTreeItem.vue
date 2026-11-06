@@ -13,12 +13,12 @@ const collapsed = shallowRef(props.item.IsViewed);
 
 const diffStatusIcons: Record<DiffStatus, {name: SvgName, class: string}> = {
   '': {name: 'octicon-blocked', class: 'tw-text-red'},
-  'added': {name: 'octicon-diff-added', class: 'tw-text-green'},
+  'added': {name: 'octicon-diff-added', class: 'tw-text-diff-added-fg'},
   'modified': {name: 'octicon-diff-modified', class: 'tw-text-yellow'},
-  'deleted': {name: 'octicon-diff-removed', class: 'tw-text-red'},
+  'deleted': {name: 'octicon-diff-removed', class: 'tw-text-diff-removed-fg'},
   'renamed': {name: 'octicon-diff-renamed', class: 'tw-text-teal'},
-  'copied': {name: 'octicon-diff-renamed', class: 'tw-text-green'}, // there is no octicon for copied, so renamed should be ok
-  'typechanged': {name: 'octicon-diff-modified', class: 'tw-text-green'},
+  'copied': {name: 'octicon-diff-renamed', class: 'tw-text-diff-added-fg'}, // there is no octicon for copied, so renamed should be ok
+  'typechanged': {name: 'octicon-diff-modified', class: 'tw-text-diff-added-fg'},
   'unmerged': {name: 'octicon-blocked', class: 'tw-text-red'},
   'unknown': {name: 'octicon-blocked', class: 'tw-text-red'},
 };
@@ -73,7 +73,6 @@ a:hover {
 .item-file.selected {
   color: var(--color-text);
   background: var(--color-active);
-  border-radius: 4px;
 }
 
 .item-file.viewed,
@@ -91,13 +90,15 @@ a:hover {
   align-items: center;
   gap: 0.25em;
   padding: 6px;
+  border-radius: var(--border-radius-small);
+  font-size: var(--font-size-sm);
+  transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
 }
 
 .item-file:hover,
 .item-directory:hover {
   color: var(--color-text);
   background: var(--color-hover);
-  border-radius: 4px;
   cursor: pointer;
 }
 </style>

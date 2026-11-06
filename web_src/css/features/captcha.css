@@ -8,15 +8,15 @@
 @media (min-width: 768px) {
   .g-recaptcha-style,
   .h-captcha-style {
-    margin: 0 auto !important;
+    margin: 0 auto !important; /* beats the ".inline.field > :only-child" margin */
     width: 304px;
     padding-left: 30px;
   }
   .g-recaptcha-style iframe,
   .h-captcha-style iframe {
-    border-radius: var(--border-radius) !important;
-    width: 302px !important;
-    height: 76px !important;
+    border-radius: var(--border-radius) !important; /* the widget styles its iframe inline */
+    width: 302px !important; /* see above */
+    height: 76px !important; /* see above */
   }
   .m-captcha-style {
     max-width: 450px;

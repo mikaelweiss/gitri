@@ -4,15 +4,15 @@
 .ui.header {
   color: var(--color-text);
   border: none;
-  margin: calc(2rem - 0.1428571428571429em) 0 1rem;
+  margin: 2rem 0 var(--page-spacing);
   padding: 0;
-  font-family: var(--fonts-regular);
-  font-weight: var(--font-weight-medium);
-  line-height: 1.28571429;
+  font-family: var(--fonts-headline);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.25;
 }
 
 .ui.header:first-child {
-  margin-top: -0.14285714em;
+  margin-top: 0;
 }
 
 .ui.header:last-child {
@@ -20,16 +20,18 @@
 }
 
 .ui.header .ui.label {
-  margin-left: 0.25rem;
+  margin-inline-start: var(--gap-inline);
   vertical-align: middle;
 }
 
 .ui.header .sub.header {
   display: block;
+  font-family: var(--fonts-regular);
   font-weight: var(--font-weight-normal);
+  letter-spacing: normal;
   padding: 0;
   margin: 0;
-  font-size: 1rem;
+  font-size: var(--font-size-md);
   line-height: 1.2;
   color: var(--color-text-light-1);
 }
@@ -38,22 +40,15 @@
   margin-top: 0;
 }
 
-h2.ui.header {
-  font-size: 1.71428571rem;
-}
 h2.ui.header .sub.header {
-  font-size: 1.14285714rem;
-}
-
-h4.ui.header {
-  font-size: 1.07142857rem;
+  font-size: var(--font-size-lg);
 }
 
 .ui.sub.header {
   padding: 0;
-  margin-bottom: 0.14285714rem;
+  margin-bottom: 2px;
   font-weight: var(--font-weight-normal);
-  font-size: 0.85714286em;
+  font-size: var(--font-size-xs);
 }
 
 .ui.icon.header svg {
@@ -63,23 +58,25 @@ h4.ui.header {
   display: block;
   line-height: var(--line-height-default);
   padding: 0;
-  margin: 0 auto 0.5rem;
+  margin: 0 auto var(--gap-block);
   opacity: 1;
 }
 
 .ui.header:not(h1,h2,h3,h4,h5,h6) {
-  font-size: 1.28571429em;
+  font-size: var(--font-size-xl);
+  letter-spacing: var(--letter-spacing-snug);
 }
 
 .ui.attached.header {
   position: relative;
   background: var(--color-box-header);
-  padding: 0.78571429rem 1rem;
-  margin: 0 -1px;
-  width: calc(100% + 2px);
-  max-width: calc(100% + 2px); /* the same as "ui attached segment" */
+  padding: 11px var(--page-spacing);
+  margin: 0;
   border-radius: 0;
   border: 1px solid var(--color-secondary);
+  box-shadow: var(--shadow-card);
+  font-size: var(--font-size-lg);
+  letter-spacing: var(--letter-spacing-snug);
 }
 
 .ui.attached:not(.top).header {
@@ -87,22 +84,36 @@ h4.ui.header {
 }
 
 .ui.top.attached.header {
-  border-radius: 0.28571429rem 0.28571429rem 0 0;
+  border-radius: var(--border-radius-medium) var(--border-radius-medium) 0 0;
 }
 
-.ui.attached.header:not(h1,h2,h3,h4,h5,h6) {
-  font-size: 1em;
+.ui.top.attached.header:last-child {
+  border-radius: var(--border-radius-medium);
 }
 
 /* fix misaligned right buttons on box headers */
 .ui.attached.header > .ui.right {
   position: absolute;
-  right: 0.78571429rem;
+  inset-inline-end: var(--page-spacing);
   top: 0;
   bottom: 0;
   display: flex;
   align-items: center;
-  gap: 0.25em;
+  gap: var(--gap-inline);
+}
+
+/* on a phone the title and its actions cannot share a line */
+@media (max-width: 767.98px) {
+  .ui.attached.header:has(> .ui.right) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-inline) var(--gap-block);
+  }
+  .ui.attached.header > .ui.right {
+    position: static;
+  }
 }
 
 /* the default ".ui.attached.header > .ui.right" is only able to contain "tiny" buttons, other buttons are too large */
@@ -113,31 +124,26 @@ h4.ui.header {
 
 /* if a .top.attached.header is followed by a .segment, add some margin */
 .ui.segments + .ui.top.attached.header,
-.ui.attached.segment + .ui.top.attached.header {
-  margin-top: 1rem;
-}
-
-.ui.dividing.header {
-  border-bottom-color: var(--color-secondary);
+.ui.attached.segment + .ui.top.attached.header,
+.ui.attached.table + .ui.top.attached.header {
+  margin-top: var(--page-spacing);
 }
 
 .ui.dividing.header .sub.header {
-  padding-bottom: 0.21428571rem;
+  padding-bottom: 3px;
 }
 
 .ui.error.header {
-  background: var(--color-error-bg) !important;
-  color: var(--color-error-text) !important;
-  border-color: var(--color-error-border) !important;
+  color: var(--color-error-text);
+  border-color: var(--color-error-border);
 }
 
 .ui.warning.header {
-  background: var(--color-warning-bg) !important;
-  color: var(--color-warning-text) !important;
-  border-color: var(--color-warning-border) !important;
+  color: var(--color-warning-text);
+  border-color: var(--color-warning-border);
 }
 
-.attention-header {
-  padding: 0.5em 0.75em !important;
-  color: var(--color-text) !important;
+.markup .attention-header {
+  padding: 0.5em 0.75em;
+  color: var(--color-text);
 }

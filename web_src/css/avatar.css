@@ -1,16 +1,24 @@
 img.ui.avatar,
 .ui.avatar img,
 .ui.avatar svg {
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-full);
   object-fit: contain;
   aspect-ratio: 1;
+}
+
+@supports (corner-shape: squircle) {
+  .ui.avatar img,
+  .ui.avatar svg,
+  .avatar-stack-overflow-chip {
+    corner-shape: round;
+  }
 }
 
 .avatar-stack-names {
   display: inline-flex;
   align-items: center;
   align-self: center;
-  gap: 4px;
+  gap: var(--gap-inline);
   white-space: nowrap;
   vertical-align: middle;
 }
@@ -37,7 +45,7 @@ img.ui.avatar,
 
 .avatar-stack > * {
   margin-left: -16px;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  transition: transform var(--duration-normal) var(--ease-standard), opacity var(--duration-normal) var(--ease-standard);
   position: relative;
   display: inline-flex;
 }
@@ -58,13 +66,8 @@ img.ui.avatar,
 .avatar-stack:hover > *:nth-last-child(11) { transform: translateX(158px); }
 
 .avatar-stack .avatar {
-  border: 1px solid var(--color-body);
-  background: var(--color-body);
-  transition: border-color 0.15s ease, background-color 0.15s ease;
-}
-
-.avatar-stack:hover .avatar {
-  background-color: var(--color-body);
+  border: 1px solid var(--color-box-body);
+  background: var(--color-box-body);
 }
 
 .avatar-stack-overflow-chip {
@@ -73,13 +76,13 @@ img.ui.avatar,
   width: 0;
   height: 20px;
   margin-left: 0;
-  border: 0 solid var(--color-body);
-  border-radius: var(--border-radius);
+  border: 0 solid var(--color-box-body);
+  border-radius: var(--border-radius-full);
   color: var(--color-text);
   font-weight: var(--font-weight-semibold);
   overflow: hidden;
   opacity: 0;
-  transition: all 0.15s ease;
+  transition: width var(--duration-normal) var(--ease-standard), margin-left var(--duration-normal) var(--ease-standard), opacity var(--duration-normal) var(--ease-standard);
 }
 
 .avatar-stack:hover .avatar-stack-overflow-chip {
@@ -96,6 +99,7 @@ img.ui.avatar,
   padding: 0;
   font: inherit;
   color: inherit;
+  transition: color var(--duration-fast) var(--ease-standard);
 }
 
 .avatar-stack-popup-trigger:hover {
@@ -111,7 +115,8 @@ img.ui.avatar,
 
 .avatar-stack-popup > a {
   padding: 6px 12px;
-  gap: 8px;
+  gap: var(--gap-block);
+  transition: background-color var(--duration-fast) var(--ease-standard);
 }
 
 .avatar-stack-popup > a:hover {

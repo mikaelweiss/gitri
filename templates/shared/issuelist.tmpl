@@ -48,7 +48,7 @@
 						{{end}}
 					</a>
 
-					<div class="flex-text-inline">
+					<div>
 					{{$timeStr := DateUtils.TimeSince $issue.GetLastEventTimestamp}}
 					{{if $issue.OriginalAuthor}}
 						{{ctx.Locale.Tr $issue.GetLastEventLabelFake $timeStr $issue.OriginalAuthor}}
@@ -163,10 +163,42 @@
 			{{end}}
 		</div>
 	{{else}}
-		<div class="tw-text-center tw-p-8">
-			<h3 class="tw-my-4">{{ctx.Locale.Tr "repo.issues.filter_no_results"}}</h3>
-			<p class="tw-text-placeholder-text">{{ctx.Locale.Tr "repo.issues.filter_no_results_placeholder"}}</p>
-		</div>
+		{{$isRepoList := eq $listType "repo"}}
+		{{$isMilestoneList := eq $listType "milestone"}}
+		{{$hasFilter := or $root.Keyword $root.SelectLabels $root.ProjectIDs $root.AssigneeID $root.PosterUsername (ne $root.ViewType "all") (and $isRepoList $root.MilestoneID)}}
+		{{if and $isRepoList (not $hasFilter)}}
+			{{$isPullList := $root.PageIsPullList}}
+			{{$isEmptyRepoList := and (not $root.OpenCount) (not $root.ClosedCount)}}
+			<div class="empty-placeholder">
+				{{svg (Iif $isPullList "octicon-git-pull-request" "octicon-issue-opened") 48}}
+				{{if $isEmptyRepoList}}
+					<h2>{{ctx.Locale.Tr (Iif $isPullList "repo.pulls.empty_title" "repo.issues.empty_title")}}</h2>
+					<p>{{ctx.Locale.Tr (Iif $isPullList "repo.pulls.empty_description" "repo.issues.empty_description")}}</p>
+				{{else if eq $root.State "closed"}}
+					<h2>{{ctx.Locale.Tr (Iif $isPullList "repo.pulls.empty_closed_title" "repo.issues.empty_closed_title")}}</h2>
+				{{else}}
+					<h2>{{ctx.Locale.Tr (Iif $isPullList "repo.pulls.empty_open_title" "repo.issues.empty_open_title")}}</h2>
+				{{end}}
+				{{if and (not $root.Repository.IsArchived) (or $isEmptyRepoList (ne $root.State "closed"))}}
+					{{if not $isPullList}}
+						<a class="ui small primary button" href="{{$root.RepoLink}}/issues/new{{if $root.NewIssueChooseTemplate}}/choose{{end}}">{{ctx.Locale.Tr "repo.issues.new"}}</a>
+					{{else if $root.PullRequestCtx.CanCreateNewPull}}
+						<a class="ui small primary button new-pr-button" href="{{$root.PullRequestCtx.MakeDefaultCompareLink $root.Repository.DefaultBranch}}">{{ctx.Locale.Tr "repo.pulls.new"}}</a>
+					{{end}}
+				{{end}}
+			</div>
+		{{else if and $isMilestoneList (not $hasFilter)}}
+			<div class="empty-placeholder">
+				{{svg "octicon-milestone" 48}}
+				<h2>{{ctx.Locale.Tr "repo.milestones.empty_title"}}</h2>
+			</div>
+		{{else}}
+			<div class="empty-placeholder">
+				{{svg "octicon-search" 48}}
+				<h2>{{ctx.Locale.Tr "repo.issues.filter_no_results"}}</h2>
+				<p>{{ctx.Locale.Tr "repo.issues.filter_no_results_placeholder"}}</p>
+			</div>
+		{{end}}
 	{{end}}
 	{{if $root.IssueIndexerUnavailable}}
 		<div class="ui error message">

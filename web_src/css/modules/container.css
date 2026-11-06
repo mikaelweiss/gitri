@@ -2,7 +2,7 @@
    unused rules here after refactoring, please remove them. */
 
 .ui.container {
-  width: 1280px;
+  width: var(--page-content-width);
   max-width: calc(100% - calc(2 * var(--page-margin-x)));
   margin-left: auto;
   margin-right: auto;
@@ -18,22 +18,18 @@
 .ui.message.site-banner-container {
   position: relative;
   margin: 0;
+  border-width: 0 0 1px;
   border-radius: 0;
 }
 
-#navbar + .ui.message.site-banner-container,
-.ui.message.site-banner-container + .ui.message.site-banner-container {
-  border-top: none;
-}
-
 .ui.message.site-banner-container > .site-banner-content {
-  width: 1280px;
+  width: var(--page-content-width);
   max-width: calc(100% - calc(2 * var(--page-margin-x)));
   margin: auto;
 }
 
 .ui.message.site-banner-container > button.site-banner-close {
   position: absolute;
-  right: 20px;
-  top: 15px;
+  inset-inline-end: 20px;
+  top: 14px;
 }

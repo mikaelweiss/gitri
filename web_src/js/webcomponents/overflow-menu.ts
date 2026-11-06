@@ -113,6 +113,7 @@ window.customElements.define('overflow-menu', class extends HTMLElement {
     itemFlexSpace?.style.setProperty('display', 'none', 'important');
     itemOverFlowMenuButton?.style.setProperty('display', 'none', 'important');
     this.overflowItems = [];
+    const isRtl = getComputedStyle(this).direction === 'rtl';
     const menuRight = this.offsetLeft + this.offsetWidth;
     const menuItems = this.menuItemsEl.querySelectorAll<HTMLElement>('.item, .item-flex-space');
     let afterFlexSpace = false;
@@ -122,10 +123,10 @@ window.customElements.define('overflow-menu', class extends HTMLElement {
         continue;
       }
       if (afterFlexSpace) item.setAttribute('data-after-flex-space', 'true');
-      const itemRight = item.offsetLeft + item.offsetWidth;
-      if (menuRight - itemRight < 38) { // roughly the width of .overflow-menu-button with some extra space
+      const spaceAfterItem = isRtl ? item.offsetLeft - this.offsetLeft : menuRight - (item.offsetLeft + item.offsetWidth);
+      if (spaceAfterItem < 38) { // roughly the width of .overflow-menu-button with some extra space
         const onlyLastItem = idx === menuItems.length - 1 && this.overflowItems.length === 0;
-        const lastItemFit = onlyLastItem && menuRight > itemRight;
+        const lastItemFit = onlyLastItem && spaceAfterItem > 0;
         const moveToPopup = !onlyLastItem || !lastItemFit;
         if (moveToPopup) this.overflowItems.push(item);
       }

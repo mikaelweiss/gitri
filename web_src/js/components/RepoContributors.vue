@@ -428,7 +428,7 @@ const contributorCharts = computed(() => sortedContributors.value.map((contribut
             <h4 v-else class="contributor-name">
               {{ contributor.name }}
             </h4>
-            <p class="tw-text-12 tw-flex tw-gap-1">
+            <p class="tw-text-xs tw-flex tw-gap-1">
               <strong v-if="contributor.total_commits">
                 <a class="silenced" :href="getContributorSearchQuery(contributor.email)">
                   {{ contributor.total_commits.toLocaleString() }} {{ locale.contributionType.commits }}

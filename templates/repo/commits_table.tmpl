@@ -2,9 +2,11 @@
 	<div class="flex-text-block">
 		{{if or .Commits .IsDiffCompare}}
 			{{if ge .CommitCount 0}}{{.CommitCount}}{{end}}{{/* CommitCount is -1 when "follow rename" */}}
-			{{ctx.Locale.Tr "repo.commits.commits"}}
+			{{ctx.Locale.TrN .CommitCount "repo.commit" "repo.commits"}}
 		{{else if .IsNothingToCompare}}
 			{{ctx.Locale.Tr "repo.commits.nothing_to_compare"}}
+		{{else if .PageIsCommits}}
+			{{ctx.Locale.Tr "no_results_found"}}
 		{{else}}
 			{{ctx.Locale.Tr "repo.commits.no_commits" $.BaseBranch $.HeadBranch}}
 		{{end}}

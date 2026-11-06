@@ -48,7 +48,10 @@
 				</div>
 			</div>
 		{{else}}
-			<div class="item">{{ctx.Locale.Tr "user.block.list.none"}}</div>
+			<div class="empty-placeholder">
+				{{svg "octicon-blocked" 48}}
+				<h2>{{ctx.Locale.Tr "user.block.list.none"}}</h2>
+			</div>
 		{{end}}
 	</div>
 </div>

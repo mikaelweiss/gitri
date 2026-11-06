@@ -2,45 +2,49 @@
   max-width: 220px;
 }
 
-@media (max-width: 767.98px) {
-  .home .hero h1 {
-    font-size: 3.5em;
-  }
-  .home .hero h2 {
-    font-size: 2em;
-  }
+.home .hero h1 {
+  font-family: var(--fonts-headline);
+  font-size: calc(var(--font-size-3xl) * 2);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-tight);
 }
 
-@media (min-width: 768px) {
+.home .hero h2 {
+  color: var(--color-text-light-1);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+@media (max-width: 767.98px) {
   .home .hero h1 {
-    font-size: 5.5em;
+    font-size: calc(var(--font-size-3xl) * 1.5);
   }
   .home .hero h2 {
-    font-size: 3em;
+    font-size: var(--font-size-2xl);
   }
 }
 
 .home .hero .svg {
-  color: var(--color-logo);
+  color: var(--color-primary);
   height: 40px;
   width: 50px;
   vertical-align: bottom;
 }
 
 .home .hero.header {
-  font-size: 20px;
+  font-family: var(--fonts-headline);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-tight);
 }
 
 .home p.large {
-  font-size: 16px;
+  font-size: var(--font-size-lg);
 }
 
 .home .stackable {
-  padding-top: 30px;
-}
-
-.home a {
-  color: var(--color-logo);
+  padding-top: 32px;
 }
 
 .page-footer {
@@ -48,6 +52,8 @@
   justify-content: space-between;
   background-color: var(--color-footer);
   border-top: 1px solid var(--color-secondary);
+  color: var(--color-text-light-1);
+  font-size: var(--font-size-sm);
   padding: 8px 20px;
 }
 
@@ -56,7 +62,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 0.5em;
+  gap: 8px;
 }
 
 .page-footer .right-links {
@@ -65,30 +71,30 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 1em;
+  gap: 16px;
 }
 
 .page-footer .right-links > a {
-  border-left: 1px solid var(--color-secondary-dark-1);
-  padding-left: 1em;
+  border-inline-start: 1px solid var(--color-secondary-dark-1);
+  padding-inline-start: 16px;
 }
 
 /* the theme item is also used for the menu's "default text" display */
 .page-footer .ui.dropdown .theme-menu-item {
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  gap: 8px;
 }
 
 /* Fomantic UI dropdown "remote items by API" can't change parent "item" element,
 so we use "theme-menu-item" in the "item" and add tooltip to the inner one.
 Then the inner one needs to get padding and parent "item" padding needs to be removed */
-.page-footer .menu.theme-menu > .item {
-  padding: 0 !important;
+.page-footer .ui.dropdown .menu.theme-menu > .item {
+  padding: 0;
 }
 
 .page-footer .menu.theme-menu > .item > .theme-menu-item {
-  padding: 11px 16px;
+  padding: 6px 10px;
 }
 
 .page-footer .ui.dropdown .menu.language-menu,
@@ -101,6 +107,6 @@ Then the inner one needs to get padding and parent "item" padding needs to be re
 @media (max-width: 880px) {
   .page-footer {
     flex-direction: column;
-    gap: 0.5em;
+    gap: 8px;
   }
 }

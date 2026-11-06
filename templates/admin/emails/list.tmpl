@@ -68,7 +68,7 @@
 							</td>
 						</tr>
 					{{else}}
-						<tr><td class="tw-text-center" colspan="6">{{ctx.Locale.Tr "no_results_found"}}</td></tr>
+						<tr><td colspan="6"><div class="empty-placeholder">{{svg "octicon-search" 48}}<h2>{{ctx.Locale.Tr "no_results_found"}}</h2></div></td></tr>
 					{{end}}
 				</tbody>
 			</table>

@@ -1,11 +1,10 @@
 {{if .Repository.IsDependenciesEnabled ctx}}
 	<div class="divider"></div>
 
-	<div class="ui depending">
+	<div class="ui depending issue-sidebar-section">
 		{{if (and (not .BlockedByDependencies) (not .BlockedByDependenciesNotPermitted) (not .BlockingDependencies) (not .BlockingDependenciesNotPermitted))}}
 			<span class="text"><strong>{{ctx.Locale.Tr "repo.issues.dependency.title"}}</strong></span>
-			<br>
-			<p>
+			<p class="empty-list">
 				{{if .Issue.IsPull}}
 					{{ctx.Locale.Tr "repo.issues.dependency.pr_no_dependencies"}}
 				{{else}}

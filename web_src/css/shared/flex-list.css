@@ -11,21 +11,66 @@
   margin: 0;
 }
 
-/* items have dividers between them, the dividers align with items */
+/* items have dividers between them, the dividers align with the item text */
 .flex-divided-list {
+  --list-item-inset: 0px;
+  --list-item-hover: transparent;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: 0;
 }
 
-.flex-divided-list > .item {
-  padding: 10px 0;
-  flex-shrink: 0;
+/* rows only get a hover fill when they have an inset for it, otherwise the fill would touch the text */
+.flex-divided-list.items-px-default,
+.ui.segment > .flex-divided-list,
+.flex-divided-list.list-card:not(:empty, .ui.segment *),
+.flex-divided-list:is(.items-with-main, .milestone-list):has(> .item):not(.ui.segment *) {
+  --list-item-inset: var(--page-spacing);
+  --list-item-hover: var(--color-hover);
 }
 
-.flex-divided-list > .item + .item {
-  border-top: 1px solid var(--color-secondary);
+/* a list without a surrounding section is its own grouped card */
+.flex-divided-list.list-card:not(:empty, .ui.segment *),
+.flex-divided-list:is(.items-with-main, .milestone-list):has(> .item):not(.ui.segment *) {
+  --corner-top: var(--border-radius-medium);
+  --corner-bottom: var(--border-radius-medium);
+  background: var(--color-box-body);
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-card);
+}
+
+.list-card > .page.buttons {
+  padding-bottom: var(--page-spacing);
+}
+
+.list-card + .list-card {
+  margin-top: var(--gap-block);
+}
+
+.ui.segment > .flex-divided-list.merge-section {
+  --list-item-hover: transparent; /* the rows hold forms and buttons, they are not targets */
+}
+
+.flex-divided-list > .item {
+  position: relative;
+  padding: 10px var(--list-item-inset);
+  flex-shrink: 0;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.flex-divided-list > .item:hover {
+  background: var(--list-item-hover);
+}
+
+.flex-divided-list > .item + .item::before {
+  content: "";
+  position: absolute;
+  inset-inline: var(--list-item-inset) 0;
+  top: 0;
+  height: 1px;
+  background: var(--color-secondary);
 }
 
 .items-with-main > .item {
@@ -56,7 +101,7 @@
 }
 
 .items-with-main > .item a:not(.label, .button):hover {
-  color: var(--color-primary) !important;
+  color: var(--color-primary);
 }
 
 .items-with-main > .item .item-trailing {
@@ -75,15 +120,25 @@
   gap: var(--gap-inline);
   max-width: 100%;
   color: var(--color-text);
-  font-size: 16px;
-  font-weight: var(--font-weight-semibold);
-  overflow-wrap: anywhere;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-snug);
   min-width: 0;
+}
+
+/* lets long names break, "overflow-wrap: anywhere" here wraps short titles in Firefox because of the negative letter-spacing */
+.items-with-main > .item .item-title > * {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+/* bare text is an anonymous flex item, no selector can give it min-width: 0 */
+.items-with-main > .item .item-title:not(:has(> *)) {
+  overflow-wrap: anywhere;
 }
 
 .items-with-main > .item .item-title a {
   color: var(--color-text);
-  overflow-wrap: anywhere;
 }
 
 .items-with-main > .item .item-body {
@@ -100,23 +155,41 @@
   overflow-wrap: anywhere;
 }
 
-/* special rules to make the list work with existing UI elements */
-.flex-divided-list.items-px-default > .item {
-  padding-left: 1em; /* matches ".ui.segment" padding */
-  padding-right: 1em;
+/* rows run to the edges of their section, so the hover fill reaches them */
+.ui.segment:not(.fitted, .table) > .flex-divided-list {
+  margin-inline: calc(-1 * var(--page-spacing));
 }
 
-.ui.segment:not(.fitted) > .flex-divided-list > .item:first-child {
-  padding-top: 0;
+.ui.segment:not(.fitted, .table) > .flex-divided-list:has(> .item):first-child,
+.ui.segment:not(.fitted, .table) > .tw-hidden:first-child + .flex-divided-list:has(> .item) {
+  margin-top: calc(-1 * var(--page-spacing));
 }
 
-.ui.segment:not(.fitted) > .flex-divided-list > .item:last-child {
-  padding-bottom: 0;
+.ui.segment:not(.fitted, .table) > .flex-divided-list:has(> .item):not(:has(~ :not(dialog, .tw-hidden))) {
+  margin-bottom: calc(-1 * var(--page-spacing));
+}
+
+.ui.segment > .flex-divided-list:first-child > .item:first-child,
+.flex-divided-list:not(.ui.segment *) > .item:first-child {
+  border-start-start-radius: calc(var(--corner-top, 1px) - 1px);
+  border-start-end-radius: calc(var(--corner-top, 1px) - 1px);
+}
+
+.ui.segment > .flex-divided-list:last-child > .item:last-child,
+.flex-divided-list:not(.ui.segment *) > .item:last-child {
+  border-end-start-radius: calc(var(--corner-bottom, 1px) - 1px);
+  border-end-end-radius: calc(var(--corner-bottom, 1px) - 1px);
 }
 
 /* If there is a divider besides the flex-list, some padding/margin are not needs */
-.divider + .flex-divided-list > .item:first-child {
+.ui.segment .divider + .flex-divided-list > .item:first-child {
   padding-top: 0;
+}
+
+/* a card's own border already separates it, a line above it would read as doubled */
+.divider:has(+ .list-card) {
+  margin-block: 0 var(--page-spacing);
+  border-top: 0;
 }
 
 .flex-divided-list + .divider {

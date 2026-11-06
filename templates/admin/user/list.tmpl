@@ -7,12 +7,12 @@
 			</div>
 		</h4>
 		<div class="ui attached segment">
-			<form class="ui form ignore-dirty flex-text-block" id="user-list-search-form">
-				<div class="tw-flex-1">
+			<form class="ui form ignore-dirty flex-text-block tw-flex-wrap" id="user-list-search-form">
+				<div class="tw-flex-1 tw-min-w-[200px]">
 					{{template "shared/search/combo" dict "Value" .Keyword "Placeholder" (ctx.Locale.Tr "search.user_kind")}}
 				</div>
 				<!-- Right Menu -->
-				<div class="ui secondary menu tw-m-0">
+				<div class="ui secondary menu tw-m-0 tw-flex-wrap tw-max-w-full">
 					<!-- Status Filter Menu Item -->
 					<div class="ui dropdown type jump item">
 						<span class="text">{{ctx.Locale.Tr "admin.users.list_status_filter.menu_text"}}</span>
@@ -121,11 +121,11 @@
 							<td>{{svg (Iif .IsActive "octicon-check" "octicon-x")}}</td>
 							<td>{{svg (Iif .IsRestricted "octicon-check" "octicon-x")}}</td>
 							<td>{{svg (Iif (index $.UsersTwoFaStatus .ID) "octicon-check" "octicon-x")}}</td>
-							<td>{{DateUtils.AbsoluteShort .CreatedUnix}}</td>
+							<td class="tw-whitespace-nowrap">{{DateUtils.AbsoluteShort .CreatedUnix}}</td>
 							{{if .LastLoginUnix}}
-								<td>{{DateUtils.AbsoluteShort .LastLoginUnix}}</td>
+								<td class="tw-whitespace-nowrap">{{DateUtils.AbsoluteShort .LastLoginUnix}}</td>
 							{{else}}
-								<td><span>{{ctx.Locale.Tr "admin.users.never_login"}}</span></td>
+								<td class="tw-whitespace-nowrap"><span>{{ctx.Locale.Tr "admin.users.never_login"}}</span></td>
 							{{end}}
 							<td>
 								<div class="tw-flex tw-gap-2">
@@ -135,7 +135,7 @@
 							</td>
 						</tr>
 					{{else}}
-						<tr class="no-results-row"><td class="tw-text-center" colspan="10">{{ctx.Locale.Tr "no_results_found"}}</td></tr>
+						<tr class="no-results-row"><td colspan="10"><div class="empty-placeholder">{{svg "octicon-search" 48}}<h2>{{ctx.Locale.Tr "no_results_found"}}</h2></div></td></tr>
 					{{end}}
 				</tbody>
 			</table>

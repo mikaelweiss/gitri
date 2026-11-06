@@ -37,13 +37,13 @@
 						{{end}}
 					</div>
 					<a class="notifications-link silenced tw-flex-1" href="{{$one.Link ctx}}">
-						<div class="flex-text-block tw-text-[0.95em]">
+						<div class="flex-text-block tw-text-sm">
 							{{$one.Repository.FullName}} {{if $one.Issue}}<span class="tw-text-text-light-3">#{{$one.Issue.Index}}</span>{{end}}
 							{{if eq $one.Status $statusPinned}}
 								{{svg "octicon-pin" 13 "tw-text-blue"}}
 							{{end}}
 						</div>
-						<div class="tw-text-16 tw-py-0.5">
+						<div class="tw-text-lg tw-py-0.5">
 							{{if $one.Issue}}
 								{{$one.Issue.Title | ctx.RenderUtils.RenderIssueSimpleTitle}}
 							{{else}}
@@ -86,12 +86,8 @@
 				</div>
 			{{else}}
 				<div class="empty-placeholder">
-					{{svg "octicon-inbox" 56 "tw-mb-4"}}
-					{{if $pageTypeIsRead}}
-						{{ctx.Locale.Tr "notification.no_read"}}
-					{{else}}
-						{{ctx.Locale.Tr "notification.no_unread"}}
-					{{end}}
+					{{svg "octicon-inbox" 48}}
+					<h2>{{ctx.Locale.Tr (Iif $pageTypeIsRead "notification.no_read" "notification.no_unread")}}</h2>
 				</div>
 			{{end}}
 		</div>

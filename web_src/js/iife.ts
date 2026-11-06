@@ -9,3 +9,6 @@ import './globals.ts';
 
 import './webcomponents/index.ts';
 import './modules/user-settings.ts'; // templates also need to use localUserSettings in inline scripts
+import {hideFirstPaintForScrollRestore} from './modules/scroll-restore-gate.ts';
+
+hideFirstPaintForScrollRestore();

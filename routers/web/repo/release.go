@@ -359,6 +359,7 @@ func LatestRelease(ctx *context.Context) {
 }
 
 func newReleaseCommon(ctx *context.Context) {
+	ctx.Data["PageIsReleaseList"] = true
 	ctx.Data["Title"] = ctx.Tr("repo.release.new_release")
 
 	tags, err := repo_model.GetTagNamesByRepoID(ctx, ctx.Repo.Repository.ID)

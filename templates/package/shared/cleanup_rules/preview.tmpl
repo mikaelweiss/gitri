@@ -1,8 +1,8 @@
 <h4 class="ui top attached header">{{ctx.Locale.Tr "packages.owner.settings.cleanuprules.preview"}}</h4>
 <div class="ui attached segment">
-	<p>{{ctx.Locale.Tr "packages.owner.settings.cleanuprules.preview.overview" (len .VersionsToRemove)}}</p>
+	<p>{{ctx.Locale.TrN (len .VersionsToRemove) "packages.owner.settings.cleanuprules.preview.overview_1" "packages.owner.settings.cleanuprules.preview.overview" (len .VersionsToRemove)}}</p>
 </div>
-<div class="ui attached table segment">
+<div class="ui attached table segment tw-overflow-x-auto">
 	<table class="ui very basic table unstackable">
 		<thead>
 			<tr>

@@ -536,17 +536,19 @@ type actionRunListData struct {
 	RunErrors               map[int64]string
 	CurWorkflow             string
 	CanWriteRepoUnitActions bool
+	RunnerNotice            *RunnerNotice
 }
 
 func (data *actionRunListData) processActionRuns(ctx *context.Context) bool {
 	// Check for each run if there is at least one online runner that can run its jobs
-	runners, err := db.Find[actions_model.ActionRunner](ctx, actions_model.FindRunnerOptions{
-		RepoID:        ctx.Repo.Repository.ID,
-		IsOnline:      optional.Some(true),
-		WithAvailable: true,
-	})
+	runners, err := findUsableRunners(ctx, ctx.Repo.Repository.ID)
 	if err != nil {
 		ctx.ServerError("FindRunners", err)
+		return false
+	}
+	data.RunnerNotice, err = newRepoRunnerNotice(ctx, runners)
+	if err != nil {
+		ctx.ServerError("newRepoRunnerNotice", err)
 		return false
 	}
 
@@ -580,7 +582,7 @@ func (data *actionRunListData) processActionRuns(ctx *context.Context) bool {
 			if job.Status.IsWaiting() && !job.IsReusableCaller {
 				hasOnlineRunner := false
 				for _, runner := range runners {
-					if !runner.IsDisabled && runner.CanMatchLabels(job.RunsOn) {
+					if runner.CanMatchLabels(job.RunsOn) {
 						hasOnlineRunner = true
 						break
 					}

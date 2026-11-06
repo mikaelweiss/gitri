@@ -3,10 +3,20 @@
 		data-action-runs-refresh-link="{{$data.RefreshLink}}"
 		data-action-runs-refresh-interval="{{$data.RefreshIntervalMs}}"
 >
+	{{with $data.RunnerNotice}}
+		<div class="ui warning message runner-notice" data-test-id="runner-notice">
+			{{svg "octicon-alert"}}
+			<span class="runner-notice-text">{{.Message}}</span>
+			{{if .RunnersLink}}<a class="ui small button" href="{{.RunnersLink}}">{{.LinkText}}</a>{{end}}
+		</div>
+	{{end}}
 	{{if not $data.ActionRuns}}
 	<div class="empty-placeholder">
-		{{svg "octicon-no-entry" 48}}
+		{{svg (Iif $data.IsFiltered "octicon-search" "octicon-workflow") 48}}
 		<h2>{{if $data.IsFiltered}}{{ctx.Locale.Tr "actions.runs.no_results"}}{{else if $.CurWorkflowIsReusable}}{{ctx.Locale.Tr "actions.runs.reusable_workflow_no_runs"}}{{else}}{{ctx.Locale.Tr "actions.runs.no_runs"}}{{end}}</h2>
+		{{if $data.IsFiltered}}
+			<a class="ui button" href="{{QueryBuild "?" "workflow" $data.CurWorkflow "scoped_workflow_source_repo_id" $.CurWorkflowRepoID}}">{{ctx.Locale.Tr "filter.clear"}}</a>
+		{{end}}
 	</div>
 	{{end}}
 	{{range $run := $data.ActionRuns}}

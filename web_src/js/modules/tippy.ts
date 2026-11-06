@@ -64,6 +64,10 @@ function isMenu(instance: Instance): boolean {
   return instance.props.role === 'menu' && instance.props.theme === 'menu'; // role defaults to "menu" for every non-tooltip popup
 }
 
+function isDismissible(instance: Instance): boolean {
+  return instance.props.interactive && instance.props.hideOnClick === true;
+}
+
 function focusMenuItem(instance: Instance, delta: number) {
   const items = [...instance.popper.querySelectorAll<HTMLElement>('.item:not(.disabled)')].filter(isElemVisible);
   if (!items.length) return;
@@ -74,7 +78,7 @@ function focusMenuItem(instance: Instance, delta: number) {
 
 document.addEventListener('keydown', (e: KeyboardEvent) => {
   if (e.isComposing) return;
-  const menuInstance = [...visibleInstances].findLast(isMenu);
+  const menuInstance = [...visibleInstances].findLast((instance) => isMenu(instance) || (e.key === 'Escape' && isDismissible(instance)));
   if (!menuInstance) return;
   const focused = document.activeElement as HTMLElement;
   const inMenu = menuInstance.popper.contains(focused);
@@ -109,7 +113,7 @@ export function createTippy(target: Element, opts: TippyOpts = {}): Instance {
     maxWidth: 500, // increase over default 350px
     onHide: (instance: Instance) => {
       visibleInstances.delete(instance);
-      if (isMenu(instance) && instance.popper.contains(document.activeElement)) (instance.reference as HTMLElement).focus();
+      if ((isMenu(instance) || isDismissible(instance)) && instance.popper.contains(document.activeElement)) (instance.reference as HTMLElement).focus();
       return onHide?.(instance);
     },
     onDestroy: (instance: Instance) => {

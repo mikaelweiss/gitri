@@ -30,7 +30,8 @@ export async function initHeatmap() {
     });
 
     const totalFormatted = totalContributions.toLocaleString();
-    const textTotalContributions = trString(el.getAttribute('data-locale-total-contributions')!, totalFormatted);
+    const totalLocaleAttr = totalContributions === 1 ? 'data-locale-total-contributions-1' : 'data-locale-total-contributions';
+    const textTotalContributions = trString(el.getAttribute(totalLocaleAttr)!, totalFormatted);
 
     // last heatmap tooltip localization attempt https://github.com/go-gitea/gitea/pull/24131/commits/a83761cbbae3c2e3b4bced71e680f44432073ac8
     const locale = {

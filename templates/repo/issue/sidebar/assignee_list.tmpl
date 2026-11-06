@@ -13,20 +13,24 @@
 			<strong>{{ctx.Locale.Tr "repo.issues.new.assignees"}}</strong> {{if $pageMeta.CanModifyIssueOrPull}}{{svg "octicon-gear"}}{{end}}
 		</a>
 		<div class="menu">
-			<div class="ui icon search input">
-				<i class="icon">{{svg "octicon-search" 16}}</i>
-				<input type="text" placeholder="{{ctx.Locale.Tr "repo.issues.filter_assignees"}}">
-			</div>
-			<div class="scrolling menu flex-items-block">
-				<div class="item clear-selection" data-text="">{{ctx.Locale.Tr "repo.issues.new.clear_assignees"}}</div>
-				<div class="divider"></div>
-				{{range $data.CandidateAssignees}}
-					<a class="item" href="{{$listBaseLink}}?assignee={{.ID}}" data-value="{{.ID}}">
-						<span class="item-check-mark">{{svg "octicon-check"}}</span>
-						{{ctx.AvatarUtils.Avatar . 20}} {{template "repo/search_name" .}}
-					</a>
-				{{end}}
-			</div>
+			{{if $data.CandidateAssignees}}
+				<div class="ui icon search input">
+					<i class="icon">{{svg "octicon-search" 16}}</i>
+					<input type="text" placeholder="{{ctx.Locale.Tr "repo.issues.filter_assignees"}}">
+				</div>
+				<div class="scrolling menu flex-items-block">
+					<div class="item clear-selection" data-text="">{{ctx.Locale.Tr "repo.issues.new.clear_assignees"}}</div>
+					<div class="divider"></div>
+					{{range $data.CandidateAssignees}}
+						<a class="item" href="{{$listBaseLink}}?assignee={{.ID}}" data-value="{{.ID}}">
+							<span class="item-check-mark">{{svg "octicon-check"}}</span>
+							{{ctx.AvatarUtils.Avatar . 20}} {{template "repo/search_name" .}}
+						</a>
+					{{end}}
+				</div>
+			{{else}}
+				{{template "repo/issue/sidebar/picker_empty" dict "CreateLink" (Iif ctx.RootData.Permission.IsAdmin (print $pageMeta.RepoLink "/settings/collaboration")) "CreateText" (ctx.Locale.Tr "repo.settings.add_collaborator")}}
+			{{end}}
 		</div>
 	</div>
 	<div class="ui relaxed list muted-links flex-items-block">

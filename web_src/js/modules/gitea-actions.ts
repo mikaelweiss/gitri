@@ -31,6 +31,11 @@ export type ActionsRun = {
   } | null,
   jobs: Array<ActionsJob>,
   jobSummaries?: Array<ActionsJobSummary>,
+  runnerNotice?: {
+    message: string,
+    runnersLink?: string,
+    linkText?: string,
+  },
   commit: {
     localeCommit: string,
     localePushedBy: string,

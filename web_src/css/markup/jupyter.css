@@ -5,8 +5,8 @@
 .markup .jupyter-notebook {
   padding: 20px;
   background: var(--color-body);
-  border-bottom-left-radius: var(--border-radius);
-  border-bottom-right-radius: var(--border-radius);
+  border-bottom-left-radius: calc(var(--border-radius-medium) - 1px);
+  border-bottom-right-radius: calc(var(--border-radius-medium) - 1px);
   font-family: var(--fonts-monospace);
   display: flex;
   flex-direction: column;
@@ -32,7 +32,7 @@
 .markup .jupyter-notebook .cell-prompt {
   padding: 10px 0;
   color: var(--color-text-light-2);
-  font-size: 13px;
+  font-size: var(--font-size-sm);
 }
 
 .markup .jupyter-notebook .cell-left.cell-prompt {
@@ -54,13 +54,12 @@
 .markup .jupyter-notebook .cell-input pre,
 .markup .jupyter-notebook .cell-output pre {
   padding: 10px 16px;
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   min-height: 40px;
   margin: 0;
 }
 
 .markup .jupyter-notebook .cell-input pre {
-  background-color: var(--color-code-bg);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
@@ -80,7 +79,7 @@
 .markup .jupyter-notebook .cell-output-unsupported {
   color: var(--color-text-light-2);
   font-style: italic;
-  font-size: 13px;
+  font-size: var(--font-size-sm);
 }
 
 .markup .jupyter-notebook .cell-output-error {

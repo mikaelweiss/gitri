@@ -16,6 +16,10 @@
 				<button type="button" class="ui icon button issue-cancel-time link-action" data-url="{{.Issue.Link}}/times/stopwatch/cancel" data-tooltip-content="{{ctx.Locale.Tr "repo.issues.timetracker_timer_discard"}}">
 					{{svg "octicon-trash"}}
 				</button>
+			{{else if .Issue.IsClosed}}
+				<button type="button" class="ui button tw-flex-1 issue-add-time show-modal" data-modal="#issue-time-manually-add-modal">
+					{{svg "octicon-plus"}} {{ctx.Locale.Tr "repo.issues.timetracker_timer_manually_add"}}
+				</button>
 			{{else}}
 				<button type="button" class="ui button tw-flex-1 issue-start-time link-action" data-url="{{.Issue.Link}}/times/stopwatch/start">
 					{{svg "octicon-stopwatch"}} {{ctx.Locale.Tr "repo.issues.timetracker_timer_start"}}
@@ -26,7 +30,7 @@
 			{{end}}
 			</div>
 
-			{{if and (not $.IsStopwatchRunning) .HasUserStopwatch}}
+			{{if and (not $.IsStopwatchRunning) .HasUserStopwatch (not .Issue.IsClosed)}}
 				<div class="ui warning message">{{ctx.Locale.Tr "repo.issues.tracking_already_started" .OtherStopwatchURL}}</div>
 			{{end}}
 

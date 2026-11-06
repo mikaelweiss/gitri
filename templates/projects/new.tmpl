@@ -8,7 +8,7 @@
 	{{end}}
 </h2>
 {{template "base/alert" .}}
-<form class="ui form" action="{{.Link}}" method="post">
+<form class="ui form segment" action="{{.Link}}" method="post">
 	<div>
 		<input type="hidden" id="redirect" name="redirect" value="{{.redirect}}">
 		<div class="field {{if .Err_Title}}error{{end}}">
@@ -32,6 +32,7 @@
 			<div class="field">
 				<label>{{ctx.Locale.Tr "repo.projects.template.desc"}}</label>
 				<div class="ui selection dropdown">
+					{{svg "octicon-triangle-down" 14 "dropdown icon"}}
 					<input type="hidden" name="template_type" value="{{.type}}">
 					<div class="default text">{{ctx.Locale.Tr "repo.projects.template.desc_helper"}}</div>
 					<div class="menu">
@@ -50,7 +51,7 @@
 				{{range $element := .CardTypes}}
 					{{if or (eq $.card_type $element.CardType) (and (not $.PageIsEditProjects) (eq $element.CardType 1))}}
 						<input type="hidden" name="card_type" value="{{$element.CardType}}">
-						<div class="default text">{{ctx.Locale.Tr $element.Translation}}</div>
+						<div class="text">{{ctx.Locale.Tr $element.Translation}}</div>
 					{{end}}
 				{{end}}
 				<div class="menu">

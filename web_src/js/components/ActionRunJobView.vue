@@ -132,6 +132,7 @@ const currentJob = ref<CurrentJob>({
 const stepsContainer = ref<HTMLElement | null>(null);
 const jobStepLogs = ref<Array<StepContainerElement | undefined>>([]);
 const menuTriggerEl = useTemplateRef<HTMLButtonElement>('menuTriggerEl');
+const logScrollBehavior = () => (window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
 const menuPanelEl = useTemplateRef<HTMLDivElement>('menuPanelEl');
 let menuTippy: Instance;
 
@@ -171,7 +172,7 @@ onMounted(async () => {
     const elJobLogGroup = el.closest('details.job-log-group') as HTMLDetailsElement;
     setTimeout(() => {
       if (elJobLogGroup.open && !isLogElementInViewport(elJobLogGroup)) {
-        elJobLogGroup.scrollIntoView({behavior: 'smooth', block: 'end'});
+        elJobLogGroup.scrollIntoView({behavior: logScrollBehavior(), block: 'end'});
       }
     }, 0);
   });
@@ -382,7 +383,7 @@ async function loadJob() {
     }
     const lastLogElem = autoScrollJobStepElement?.lastElementChild;
     if (lastLogElem && !isLogElementInViewport(lastLogElem)) {
-      lastLogElem.scrollIntoView({behavior: 'smooth', block: 'end'});
+      lastLogElem.scrollIntoView({behavior: logScrollBehavior(), block: 'end'});
     }
 
     // clear the interval timer if the job is done, the logs of changed steps still need to be loaded
@@ -564,23 +565,25 @@ async function hashChangeListener() {
   height: 60px;
   z-index: 1; /* above .job-step-container */
   background: var(--color-console-bg);
-  border-radius: 3px;
+  border-radius: calc(var(--border-radius-medium) - 1px);
 }
 
 .job-info-header:has(+ .job-step-container) {
-  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  border-radius: calc(var(--border-radius-medium) - 1px) calc(var(--border-radius-medium) - 1px) 0 0;
   border-bottom: 1px solid var(--color-secondary);
 }
 
 .job-info-header .job-info-header-title {
   color: var(--color-console-fg);
-  font-size: 16px;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-snug);
   margin: 0;
 }
 
 .job-info-header .job-info-header-detail {
   color: var(--color-console-fg-subtle);
-  font-size: 12px;
+  font-size: var(--font-size-xs);
 }
 
 .job-info-header-left {
@@ -595,8 +598,8 @@ async function hashChangeListener() {
   min-width: 0;
 }
 
-.job-info-header-uses {
-  display: inline-flex !important;
+.ui.label.job-info-header-uses {
+  display: inline-flex;
   align-items: baseline;
   gap: 4px;
   min-width: 0;
@@ -604,7 +607,7 @@ async function hashChangeListener() {
 
 .job-step-container {
   max-height: 100%;
-  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  border-radius: 0 0 calc(var(--border-radius-medium) - 1px) calc(var(--border-radius-medium) - 1px);
 }
 
 .job-step-container .job-step-summary {
@@ -613,6 +616,7 @@ async function hashChangeListener() {
   align-items: center;
   gap: 8px;
   border-radius: var(--border-radius);
+  transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
 }
 
 .job-step-container .job-step-summary.step-expandable {
@@ -625,7 +629,7 @@ async function hashChangeListener() {
 }
 
 .job-step-container .job-step-summary .step-summary-chevron {
-  transition: transform 0.1s ease;
+  transition: transform var(--duration-fast) var(--ease-standard);
 }
 
 .job-step-container .job-step-summary.selected .step-summary-chevron {
@@ -669,7 +673,7 @@ async function hashChangeListener() {
 .job-step-section .job-step-logs {
   font-family: var(--fonts-monospace);
   margin: 8px 0;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
 }
 
 .job-step-section .job-step-logs .job-log-line {
@@ -731,7 +735,7 @@ async function hashChangeListener() {
 }
 
 .job-step-logs .log-msg a {
-  color: var(--color-console-link) !important;
+  color: var(--color-console-link);
   text-decoration: underline;
 }
 
@@ -811,7 +815,7 @@ async function hashChangeListener() {
   border-top: 4px solid transparent;
   border-bottom: 4px solid transparent;
   border-left: 6px solid var(--color-text-light-3);
-  transition: transform 0.1s ease;
+  transition: transform var(--duration-fast) var(--ease-standard);
 }
 
 .job-log-group[open] .log-line-group .log-msg::before {

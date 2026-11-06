@@ -11,7 +11,7 @@
 		</a>
 		<div class="menu">
 			{{if not $data.AllLabels}}
-				<div class="item disabled">{{ctx.Locale.Tr "repo.issues.new.no_items"}}</div>
+				{{template "repo/issue/sidebar/picker_empty" dict "CreateLink" (print $pageMeta.RepoLink "/labels") "CreateText" (ctx.Locale.Tr "repo.issues.new_label")}}
 			{{else}}
 				<div class="ui icon search input">
 					<i class="icon">{{svg "octicon-search" 16}}</i>

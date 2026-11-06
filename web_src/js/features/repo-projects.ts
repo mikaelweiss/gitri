@@ -1,6 +1,8 @@
 import {contrastColor} from '../utils/color.ts';
 import {createSortable} from '../modules/sortable.ts';
 import {POST} from '../modules/fetch.ts';
+import {showErrorToast} from '../modules/toast.ts';
+import {errorMessage} from '../modules/errors.ts';
 import {performFetchActionRequest} from '../modules/fetch-action.ts';
 import {hideModal} from '../modules/modal.ts';
 import {queryElemChildren, queryElems, toggleElem} from '../utils/dom.ts';
@@ -28,13 +30,17 @@ async function moveIssue({item, from, to, oldIndex}: SortableEvent): Promise<voi
   };
 
   try {
-    await POST(`${to.getAttribute('data-url')}/move`, {
+    const resp = await POST(`${to.getAttribute('data-url')}/move`, {
       data: columnSorting,
     });
+    if (!resp.ok) throw new Error(resp.statusText);
   } catch (error) {
     console.error(error);
+    showErrorToast(errorMessage(error));
     if (oldIndex !== undefined) {
       from.insertBefore(item, from.children[oldIndex]);
+      updateIssueCount(from);
+      updateIssueCount(to);
     }
   }
 }
@@ -60,11 +66,13 @@ function initRepoProjectSortable(): void {
       };
 
       try {
-        await POST(mainBoard.getAttribute('data-url')!, {
+        const resp = await POST(mainBoard.getAttribute('data-url')!, {
           data: columnSorting,
         });
+        if (!resp.ok) throw new Error(resp.statusText);
       } catch (error) {
         console.error(error);
+        showErrorToast(errorMessage(error));
       }
     },
   });

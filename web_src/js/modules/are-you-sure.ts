@@ -22,18 +22,26 @@ function setDirty(form: HTMLFormElement, dirty: boolean) {
   const state = areYouSureStates.get(form)!;
   if (state.dirty === dirty) return;
   state.dirty = dirty;
+  form.classList.toggle('form-dirty', dirty);
   state.onDirtyChange?.(dirty);
+}
+
+function isFieldDirty(field: FormField) {
+  return originalValues.has(field) && originalValues.get(field) !== fieldValue(field);
+}
+
+export function recheckAreYouSure(form: HTMLFormElement) {
+  if (areYouSureStates.has(form)) setDirty(form, trackedFields(form).some(isFieldDirty));
 }
 
 export function applyAreYouSure(form: HTMLFormElement, onDirtyChange?: (dirty: boolean) => void) {
   if (!areYouSureStates.has(form)) {
-    const isFieldDirty = (field: FormField) => originalValues.has(field) && originalValues.get(field) !== fieldValue(field);
-    const checkDirty = () => setDirty(form, trackedFields(form).some(isFieldDirty));
     // keyup: some keydown handlers set values without an input event
-    for (const eventType of ['input', 'change', 'keyup']) form.addEventListener(eventType, checkDirty);
+    for (const eventType of ['input', 'change', 'keyup']) form.addEventListener(eventType, () => recheckAreYouSure(form));
     for (const eventType of ['submit', 'reset']) form.addEventListener(eventType, () => setDirty(form, false));
   }
   areYouSureStates.set(form, {onDirtyChange, dirty: false});
+  form.classList.remove('form-dirty');
   for (const field of trackedFields(form)) originalValues.set(field, fieldValue(field));
 }
 

@@ -13,12 +13,13 @@
   border-bottom-left-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
   padding: 10px;
-  font: 14px var(--fonts-monospace);
+  font: var(--font-size-md) var(--fonts-monospace);
   z-index: 0;
   overflow-wrap: break-word;
   color: var(--color-input-text);
   background-color: var(--color-input-background);
   direction: ltr;
+  transition: border-color var(--duration-fast) var(--ease-standard);
 }
 
 .EasyMDEContainer .CodeMirror-lines {
@@ -148,7 +149,7 @@
 }
 
 .EasyMDEContainer .CodeMirror-code {
-  font: 14px var(--fonts-monospace);
+  font: var(--font-size-md) var(--fonts-monospace);
   outline: none;
 }
 
@@ -186,7 +187,7 @@
 /* Default theme overrides */
 .EasyMDEContainer .cm-header,
 .EasyMDEContainer .cm-strong {
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-semibold);
 }
 
 .EasyMDEContainer .cm-em {
@@ -237,14 +238,15 @@
 
 /* Statusbar */
 .ui .field:not(:last-child) .EasyMDEContainer .editor-statusbar {
-  margin-bottom: -1em; /* when there is a statusbar, the "margin-bottom: 1em" of the "field" is not needed, because the statusbar is likely a blank line */
+  margin-bottom: -1em; /* a statusbar without text reads as a blank line, so the "margin-bottom: 1em" of the "field" would double the gap */
 }
 
 /* Toolbar */
 .EasyMDEContainer .editor-toolbar {
   position: relative;
   user-select: none;
-  padding: 9px 10px;
+  padding: 6px 10px;
+  background: var(--color-input-background);
   border-top: 1px solid var(--color-input-border);
   border-left: 1px solid var(--color-input-border);
   border-right: 1px solid var(--color-input-border);
@@ -272,16 +274,17 @@
   display: inline-block;
   text-align: center;
   text-decoration: none;
-  height: 30px;
+  height: var(--control-height-small);
   margin: 0;
   padding: 0 6px;
   border: none;
-  border-radius: 3px;
+  border-radius: var(--border-radius-small);
   cursor: pointer;
-  font-weight: var(--font-weight-bold);
-  min-width: 30px;
+  font-weight: var(--font-weight-semibold);
+  min-width: var(--control-height-small);
   white-space: nowrap;
   color: var(--color-text-light);
+  transition: color var(--duration-fast) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
 }
 
 .EasyMDEContainer .editor-toolbar button:not(:hover) {
@@ -290,6 +293,10 @@
 
 .EasyMDEContainer .editor-toolbar button:hover {
   background: var(--color-hover);
+}
+
+.EasyMDEContainer .editor-toolbar button:active {
+  transform: scale(0.97);
 }
 
 .EasyMDEContainer .editor-toolbar button.active {
@@ -307,7 +314,7 @@
 }
 
 .EasyMDEContainer .editor-toolbar button::after {
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: var(--fonts-regular);
   font-size: 65%;
   vertical-align: text-bottom;
   position: relative;
@@ -335,7 +342,7 @@
 }
 
 .EasyMDEContainer .editor-toolbar.disabled-for-preview button:not(.no-disable) {
-  opacity: 0.6;
+  opacity: var(--opacity-disabled);
   pointer-events: none;
 }
 
@@ -347,7 +354,7 @@
 /* Statusbar */
 .EasyMDEContainer .editor-statusbar {
   padding: 8px 10px;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   color: var(--color-text-light);
   text-align: right;
 }

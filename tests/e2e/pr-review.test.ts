@@ -13,6 +13,7 @@ import {
 } from './utils.ts';
 
 test('pr review flow', async ({page, request}) => {
+  test.slow(); // walks three user sessions through the whole review lifecycle
   const poster = `rv-poster-${randomString(8)}`;
   const reviewer = `rv-reviewer-${randomString(8)}`;
   const officialReviewer = `rv-official-${randomString(8)}`;

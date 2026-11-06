@@ -1,3 +1,10 @@
+.repository.wiki .wiki-page-title {
+  font-family: var(--fonts-headline);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
 .repository.wiki .wiki-pages-list .wiki-git-entry {
   margin-left: 10px;
   display: none;
@@ -13,10 +20,12 @@
 
 .repository.wiki .wiki-content-parts .markup {
   border: 1px solid var(--color-secondary);
-  border-radius: var(--border-radius);
-  padding: 1em;
+  border-radius: var(--border-radius-medium);
+  background: var(--color-box-body);
+  box-shadow: var(--shadow-card);
+  padding: 16px;
   margin-top: 1em;
-  font-size: 1em;
+  font-size: var(--font-size-md);
 }
 
 .repository.wiki .wiki-content-main.with-sidebar {
@@ -42,8 +51,7 @@
 }
 
 .repository.wiki .wiki-content-toc ul ul {
-  border-left: 1px var(--color-secondary);
-  border-left-style: dashed;
+  border-left: 1px solid var(--color-secondary);
 }
 
 @media (max-width: 767.98px) {

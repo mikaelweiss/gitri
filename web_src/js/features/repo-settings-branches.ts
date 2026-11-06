@@ -18,11 +18,12 @@ export function initRepoSettingsBranchesDrag() {
         const itemIds = Array.from(itemElems, (el) => parseInt(el.getAttribute('data-id')!));
 
         try {
-          await POST(protectedBranchesList.getAttribute('data-update-priority-url')!, {
+          const resp = await POST(protectedBranchesList.getAttribute('data-update-priority-url')!, {
             data: {
               ids: itemIds,
             },
           });
+          if (!resp.ok) throw new Error(resp.statusText);
         } catch (err) {
           showErrorToast(`Failed to update branch protection rule priority: ${errorMessage(err)}`);
         }

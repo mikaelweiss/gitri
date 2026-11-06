@@ -157,7 +157,7 @@ function clearMergeMessage() {
         <input type="text" name="merge_commit_id" :placeholder="mergeForm.textMergeCommitId">
       </div>
 
-      <div class="flex-text-block tw-gap-3">
+      <div class="flex-text-block tw-flex-wrap tw-gap-3">
         <button class="ui button" :class="mergeButtonStyleClass" type="submit" name="do" :value="mergeStyle">
           {{ mergeStyleDetail.textDoMerge }}
           <template v-if="autoMergeWhenSucceed">
@@ -238,6 +238,14 @@ function clearMergeMessage() {
 /* make the dropdown list left-aligned */
 .ui.merge-button {
   position: relative;
+  max-width: 100%;
+}
+.ui.merge-button > .ui.button:first-child {
+  flex-shrink: 1;
+  min-width: 0;
+  height: auto;
+  min-height: var(--control-height);
+  white-space: normal;
 }
 .ui.merge-button .ui.dropdown {
   position: static;
@@ -254,7 +262,7 @@ function clearMergeMessage() {
 
 /* merge style list item */
 .action-text {
-  padding: 0.8rem;
+  padding: 10px 12px;
   flex: 1
 }
 
@@ -264,6 +272,7 @@ function clearMergeMessage() {
   align-items: center;
   justify-content: center;
   position: relative;
+  transition: color var(--duration-fast) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard);
 }
 .auto-merge-small .auto-merge-tip {
   display: none;

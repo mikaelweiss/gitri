@@ -17,16 +17,36 @@
   border-right: none;
 }
 
+#git-graph-container .color-buttons .ui.button {
+  gap: 4px;
+  padding-inline: 10px;
+}
+
+@media (max-width: 767.98px) {
+  #git-graph-container h2 {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  #git-graph-container .color-buttons {
+    width: 100%;
+    margin: 0;
+  }
+  #git-graph-container #flow-select-refs-dropdown {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
 #git-graph-container #flow-select-refs-dropdown .ui.label {
   max-width: 180px;
-  display: inline-flex !important;
+  display: inline-flex !important; /* beats the important display of .transition.visible */
   align-items: center;
 }
 
 #git-graph-container li {
   list-style-type: none;
-  height: 24px;
-  line-height: 24px;
+  height: var(--control-height-tiny);
+  line-height: var(--control-height-tiny);
   white-space: nowrap;
   display: flex;
   align-items: center;
@@ -41,6 +61,16 @@
   flex-shrink: 1;
 }
 
+@media (max-width: 767.98px) {
+  /* rows scroll inside the container, so they must not shrink to its width */
+  #git-graph-container li > span.message {
+    flex-shrink: 0;
+  }
+  #git-graph-container li .commit-refs {
+    max-width: none;
+  }
+}
+
 #git-graph-container li .ui.label.commit-id-short {
   padding: 2px 4px;
   height: 20px;
@@ -48,7 +78,7 @@
 
 #git-graph-container li .time {
   color: var(--color-text-light-3);
-  font-size: 80%;
+  font-size: var(--font-size-xs);
 }
 
 #git-graph-container #rel-container {

@@ -46,6 +46,7 @@ func prepareEditorPage(ctx *context.Context, editorAction string) *context.Commi
 }
 
 func prepareEditorPageFormOptions(ctx *context.Context, editorAction string) *context.CommitFormOptions {
+	ctx.Data["PageIsViewCode"] = true
 	cleanedTreePath := files_service.CleanGitTreePath(ctx.Repo.TreePath)
 	if cleanedTreePath != ctx.Repo.TreePath {
 		redirectTo := fmt.Sprintf("%s/%s/%s/%s", ctx.Repo.RepoLink, editorAction, util.PathEscapeSegments(ctx.Repo.BranchName), util.PathEscapeSegments(cleanedTreePath))

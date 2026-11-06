@@ -1,6 +1,6 @@
 import {checkAppUrl} from '../common-page.ts';
 import {hideElem, queryElems, showElem, toggleElem} from '../../utils/dom.ts';
-import {POST} from '../../modules/fetch.ts';
+import {performFetchActionRequest} from '../../modules/fetch-action.ts';
 import {showModal} from '../../modules/modal.ts';
 import {pathEscape} from '../../utils/url.ts';
 import {registerGlobalInitFunc} from '../../modules/observer.ts';
@@ -317,7 +317,8 @@ function initAdminNotice() {
         data.append('ids[]', checkbox.closest('.ui.checkbox')!.getAttribute('data-id')!);
       }
     }
-    await POST(this.getAttribute('data-link')!, {data});
-    window.location.reload();
+    const resp = await performFetchActionRequest(this, {method: 'POST', url: this.getAttribute('data-link')!, data});
+    if (resp) window.location.reload();
+    else this.classList.remove('is-loading', 'disabled');
   });
 }

@@ -29,7 +29,7 @@ test('emoji autocompletion in issue description', async ({page, request}) => {
   const repoName = `e2e-emoji-${randomString(8)}`;
   await Promise.all([apiCreateRepo(request, {name: repoName, autoInit: false}), login(page)]);
   await page.goto(`/${env.GITEA_TEST_E2E_USER}/${repoName}/issues/new`);
-  const textarea = page.getByPlaceholder('Leave a comment');
+  const textarea = page.getByPlaceholder('Add a description');
   await textarea.focus();
   await textarea.pressSequentially(':tada');
   await expect(page.getByRole('option', {name: '🎉 tada'})).toBeVisible();
@@ -41,7 +41,7 @@ test('unsaved issue description prompts before leaving', async ({page, request})
   const repoName = `e2e-are-you-sure-${randomString(8)}`;
   await Promise.all([apiCreateRepo(request, {name: repoName, autoInit: false}), login(page)]);
   await page.goto(`/${env.GITEA_TEST_E2E_USER}/${repoName}/issues/new`);
-  await page.getByPlaceholder('Leave a comment').press('a');
+  await page.getByPlaceholder('Add a description').press('a');
   const dialogPromise = page.waitForEvent('dialog');
   page.once('dialog', (dialog) => dialog.dismiss());
   await page.getByRole('link', {name: 'Dashboard'}).click();

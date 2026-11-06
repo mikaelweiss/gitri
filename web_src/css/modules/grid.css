@@ -40,7 +40,7 @@
   flex-wrap: wrap;
   justify-content: inherit;
   align-items: stretch;
-  width: 100% !important;
+  width: 100%;
   padding: 0;
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -57,10 +57,6 @@
 
 .ui.grid > .row > .column > img {
   max-width: 100%;
-}
-
-.ui.grid > .column:last-child > .horizontal.segment {
-  box-shadow: none;
 }
 
 @media only screen and (max-width: 767.98px) {
@@ -118,54 +114,44 @@
 }
 
 .ui.grid > [class*="two column"].row > .column {
-  width: 50% !important;
+  width: 50%;
 }
 
-.ui.grid > .column.row > [class*="one wide"].column,
-.ui.grid > [class*="one wide"].column,
-.ui.column.grid > [class*="one wide"].column {
-  width: 6.25% !important;
-}
-.ui.grid > .column.row > [class*="two wide"].column,
-.ui.grid > [class*="two wide"].column,
-.ui.column.grid > [class*="two wide"].column {
-  width: 12.5% !important;
-}
 .ui.grid > [class*="three wide"].column {
-  width: 18.75% !important;
+  width: 18.75%;
 }
 .ui.grid > [class*="four wide"].column {
-  width: 25% !important;
+  width: 25%;
 }
 .ui.grid > [class*="five wide"].column {
-  width: 31.25% !important;
+  width: 31.25%;
 }
 .ui.grid > [class*="six wide"].column {
-  width: 37.5% !important;
+  width: 37.5%;
 }
 .ui.grid > [class*="seven wide"].column {
-  width: 43.75% !important;
+  width: 43.75%;
 }
 .ui.grid > [class*="eight wide"].column {
-  width: 50% !important;
+  width: 50%;
 }
 .ui.grid > [class*="ten wide"].column {
-  width: 62.5% !important;
+  width: 62.5%;
 }
 .ui.grid > [class*="eleven wide"].column {
-  width: 68.75% !important;
+  width: 68.75%;
 }
 .ui.grid > [class*="twelve wide"].column {
-  width: 75% !important;
+  width: 75%;
 }
 .ui.grid > [class*="thirteen wide"].column {
-  width: 81.25% !important;
+  width: 81.25%;
 }
 .ui.grid > [class*="fourteen wide"].column {
-  width: 87.5% !important;
+  width: 87.5%;
 }
 .ui.grid > [class*="sixteen wide"].column {
-  width: 100% !important;
+  width: 100%;
 }
 
 .ui.centered.grid {
@@ -201,26 +187,38 @@
 }
 
 @media only screen and (max-width: 767.98px) {
+  .ui.container > .ui.grid {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .ui.container > .ui.grid > .column:not(.row) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .ui.container > .ui.grid > .column:not(.row) .ui.stackable.grid {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
   .ui.stackable.grid {
     width: auto;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+    margin-left: 0;
+    margin-right: 0;
   }
   .ui.stackable.grid > .wide.column,
   .ui.stackable.grid > .column:not(.row) {
-    width: 100% !important;
-    margin: 0 !important;
-    box-shadow: none !important;
+    width: 100%;
+    margin: 0;
     padding: 1rem;
   }
 
   .ui.container > .ui.stackable.grid > .column {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .ui.grid .ui.stackable.grid {
-    margin-left: -1rem !important;
-    margin-right: -1rem !important;
+    margin-left: -1rem;
+    margin-right: -1rem;
   }
 }

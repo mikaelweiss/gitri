@@ -16,7 +16,7 @@
 {{end}}
 <div>
 	{{range .PackageDescriptors}}
-	<div class="flex-divided-list items-with-main">
+	<div class="flex-divided-list items-with-main list-card">
 		<div class="item">
 			<div class="item-main">
 				<div class="item-title">
@@ -53,7 +53,10 @@
 				<p>{{ctx.Locale.Tr "packages.empty.documentation" "https://docs.gitea.com/usage/packages/overview/"}}</p>
 			</div>
 		{{else}}
-			<p class="tw-py-4">{{ctx.Locale.Tr "packages.filter.no_result"}}</p>
+			<div class="empty-placeholder">
+				{{svg "octicon-search" 48}}
+				<h2>{{ctx.Locale.Tr "packages.filter.no_result"}}</h2>
+			</div>
 		{{end}}
 	{{end}}
 	{{template "base/paginate" .}}

@@ -1,15 +1,14 @@
 .divider {
-  margin: 10px 0;
+  margin: 12px 0;
   height: 0;
   font-weight: var(--font-weight-medium);
-  color: var(--color-text);
-  font-size: 1rem;
+  color: var(--color-text-light-2);
+  font-size: var(--font-size-md);
   width: 100%;
 }
 
 h4.divider {
-  margin-top: 1.25rem;
-  margin-bottom: 1.25rem;
+  margin-block: 1.25rem;
 }
 
 .divider:not(.divider-text) {
@@ -30,16 +29,16 @@ h4.divider {
 }
 
 .divider.divider-text::before {
-  margin-right: .75em;
+  margin-inline-end: .75em;
 }
 
 .divider.divider-text::after {
-  margin-left: .75em;
+  margin-inline-start: .75em;
 }
 
 .inline-divider {
   display: inline-block;
-  border-left: 1px solid var(--color-secondary);
+  border-inline-start: 1px solid var(--color-secondary);
   overflow: hidden;
   width: 1px;
   margin: 0 var(--gap-inline);

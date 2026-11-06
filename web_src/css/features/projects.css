@@ -14,9 +14,19 @@
   flex-wrap: wrap;
 }
 
+.projects-view > .ui.container {
+  margin-inline: 0;
+  width: auto;
+  max-width: none;
+}
+
 .project-header h2 {
   white-space: nowrap;
   margin: 0;
+  font-family: var(--fonts-headline);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-tight);
 }
 
 .project-column {
@@ -25,9 +35,9 @@
   flex-direction: column;
   background-color: var(--color-project-column-bg);
   border: 1px solid var(--color-secondary);
-  border-radius: var(--border-radius);
-  margin: 0 0.5rem;
-  padding: 0.5rem;
+  border-radius: var(--border-radius-medium);
+  margin: 0 6px;
+  padding: 10px;
   width: 320px;
   overflow: visible;
 }
@@ -49,23 +59,23 @@
   flex-wrap: nowrap;
   flex-direction: column;
   overflow: clip auto;
-  gap: .25rem;
+  gap: 6px;
   margin: 0;
   padding: 0;
 }
 
 .project-column > .divider {
-  margin: 5px 0;
+  margin: 6px 0;
   border-color: currentcolor;
   opacity: .5;
 }
 
 .project-column:first-child {
-  margin-left: auto !important;
+  margin-left: auto;
 }
 
 .project-column:last-child {
-  margin-right: auto !important;
+  margin-right: auto;
 }
 
 .card-attachment-images {
@@ -80,7 +90,7 @@
 .card-attachment-images img {
   display: inline-block;
   max-height: 50px;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-small);
   text-align: left;
   scroll-snap-align: center;
   margin-right: 2px;
@@ -93,10 +103,11 @@
   margin: auto;
 }
 
-.card-ghost {
-  border-color: var(--color-secondary-dark-4) !important;
-  border-style: dashed !important;
-  background: none !important;
+.card-ghost.card-ghost.card-ghost {
+  border-color: var(--color-secondary-dark-4);
+  border-style: dashed;
+  background: none;
+  box-shadow: none;
 }
 
 .card-ghost * {

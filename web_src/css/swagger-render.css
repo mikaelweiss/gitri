@@ -1,13 +1,523 @@
-@import "swagger-ui-dist/swagger-ui.css";
+@import "swagger-ui-dist/swagger-ui.css" layer(swagger-ui); /* a layer lets every rule below win without a specificity race, also against its dark mode */
+@import "./tokens.css";
 
 html,
-html body,
-html .swagger-ui,
-html .swagger-ui .scheme-container {
-  background: var(--gitea-iframe-bgcolor, var(--color-box-body)) !important;
+html body {
+  font-family: var(--fonts-regular);
+  font-size: var(--font-size-md);
+  color: var(--color-text);
+  background: var(--gitea-iframe-bgcolor, var(--color-body));
+}
+
+.swagger-ui {
+  background: none;
+  font-family: var(--fonts-regular);
+  color: var(--color-text);
+}
+
+.swagger-ui .wrapper {
+  width: var(--page-content-width);
+  max-width: calc(100% - 2 * var(--page-margin-x));
+  padding: 0;
+}
+
+.swagger-ui .info {
+  margin-block: 40px 24px;
+}
+
+.swagger-ui .info .title {
+  font-family: var(--fonts-headline);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-text);
+}
+
+.swagger-ui .info .title small {
+  top: 0;
+  vertical-align: middle;
+  margin-inline-start: 4px;
+  padding: 2px 6px;
+  border-radius: var(--border-radius-full);
+  background: var(--color-label-bg);
+  color: var(--color-text-light);
+  font-family: var(--fonts-regular);
+  letter-spacing: normal;
+}
+
+.swagger-ui .info .title small pre {
+  font-family: inherit;
+  color: inherit;
+}
+
+.swagger-ui .info .title small.version-stamp {
+  background: var(--color-primary);
+}
+
+.swagger-ui .info .title small.version-stamp pre {
+  color: var(--color-primary-contrast);
+}
+
+.swagger-ui .info p,
+.swagger-ui .info li,
+.swagger-ui .info table,
+.swagger-ui .info .base-url,
+.swagger-ui .markdown p,
+.swagger-ui .markdown li,
+.swagger-ui .renderedMarkdown p {
+  font-family: inherit;
+  font-size: var(--font-size-md);
+  color: var(--color-text-light);
+}
+
+.swagger-ui .info a,
+.swagger-ui .markdown a,
+.swagger-ui .renderedMarkdown a {
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--color-primary);
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.swagger-ui .info a:hover,
+.swagger-ui .markdown a:hover,
+.swagger-ui .renderedMarkdown a:hover {
+  color: var(--color-primary-hover);
+}
+
+.swagger-ui .scheme-container,
+.swagger-ui .opblock-tag-section,
+.swagger-ui section.models {
+  background: var(--color-box-body);
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-card);
+}
+
+.swagger-ui .scheme-container {
+  box-sizing: border-box;
+  width: var(--page-content-width);
+  max-width: calc(100% - 2 * var(--page-margin-x));
+  margin: 0 auto 24px;
+  padding: 16px;
+}
+
+.swagger-ui .scheme-container .wrapper {
+  max-width: 100%;
+}
+
+.swagger-ui .opblock-tag-section {
+  margin-bottom: var(--page-spacing);
+  padding-inline: 12px;
+}
+
+.swagger-ui .opblock-tag {
+  margin: 0;
+  padding: 12px 4px;
+  border-bottom: none;
+  font-family: var(--fonts-headline);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-snug);
+  color: var(--color-text);
+}
+
+.swagger-ui .opblock-tag small {
+  font-family: var(--fonts-regular);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: normal;
+  color: var(--color-text-light-2);
+}
+
+.swagger-ui .expand-operation,
+.swagger-ui .authorization__btn,
+.swagger-ui .opblock-control-arrow,
+.swagger-ui .models-control {
+  color: var(--color-text-light-2);
+}
+
+.swagger-ui .expand-operation svg,
+.swagger-ui .authorization__btn svg,
+.swagger-ui .opblock-control-arrow svg,
+.swagger-ui .models-control svg {
+  color: inherit;
+  fill: currentcolor;
+  opacity: 1;
+}
+
+.swagger-ui .expand-operation {
+  display: flex;
+  padding: 0;
+}
+
+.swagger-ui .models-control span {
+  color: var(--color-text);
+}
+
+.swagger-ui .opblock-tag:hover {
+  background: none;
+}
+
+.swagger-ui .opblock {
+  margin-bottom: 8px;
+  background: none;
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--border-radius);
+  box-shadow: none;
+  overflow: hidden;
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+.swagger-ui .opblock:hover {
+  border-color: var(--color-secondary-dark-2);
+}
+
+.swagger-ui .opblock .opblock-summary {
+  padding: 6px 8px;
+  border: none;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.swagger-ui .opblock .opblock-summary:hover {
+  background: var(--color-hover);
+}
+
+.swagger-ui .opblock.is-open .opblock-summary {
+  border-bottom: 1px solid var(--color-secondary);
+}
+
+.swagger-ui .opblock .opblock-summary-method {
+  min-width: 68px;
+  padding: 3px 8px;
+  border-radius: var(--border-radius-small);
+  font-family: var(--fonts-monospace);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-shadow: none;
+  color: var(--color-body); /* method colors are dark in the light theme and bright in the dark one */
+}
+
+.swagger-ui .opblock.opblock-get .opblock-summary-method { background: var(--color-blue); }
+.swagger-ui .opblock.opblock-post .opblock-summary-method { background: var(--color-green); }
+.swagger-ui .opblock.opblock-put .opblock-summary-method { background: var(--color-orange); }
+.swagger-ui .opblock.opblock-patch .opblock-summary-method { background: var(--color-teal); }
+.swagger-ui .opblock.opblock-delete .opblock-summary-method { background: var(--color-red); }
+.swagger-ui .opblock.opblock-head .opblock-summary-method { background: var(--color-purple); }
+.swagger-ui .opblock.opblock-options .opblock-summary-method { background: var(--color-grey); }
+
+.swagger-ui .opblock .opblock-summary-path,
+.swagger-ui .opblock .opblock-summary-path a,
+.swagger-ui .opblock .opblock-summary-path__deprecated {
+  font-family: var(--fonts-monospace);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
+.swagger-ui .opblock .opblock-summary-description {
+  font-family: var(--fonts-regular);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light-2);
+}
+
+.swagger-ui .opblock.opblock-deprecated {
+  opacity: var(--opacity-disabled);
+}
+
+.swagger-ui .opblock .opblock-section-header {
+  background: var(--color-box-header);
+  border-block-start: none;
+  border-block-end: 1px solid var(--color-secondary);
+  box-shadow: none;
+}
+
+.swagger-ui .opblock .opblock-body > .opblock-description-wrapper,
+.swagger-ui .opblock .opblock-body > .opblock-title_normal {
+  border-top: none;
+}
+
+.swagger-ui .opblock .tab-header .tab-item.active h4 span::after {
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: var(--border-radius-full);
+}
+
+.swagger-ui .responses-inner {
+  overflow-x: auto;
+}
+
+.swagger-ui table thead tr th,
+.swagger-ui table thead tr td {
+  border-color: var(--color-secondary);
+  opacity: 1;
+}
+
+.swagger-ui .response-control-media-type__accept-message {
+  font-family: var(--fonts-regular);
+  font-size: var(--font-size-xs);
+  color: var(--color-green);
+}
+
+.swagger-ui .opblock .opblock-section-header h4,
+.swagger-ui .opblock .opblock-section-header label,
+.swagger-ui .opblock-title_normal,
+.swagger-ui .responses-inner h4,
+.swagger-ui .responses-inner h5,
+.swagger-ui table thead tr th,
+.swagger-ui table thead tr td,
+.swagger-ui .parameter__name,
+.swagger-ui .parameter__type,
+.swagger-ui .parameter__in,
+.swagger-ui .response-col_status,
+.swagger-ui .response-col_links,
+.swagger-ui .tab li,
+.swagger-ui label {
+  font-family: var(--fonts-regular);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+
+.swagger-ui .opblock-body pre.microlight,
+.swagger-ui .highlight-code > .microlight,
+.swagger-ui .highlight-code > .microlight code,
+.swagger-ui .curl-command .curl {
+  font-family: var(--fonts-monospace);
+  font-size: var(--font-size-xs);
+  border-radius: var(--border-radius);
+}
+
+.swagger-ui .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-inline);
+  min-height: var(--control-height);
+  padding: 0 12px;
+  background: var(--color-button);
+  border: 1px solid var(--color-light-border);
+  border-radius: var(--border-radius);
+  box-shadow: none;
+  font-family: var(--fonts-regular);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+  transition-property: background-color, border-color, color, box-shadow, transform;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-standard);
+}
+
+.swagger-ui .btn:hover {
+  background: var(--color-hover);
+  box-shadow: none;
+}
+
+.swagger-ui .btn:active {
+  background: var(--color-active);
+  transform: scale(0.97);
+}
+
+.swagger-ui .btn:focus-visible,
+.swagger-ui button:focus-visible,
+.swagger-ui a:focus-visible {
+  outline: 2px solid transparent;
+  box-shadow: var(--focus-ring);
+}
+
+.swagger-ui .btn.execute,
+.swagger-ui .btn.modal-btn.auth.authorize {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-primary-contrast);
+}
+
+.swagger-ui .btn.execute:hover,
+.swagger-ui .btn.modal-btn.auth.authorize:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.swagger-ui .btn.execute:active,
+.swagger-ui .btn.modal-btn.auth.authorize:active {
+  background: var(--color-primary-active);
+  border-color: var(--color-primary-active);
+}
+
+.swagger-ui .btn.cancel {
+  border-color: var(--color-error-border);
+  color: var(--color-red);
+}
+
+.swagger-ui .btn.authorize {
+  border-color: var(--color-light-border);
+  color: var(--color-text);
+}
+
+.swagger-ui .btn.authorize svg {
+  color: inherit;
+  fill: currentcolor;
+}
+
+.swagger-ui .btn-group {
+  gap: var(--gap-block);
+}
+
+.swagger-ui .download-contents,
+.swagger-ui .copy-to-clipboard {
+  background: var(--color-secondary-button); /* swagger-ui draws the copy icon white, so these sit on a mid grey in both themes */
+  border-radius: var(--border-radius-small);
+  font-family: var(--fonts-regular);
+  font-size: var(--font-size-xs);
+  color: var(--color-white);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.swagger-ui .download-contents:hover,
+.swagger-ui .copy-to-clipboard:hover {
+  background: var(--color-secondary-hover);
+}
+
+.swagger-ui input[type="text"],
+.swagger-ui input[type="password"],
+.swagger-ui input[type="search"],
+.swagger-ui input[type="email"],
+.swagger-ui input[type="file"],
+.swagger-ui select,
+.swagger-ui textarea {
+  background-color: var(--color-input-background);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--border-radius);
+  box-shadow: none;
+  font-family: var(--fonts-regular);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-input-text);
+  transition-property: border-color, box-shadow;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-standard);
+}
+
+.swagger-ui input[type="text"],
+.swagger-ui input[type="password"],
+.swagger-ui input[type="search"],
+.swagger-ui input[type="email"],
+.swagger-ui select {
+  min-height: var(--control-height);
+  padding: 4px 10px;
+}
+
+.swagger-ui select {
+  padding-inline-end: 28px;
+  background-image: var(--select-arrows);
+  background-repeat: no-repeat;
+  background-position: right 6px center;
+  background-size: 16px;
+}
+
+.swagger-ui input:focus,
+.swagger-ui select:focus,
+.swagger-ui textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
+}
+
+.swagger-ui .scheme-container .schemes > label,
+.swagger-ui .servers > label,
+.swagger-ui .servers-title {
+  font-family: var(--fonts-regular);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-light);
+}
+
+.swagger-ui section.models {
+  margin-top: var(--page-spacing);
+  padding-inline: 12px;
+}
+
+.swagger-ui section.models.is-open h4 {
+  border-bottom: 1px solid var(--color-secondary);
+}
+
+.swagger-ui section.models h4 {
+  margin: 0;
+  padding: 12px 4px;
+  font-family: var(--fonts-headline);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-snug);
+  color: var(--color-text);
+}
+
+.swagger-ui section.models .model-container {
+  margin: 0 0 8px;
+  background: none;
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--border-radius);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.swagger-ui section.models .model-container:hover {
+  background: var(--color-hover);
+}
+
+.swagger-ui .model-box {
+  background: none;
+  font-family: var(--fonts-monospace);
+}
+
+.swagger-ui .model-title,
+.swagger-ui .model-title__text,
+.swagger-ui .model,
+.swagger-ui .prop-type,
+.swagger-ui .prop-format {
+  font-family: var(--fonts-monospace);
+  font-size: var(--font-size-xs);
+}
+
+.swagger-ui .dialog-ux .backdrop-ux {
+  background: var(--color-overlay-backdrop);
+}
+
+.swagger-ui .dialog-ux .modal-ux {
+  background: var(--color-box-body);
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--shadow-modal);
+}
+
+.swagger-ui .dialog-ux .modal-ux-header {
+  border-bottom: 1px solid var(--color-secondary);
+}
+
+.swagger-ui .dialog-ux .auth-container h4,
+.swagger-ui .dialog-ux .auth-container h5,
+.swagger-ui .dialog-ux .auth-container h6 {
+  font-family: var(--fonts-headline);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.swagger-ui .dialog-ux .modal-ux-header h3 {
+  font-family: var(--fonts-headline);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
 }
 
 /* swagger's bug: the selector was incorrectly written in "thead": "html.dark-mode .swagger-ui .opblock.opblock-get thead tr td" */
-html.dark-mode .swagger-ui table.headers td {
-  color: var(--color-text) !important;
+.swagger-ui table.headers td {
+  color: var(--color-text);
+}
+
+@media (max-width: 767.98px) {
+  .swagger-ui .opblock .opblock-summary {
+    flex-wrap: wrap;
+  }
+
+  .swagger-ui .opblock .opblock-summary-path {
+    max-width: 100%;
+  }
 }

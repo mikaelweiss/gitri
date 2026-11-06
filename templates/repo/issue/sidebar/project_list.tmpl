@@ -1,5 +1,7 @@
 {{$pageMeta := .}}
 {{$data := .ProjectsData}}
+{{$projectsUnit := $pageMeta.Repository.MustGetUnit ctx ctx.Consts.RepoUnitTypeProjects}}
+{{$canCreateProject := and (ctx.RootData.Permission.CanWrite ctx.Consts.RepoUnitTypeProjects) ($projectsUnit.ProjectsConfig.IsProjectsAllowed "repo")}}
 <div class="divider"></div>
 
 {{/* project selector */}}
@@ -17,7 +19,6 @@
 				<i class="icon">{{svg "octicon-search" 16}}</i>
 				<input type="text" placeholder="{{ctx.Locale.Tr "repo.issues.filter_projects"}}">
 			</div>
-			{{end}}
 			<div class="scrolling menu flex-items-menu">
 				<div class="item clear-selection" data-text="">{{ctx.Locale.Tr "repo.issues.new.clear_projects"}}</div>
 				<div class="divider"></div>
@@ -41,11 +42,14 @@
 					{{end}}
 				{{end}}
 			</div>
+			{{else}}
+				{{template "repo/issue/sidebar/picker_empty" dict "CreateLink" (Iif $canCreateProject (print $pageMeta.RepoLink "/projects/new")) "CreateText" (ctx.Locale.Tr "repo.projects.new")}}
+			{{end}}
 		</div>
 	</div>
 
 	{{/* project cards (column selectors) */}}
-	<div class="ui list tw-my-2 flex-relaxed-list issue-sidebar-project-cards" data-combo-list-inited="true">
+	<div class="ui list flex-relaxed-list issue-sidebar-project-cards" data-combo-list-inited="true">
 		<div class="item empty-list {{if $data.ProjectCards}}tw-hidden{{end}}">{{ctx.Locale.Tr "repo.issues.new.no_projects"}}</div>
 	{{range $card := $data.ProjectCards}}
 		{{$selectedColumn := $card.SelectedColumn}}

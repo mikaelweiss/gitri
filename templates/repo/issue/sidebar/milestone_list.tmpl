@@ -12,7 +12,7 @@
 		</a>
 		<div class="menu">
 			{{if and (not $data.OpenMilestones) (not $data.ClosedMilestones)}}
-				<div class="item disabled">{{ctx.Locale.Tr "repo.issues.new.no_items"}}</div>
+				{{template "repo/issue/sidebar/picker_empty" dict "CreateLink" (print $pageMeta.RepoLink "/milestones/new") "CreateText" (ctx.Locale.Tr "repo.milestones.new")}}
 			{{else}}
 				<div class="ui icon search input">
 					<i class="icon">{{svg "octicon-search"}}</i>

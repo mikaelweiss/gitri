@@ -1,4 +1,4 @@
-<div class="flex-divided-list items-with-main">
+<div class="flex-divided-list items-with-main list-card">
 	{{range .Repos}}
 		<div class="item">
 			<div class="item-leading">
@@ -57,7 +57,7 @@
 						</a>
 						{{$watch := and $.Watches (index $.Watches .ID)}}
 						{{if $watch}}
-							<button type="button" class="btn flex-text-inline show-modal"
+							<button type="button" class="btn interact-fg flex-text-inline show-modal"
 								data-modal="#repo-watch-options-modal"
 								data-modal-form.url="{{.Link}}/action/watch/options"
 								data-modal-issues="{{$watch.IncludeIssues}}"
@@ -83,8 +83,9 @@
 			</div>
 		</div>
 	{{else}}
-	<div>
-		{{ctx.Locale.Tr "search.no_results"}}
+	<div class="empty-placeholder">
+		{{svg "octicon-search" 48}}
+		<h2>{{ctx.Locale.Tr "search.no_results"}}</h2>
 	</div>
 	{{end}}
 	{{if $.Watches}}{{template "repo/watch_options_modal"}}{{end}}

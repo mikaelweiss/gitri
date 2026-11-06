@@ -1,18 +1,23 @@
-.ui.button.add-code-comment {
+.ui.primary.button.add-code-comment {
   padding: 2px;
   position: absolute;
   margin-left: -22px;
   min-height: 0;
   z-index: 5;
   opacity: 0;
-  transition: transform 0.1s ease-in-out;
+  border: none;
+  border-radius: var(--border-radius-small);
+  box-shadow: none;
   transform: scale(1);
-  box-shadow: none !important;
-  border: none !important;
+  transition: opacity var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
 }
 
-.ui.button.add-code-comment:hover {
+.ui.primary.button.add-code-comment:hover {
   transform: scale(1.1);
+}
+
+.ui.primary.button.add-code-comment:active {
+  transform: scale(0.97);
 }
 
 .lines-escape .toggle-escape-button {
@@ -30,25 +35,38 @@
 }
 
 .repository .diff-file-box .code-diff td.lines-escape {
-  padding-left: 0 !important;
+  padding-left: 0;
 }
 
-.diff-file-box .lines-code:hover .ui.button.add-code-comment {
-  opacity: 1;
-}
-
-.ui.button.add-code-comment:focus {
+.diff-file-box .lines-code:hover .ui.primary.button.add-code-comment,
+.ui.primary.button.add-code-comment:focus {
   opacity: 1;
 }
 
 .repository .diff-file-box .code-diff .add-comment-left,
 .repository .diff-file-box .code-diff .add-comment-right {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 767.98px) {
+  /* half a phone is too narrow for a conversation, so it borrows the empty side */
+  .code-diff-split .add-comment:not(:has(.add-comment-left .conversation-holder)) .conversation-holder {
+    position: relative;
+    margin-inline-start: -100%;
+  }
+  .code-diff-split .add-comment:not(:has(.add-comment-right .conversation-holder)) .conversation-holder {
+    position: relative;
+    margin-inline-end: -100%;
+  }
+  .code-diff-split .add-comment:not(:has(.add-comment-left .conversation-holder)) > .add-comment-right,
+  .code-diff-split .add-comment:not(:has(.add-comment-right .conversation-holder)) > .add-comment-right {
+    border-left: 0;
+  }
 }
 
 .comment-code-cloud {
-  padding: 0.5rem !important;
+  padding: 8px;
   position: relative;
 }
 
@@ -74,6 +92,7 @@
 
 .file-comment {
   color: var(--color-text);
+  font-size: var(--font-size-sm);
 }
 
 .code-expander-buttons {
@@ -84,25 +103,32 @@
   position: absolute;
   line-height: 12px;
   padding: 2px 4px;
-  font-size: 10px;
+  font-size: var(--font-size-xs);
   background-color: var(--color-primary);
   color: var(--color-primary-contrast);
-  border-radius: 8px !important;
+  border-radius: var(--border-radius-full);
   left: -12px;
   top: 6px;
   text-align: center;
 }
 
+@supports (corner-shape: squircle) {
+  .code-expander-buttons .code-comment-more {
+    corner-shape: round;
+  }
+}
+
 .code-expander-button {
   border: none;
   color: var(--color-text-light);
-  height: 28px;
+  height: var(--control-height-small);
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   background: var(--color-expand-button);
   flex: 1;
+  transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
 }
 
 /* expand direction "updown" is both ways with two buttons */
@@ -131,14 +157,15 @@
   max-width: calc(100vw - 70px); /* leave enough space on left, and align the page content */
 }
 
-.ui.button.review-box-button {
+.repository .diff-detail-box .ui.button.review-box-button {
   position: relative;
-  padding-right: 0.5em !important; /* override .repository .diff-detail-box .ui.button */
+  padding-right: 0.5em;
 }
 
 .review-box-button .review-comments-counter {
   background-color: var(--color-primary-light-4);
   color: var(--color-primary-contrast);
+  transition: background-color var(--duration-normal) var(--ease-standard);
 }
 
 .review-box-button:hover .review-comments-counter {
@@ -162,10 +189,10 @@
 .changed-since-last-review {
   border: 1px var(--color-accent) solid;
   background-color: var(--color-small-accent);
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-small);
   padding: 4px 8px;
   margin: -8px 0; /* just like other buttons in the diff box header */
-  font-size: 0.857rem; /* just like .ui.tiny.button */
+  font-size: var(--font-size-xs);
 }
 
 .viewed-file-form {
@@ -173,8 +200,10 @@
   align-items: center;
   border: 1px solid transparent;
   padding: 4px 8px;
-  border-radius: var(--border-radius);
-  font-size: 0.857rem; /* just like .ui.tiny.button */
+  border-radius: var(--border-radius-small);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  transition: background-color var(--duration-normal) var(--ease-standard), border-color var(--duration-normal) var(--ease-standard);
 }
 
 @media (max-width: 767.98px) {

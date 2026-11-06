@@ -7,18 +7,17 @@ body {
 .swagger-page-links {
   /* overlay the top-right of the info block by replicating swagger-ui's ".wrapper" and ".info" metrics */
   position: absolute;
-  top: 50px;
+  top: 44px;
   left: 0;
   right: 0;
-  max-width: 1460px;
+  width: var(--page-content-width);
+  max-width: calc(100% - 2 * var(--page-margin-x));
   margin: 0 auto;
-  padding: 0 20px;
-  box-sizing: border-box;
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
-  font-family: sans-serif;
-  font-size: 14px;
+  gap: var(--gap-block);
+  font-family: var(--fonts-regular);
+  font-size: var(--font-size-md);
   pointer-events: none; /* only the links themselves are clickable */
 }
 
@@ -26,25 +25,29 @@ body {
 @media (max-width: 991.98px) {
   .swagger-page-links {
     position: static;
-    padding: 10px 20px 0;
+    padding-block-start: var(--page-spacing);
     flex-wrap: wrap;
+    justify-content: flex-start;
   }
 }
 
-/* mimic the regular gitea button, the main site CSS is not loaded on this page */
 .swagger-page-links a {
   pointer-events: auto;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  height: 32px;
+  gap: var(--gap-inline);
+  height: var(--control-height);
   padding: 0 12px;
-  border-radius: 4px;
+  border-radius: var(--border-radius);
   background: var(--color-button);
   border: 1px solid var(--color-light-border);
   color: var(--color-text);
+  font-weight: var(--font-weight-medium);
   text-decoration: none;
   white-space: nowrap;
+  transition-property: background-color, box-shadow, transform;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-standard);
 }
 
 .swagger-page-links a:hover {
@@ -53,6 +56,12 @@ body {
 
 .swagger-page-links a:active {
   background: var(--color-active);
+  transform: scale(0.97);
+}
+
+.swagger-page-links a:focus-visible {
+  outline: 2px solid transparent;
+  box-shadow: var(--focus-ring);
 }
 
 .swagger-page-links svg {

@@ -189,9 +189,10 @@ watch([searchQuery, filteredFiles], async () => {
 <style scoped>
 .file-search-popup {
   position: absolute;
-  background: var(--color-box-body);
+  background: var(--color-menu);
   border: 1px solid var(--color-secondary);
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-popover);
   width: max-content;
   max-height: min(calc(100vw - 20px), 300px);
   max-width: min(calc(100vw - 40px), 600px);
@@ -208,6 +209,7 @@ watch([searchQuery, filteredFiles], async () => {
   padding: 0.5rem 0.75rem;
   cursor: pointer;
   border-bottom: 1px solid var(--color-secondary);
+  transition: background-color var(--duration-fast) var(--ease-standard);
 }
 
 .file-search-results .item:last-child {
@@ -230,7 +232,7 @@ watch([searchQuery, filteredFiles], async () => {
 }
 
 .file-search-results .item .full-path :nth-child(even) {
-  color: var(--color-red);
+  color: var(--color-primary);
   font-weight: var(--font-weight-semibold);
 }
 </style>

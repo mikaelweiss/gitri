@@ -7,7 +7,8 @@
   display: flex;
   justify-content: space-between; /* make the "::after" right-aligned */
   align-items: center;
-  padding: 16px 13px; /* match Fomantic menu item padding */
+  padding: 7px 10px;
+  cursor: pointer;
 }
 
 .ui.vertical.menu > details.item > summary::marker, /* Chrome, Edge, Firefox */
@@ -16,7 +17,7 @@
 }
 
 .ui.vertical.menu > details.item > summary::after {
-  transition: transform 0.25s ease;
+  transition: transform var(--duration-normal) var(--ease-standard);
   content: "";
   width: 14px;
   height: 14px;
@@ -30,6 +31,10 @@
   transform: rotate(90deg);
 }
 
+.ui.vertical.menu > details.item:not([open]):dir(rtl) > summary::after {
+  transform: scaleX(-1);
+}
+
 /* default toggleable details menu: items don't have menu item padding, don't change background color on hover or active */
 .ui.vertical.menu > details.item > .menu {
   margin: 0 0 10px; /* only need the space between the current details menu and next item */
@@ -41,7 +46,7 @@
 }
 
 .ui.vertical.menu > details.item > .menu.items-full-width > .item {
-  padding: 16px 13px; /* match Fomantic menu item padding */
+  padding: 7px 10px;
 }
 
 .ui.vertical.menu > details.item > .menu.items-full-width > .item.active {
@@ -50,4 +55,159 @@
 
 .ui.vertical.menu > details.item > .menu.items-full-width > .item:hover {
   background: var(--color-hover); /* ".ui.vertical.menu .menu .item" resets the hover background, so we need to add it again */
+}
+
+/* settings navigation: a grouped list, each row is a slice of the card so the group label can sit above it */
+.settings-layout > .flex-container-nav > .ui.vertical.menu {
+  background: none;
+  border: none;
+  border-radius: 0;
+}
+
+.settings-layout > .flex-container-nav > .ui.vertical.menu > .header.item {
+  padding: 0 1rem 6px;
+  background: none;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-light);
+}
+
+.settings-layout > .flex-container-nav > .ui.vertical.menu > .item:not(.header) {
+  background: var(--color-box-body);
+  border-inline: 1px solid var(--color-secondary);
+  border-radius: 0;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.settings-layout > .flex-container-nav > .ui.vertical.menu > details.item > .menu {
+  margin: 0;
+  padding-bottom: 10px; /* a margin would collapse through the "details" and open a gap in the card */
+}
+
+.settings-layout > .flex-container-nav > .ui.vertical.menu > .header.item + .item {
+  border-block-start: 1px solid var(--color-secondary);
+  border-start-start-radius: var(--border-radius-medium);
+  border-start-end-radius: var(--border-radius-medium);
+}
+
+.settings-layout > .flex-container-nav > .ui.vertical.menu > .item:last-child {
+  border-block-end: 1px solid var(--color-secondary);
+  border-end-start-radius: var(--border-radius-medium);
+  border-end-end-radius: var(--border-radius-medium);
+}
+
+.settings-layout > .flex-container-nav > .ui.vertical.menu > .item:not(.header)::before {
+  inset-inline: 1rem 0;
+  width: auto;
+}
+
+.settings-layout > .flex-container-nav > .ui.vertical.menu > :is(.header.item, .header.item + .item)::before {
+  display: none;
+}
+
+.settings-layout > .flex-container-nav > .ui.vertical.menu > a.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 1rem;
+}
+
+.settings-layout > .flex-container-nav > .ui.vertical.menu > details.item summary {
+  padding: 11px 1rem;
+}
+
+.settings-layout > .flex-container-nav > .ui.vertical.menu > a.item::after {
+  content: "";
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  mask-size: cover;
+  mask-image: var(--octicon-chevron-right);
+  background: currentcolor;
+  opacity: 0.35;
+}
+
+.settings-layout > .flex-container-nav > .ui.vertical.menu > a.item:dir(rtl)::after {
+  transform: scaleX(-1);
+}
+
+.settings-layout > .flex-container-nav > .ui.vertical.menu > details.item > summary::after {
+  opacity: 0.35;
+}
+
+.settings-layout > .flex-container-nav > .ui.vertical.menu > a.item:hover {
+  background: var(--color-hover-opaque);
+}
+
+.settings-layout > .flex-container-nav > .ui.vertical.menu > a.item.active {
+  background: linear-gradient(var(--color-active) 0 0), var(--color-box-body); /* the token is translucent, the card must show through it */
+  font-weight: var(--font-weight-medium);
+}
+
+.settings-layout > .flex-container-nav > .ui.vertical.menu :is(a.item, summary):focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  z-index: 1;
+}
+
+/* a table nested in a form has no card edge to line up with, and a phone needs the width */
+@media (max-width: 767.98px) {
+  .settings-layout .ui.form .ui.table > * > tr > :is(th, td) {
+    padding-inline: 6px;
+  }
+}
+
+/* settings sections: the danger zone stands apart from the cards above it */
+.settings-layout .ui.attached:not(.header) + .ui.top.attached.header {
+  margin-top: calc(var(--page-spacing) * 1.5);
+}
+
+.settings-layout .ui.attached:not(.header) + .ui.top.attached.error.header {
+  margin-top: calc(var(--page-spacing) * 3);
+}
+
+.settings-layout .ui.top.attached.error.header {
+  background: var(--color-error-bg);
+}
+
+/* the bar only floats while there is something to save, a clean form keeps it in the flow */
+.ui.form .form-save-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-block);
+  margin: 0 calc(-1 * var(--page-spacing)); /* bleeds over the segment padding */
+  padding: 0.75em var(--page-spacing) max(0.75em, env(safe-area-inset-bottom));
+  border-block-start: 1px solid var(--color-secondary);
+}
+
+.ui.form .form-save-bar > * {
+  flex-shrink: 0;
+  scroll-margin-block-end: calc(-1 * (var(--control-height) + 2em)); /* the bar sits in the scroll padding below, focusing it must not jump the page */
+}
+
+.ui.form:is(.form-dirty, .form-submitting) .form-save-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 4; /* above the fields and checkboxes, below open dropdown menus */
+  background: color-mix(in srgb, var(--color-box-body) 92%, transparent); /* stays readable where the blur is not composited */
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  animation: form-save-bar-in var(--duration-slow) var(--ease-standard);
+}
+
+@keyframes form-save-bar-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+.ui.attached.segment > .form-save-bar:last-child,
+.ui.attached.segment > form:last-child > .form-save-bar:last-child {
+  margin-bottom: calc(-1 * var(--page-spacing));
+  border-end-start-radius: var(--border-radius-medium);
+  border-end-end-radius: var(--border-radius-medium);
+}
+
+html:has(.form-dirty .form-save-bar) {
+  scroll-padding-block-end: calc(var(--control-height) + 2em); /* keyboard focus must land above the bar */
 }

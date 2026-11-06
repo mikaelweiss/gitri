@@ -108,6 +108,11 @@
 				{{template "shared/filetoolarge" dict "RawFileLink" .RawFileLink}}
 			{{else if not .FileSize}}
 				{{template "shared/fileisempty"}}
+				{{if and .Repository.CanContentChange .CanEditFile}}
+					<div class="file-not-rendered-prompt tw-pt-0">
+						<a class="ui small button" href="{{.RepoLink}}/_edit/{{PathEscapeSegments .BranchName}}/{{PathEscapeSegments .TreePath}}">{{ctx.Locale.Tr "repo.editor.edit_this_file"}}</a>
+					</div>
+				{{end}}
 			{{else if .RenderAsMarkup}}
 				{{.FileContent}}
 			{{else if .IsPlainText}}

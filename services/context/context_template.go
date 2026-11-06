@@ -196,6 +196,7 @@ func (c TemplateContext) WindowConfig() map[string]any {
 			"remove_label_str": locale.Tr("remove_label_str"),
 			"modal_confirm":    locale.Tr("modal.confirm"),
 			"modal_cancel":     locale.Tr("modal.cancel"),
+			"close":            locale.Tr("close"),
 			"more_items":       locale.Tr("more_items"),
 			"copy_success":     locale.Tr("copy_success"),
 			"copy_error":       locale.Tr("copy_error"),

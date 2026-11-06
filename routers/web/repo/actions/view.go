@@ -326,6 +326,8 @@ type ViewResponse struct {
 			TriggerEvent string `json:"triggerEvent"` // e.g. pull_request, push, schedule
 
 			JobSummaries []*ViewJobSummary `json:"jobSummaries,omitempty"`
+
+			RunnerNotice *RunnerNotice `json:"runnerNotice,omitempty"`
 		} `json:"run"`
 		CurrentJob struct {
 			Title  string         `json:"title"`
@@ -551,6 +553,12 @@ func ViewPost(ctx *context_module.Context) {
 	resp := &ViewResponse{}
 	fillViewRunResponseSummary(ctx, resp, run, attempt, jobs)
 	if ctx.Written() {
+		return
+	}
+	var err error
+	resp.State.Run.RunnerNotice, err = newRunRunnerNotice(ctx, jobs)
+	if err != nil {
+		ctx.ServerError("newRunRunnerNotice", err)
 		return
 	}
 	fillViewRunResponseCurrentJob(ctx, resp, run, jobs)

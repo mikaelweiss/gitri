@@ -9,7 +9,7 @@
 		"MarkdownEditorContext" (ctx.MiscUtils.MarkdownEditorComment $.Repository)
 		"TextareaName" "content"
 		"TextareaContent" $textareaContent
-		"TextareaPlaceholder" (ctx.Locale.Tr "repo.diff.comment.placeholder")
+		"TextareaPlaceholder" (ctx.Locale.Tr (Iif .Issue "repo.diff.comment.placeholder" "repo.issues.new.description_placeholder"))
 		"DropzoneParentContainer" "form, .ui.form"
 	)}}
 </div>

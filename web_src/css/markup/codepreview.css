@@ -1,6 +1,6 @@
 .markup .code-preview-container {
   border: 1px solid var(--color-secondary);
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-medium);
   margin: 0.25em 0;
 }
 
@@ -8,7 +8,7 @@
   color: var(--color-text-light-1);
   border-bottom: 1px solid var(--color-secondary);
   padding: 0.5em;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
 }
 
 .markup .code-preview-container table {
@@ -16,6 +16,9 @@
   max-height: 240px; /* 12 lines at 20px per line */
   overflow-y: auto;
   margin: 0; /* override ".markup table {margin}" */
+  border: 0;
+  border-radius: 0;
+  border-collapse: collapse;
 }
 
 /* workaround to hide empty p before container - more details are in "html_codepreview.go" */
@@ -24,13 +27,10 @@
 }
 
 /* override the polluted styles from the content.css: ".markup table ..." */
-.markup .code-preview-container table tr {
-  border: 0 !important;
-}
 .markup .code-preview-container table td {
-  border: 0 !important;
-  padding: 0 0 0 5px !important;
+  border: 0;
+  padding: 0 0 0 5px;
 }
 .markup .code-preview-container table tr:nth-child(2n) {
-  background: none !important;
+  background: none;
 }

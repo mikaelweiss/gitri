@@ -34,6 +34,19 @@ test('createTippy handles keys in menus only', async () => {
   panelButton.remove();
 });
 
+test('createTippy closes a popup that closes on outside click with Escape', async () => {
+  const button = createElementFromHTML('<button>panel</button>');
+  document.body.append(button);
+  const panel = createTippy(button, {content: createElementFromHTML('<div><textarea></textarea></div>'), trigger: 'manual', interactive: true, hideOnClick: true});
+  panel.show();
+  panel.popper.querySelector('textarea')!.focus();
+  await userEvent.keyboard('{Escape}');
+  expect(panel.state.isVisible).toBe(false);
+  expect(document.activeElement).toBe(button);
+  panel.destroy();
+  button.remove();
+});
+
 test('availableSizeForPlacement', () => {
   const rect = (values: Partial<DOMRect>) => values as DOMRect;
   vi.spyOn(window, 'innerHeight', 'get').mockReturnValue(1000);

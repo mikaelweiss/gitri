@@ -23,7 +23,7 @@
 				"ClosedMilestones" .ClosedMilestones
 			}}
 		</div>
-		<div class="ui compact mini menu">
+		<div class="ui compact mini menu tw-flex-wrap tw-shrink">
 			<a class="item" href="{{.Link}}/workflows">
 				{{svg "octicon-workflow"}}
 				{{ctx.Locale.Tr "projects.workflows"}}
@@ -83,7 +83,7 @@
 
 	<div id="project-board" class="board {{if $canWriteProject}}sortable{{end}}" data-project-board-writable="{{$canWriteProject}}" {{if $canWriteProject}}data-url="{{$.Link}}/move"{{end}}>
 		{{range .Columns}}
-			<div class="project-column" {{if .Color}}style="background: {{.Color}} !important; color: {{ContrastColor .Color}} !important"{{end}} data-id="{{.ID}}" data-sorting="{{.Sorting}}" data-url="{{$.Link}}/{{.ID}}">
+			<div class="project-column" {{if .Color}}style="background: {{.Color}}; color: {{ContrastColor .Color}}"{{end}} data-id="{{.ID}}" data-sorting="{{.Sorting}}" data-url="{{$.Link}}/{{.ID}}">
 				<div class="project-column-header{{if $canWriteProject}} tw-cursor-grab{{end}}">
 					<div class="ui circular label project-column-issue-count">
 						{{.NumIssues}}
@@ -123,7 +123,7 @@
 						</div>
 					{{end}}
 				</div>
-				<div class="divider"{{if .Color}} style="color: {{ContrastColor .Color}} !important"{{end}}></div>
+				<div class="divider"{{if .Color}} style="color: {{ContrastColor .Color}}"{{end}}></div>
 				<div class="ui cards" data-url="{{$.Link}}/{{.ID}}" data-project="{{$.Project.ID}}" data-board="{{.ID}}" id="board_{{.ID}}">
 					{{range (index $.IssuesMap .ID)}}
 						<div class="issue-card tw-break-anywhere {{if $canWriteProject}}tw-cursor-grab{{end}}" data-issue="{{.ID}}">

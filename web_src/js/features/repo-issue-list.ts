@@ -2,9 +2,9 @@ import {toggleElem, queryElems} from '../utils/dom.ts';
 import {html, htmlRaw} from '../utils/html.ts';
 import {confirmModal} from './comp/ConfirmModal.ts';
 import {createSortable} from '../modules/sortable.ts';
-import {DELETE, POST} from '../modules/fetch.ts';
+import {DELETE} from '../modules/fetch.ts';
 import {fomanticQuery} from '../modules/fomantic/base.ts';
-import {performFetchAction} from '../modules/fetch-action.ts';
+import {performFetchAction, performFetchActionRequest} from '../modules/fetch-action.ts';
 import {registerGlobalInitFunc} from '../modules/observer.ts';
 import type {SortableEvent} from 'sortablejs';
 
@@ -155,7 +155,8 @@ function initPinRemoveButton() {
 async function pinMoveEnd(e: SortableEvent) {
   const url = e.item.getAttribute('data-move-url')!;
   const id = Number(e.item.getAttribute('data-issue-id'));
-  await POST(url, {data: {id, position: e.newIndex! + 1}});
+  const resp = await performFetchActionRequest(e.item, {method: 'POST', url, data: {id, position: e.newIndex! + 1}});
+  if (!resp) e.from.insertBefore(e.item, e.from.children[e.oldIndex!]);
 }
 
 function initIssuePinSort(pinDiv: HTMLElement) {

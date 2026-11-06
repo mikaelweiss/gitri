@@ -100,7 +100,8 @@ class ImageDiff {
     this.containerEl = containerEl;
 
     // the container may be hidden by "viewed" checkbox, so use the parent's width for reference
-    this.diffContainerWidth = Math.max(containerEl.closest('.diff-file-box')!.clientWidth - 300, 100);
+    const fileBoxWidth = containerEl.closest('.diff-file-box')!.clientWidth;
+    this.diffContainerWidth = Math.max(fileBoxWidth - 300, Math.min(fileBoxWidth - 48, 400));
 
     const imagePair: [ImageInfo, ImageInfo] = [{
       path: containerEl.getAttribute('data-path-after'),

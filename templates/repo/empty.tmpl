@@ -16,9 +16,28 @@
 				{{end}}
 
 				{{if .Repository.IsBroken}}
-					<div class="ui segment center">{{ctx.Locale.Tr "repo.broken_message"}}</div>
+					<div class="ui segment">
+						<div class="empty-placeholder">
+							{{svg "octicon-alert" 48}}
+							<h2>{{ctx.Locale.Tr "repo.broken_title"}}</h2>
+							<p>{{ctx.Locale.Tr "repo.broken_message"}}</p>
+							{{if .Permission.IsAdmin}}
+								<a class="ui primary button" href="{{.RepoLink}}/settings">{{ctx.Locale.Tr "repo.settings"}}</a>
+							{{end}}
+						</div>
+					</div>
 				{{else if .RepoHasContentsWithoutBranch}}
-					<div class="ui segment center">{{ctx.Locale.Tr "repo.no_branch"}}</div>
+					<div class="ui segment">
+						<div class="empty-placeholder">
+							{{svg "octicon-git-branch" 48}}
+							<h2>{{ctx.Locale.Tr "repo.no_branch"}}</h2>
+							{{if and .CanWriteCode (not .Repository.IsArchived)}}
+								<a class="ui primary button" href="{{.RepoLink}}/_new/{{.BranchName | PathEscapeSegments}}/">{{ctx.Locale.Tr "repo.editor.new_file"}}</a>
+							{{else}}
+								<a class="ui button" href="{{.Repository.Owner.HomeLink}}">{{ctx.Locale.Tr "repo.empty_browse_owner" .Repository.Owner.Name}}</a>
+							{{end}}
+						</div>
+					</div>
 				{{else if .CanWriteCode}}
 					<h4 class="ui top attached header">{{ctx.Locale.Tr "repo.quick_guide"}}</h4>
 					<div class="ui attached segment empty-repo-guide flex-relaxed-list">
@@ -67,11 +86,17 @@ git push -u {{$gitRemoteName}} {{.Repository.DefaultBranch}}</code></pre>
 								</div>
 							</div>
 						{{else}}
-							<div class="item">HTTPS and SSH clones are disabled, you can only modify the repository via Gitea's web UI.</div>
+							<div class="item">{{ctx.Locale.Tr "repo.clone_disabled_web_only"}}</div>
 						{{end}}
 					</div>
 				{{else}}
-					<div class="ui segment center">{{ctx.Locale.Tr "repo.empty_message"}}</div>
+					<div class="ui segment">
+						<div class="empty-placeholder">
+							{{svg "octicon-repo" 48}}
+							<h2>{{ctx.Locale.Tr "repo.empty_message"}}</h2>
+							<a class="ui button" href="{{.Repository.Owner.HomeLink}}">{{ctx.Locale.Tr "repo.empty_browse_owner" .Repository.Owner.Name}}</a>
+						</div>
+					</div>
 				{{end}}
 			</div>
 		</div>

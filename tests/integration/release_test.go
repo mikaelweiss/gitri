@@ -144,10 +144,10 @@ func TestViewReleaseListNoLogin(t *testing.T) {
 		"/user2/repo-release/releases/tag/v1.0",
 	}, links)
 	assert.Equal(t, []string{
-		"1 commits", // like v1.1
-		"1 commits", // like v1.1
+		"1 commit", // like v1.1
+		"1 commit", // like v1.1
 		"0 commits",
-		"1 commits", // should be 3 commits ahead and 2 commits behind, but not implemented yet
+		"1 commit", // should be 3 commits ahead and 2 commits behind, but not implemented yet
 		"3 commits",
 	}, commitsToMain)
 }

@@ -13,7 +13,7 @@
 		</h2>
 		{{template "base/alert" .}}
 
-		<form class="ui form form-fetch-action" action="{{.Link}}" id="new-release" method="post" data-global-init="initReleaseEditForm"
+		<form class="ui form segment form-fetch-action" action="{{.Link}}" id="new-release" method="post" data-global-init="initReleaseEditForm"
 			data-existing-tags="{{JsonUtils.EncodeToString .Tags}}"
 			data-tag-helper="{{ctx.Locale.Tr "repo.release.tag_helper"}}"
 			data-tag-helper-new="{{ctx.Locale.Tr "repo.release.tag_helper_new"}}"
@@ -125,7 +125,7 @@
 				<div class="help tw-block tw-ml-[21px]">{{ctx.Locale.Tr "repo.release.make_latest_helper"}}</div>
 			</div>
 
-			<div class="flex-text-block tw-justify-end">
+			<div class="flex-text-block tw-flex-wrap tw-justify-end">
 				{{if .PageIsEditRelease}}
 					<a class="ui small button" href="{{.RepoLink}}/releases">
 						{{ctx.Locale.Tr "repo.release.cancel"}}

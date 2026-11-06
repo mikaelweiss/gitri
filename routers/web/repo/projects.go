@@ -123,6 +123,7 @@ func Projects(ctx *context.Context) {
 // RenderNewProject render creating a project page
 func RenderNewProject(ctx *context.Context) {
 	ctx.Data["Title"] = ctx.Tr("repo.projects.new")
+	ctx.Data["IsProjectsPage"] = true
 	ctx.Data["TemplateConfigs"] = project_model.GetTemplateConfigs()
 	ctx.Data["CardTypes"] = project_model.GetCardConfig()
 	ctx.Data["CanWriteProjects"] = ctx.Repo.Permission.CanWrite(unit.TypeProjects)
@@ -134,6 +135,7 @@ func RenderNewProject(ctx *context.Context) {
 func NewProjectPost(ctx *context.Context) {
 	form := web.GetForm[*forms.CreateProjectForm](ctx)
 	ctx.Data["Title"] = ctx.Tr("repo.projects.new")
+	ctx.Data["IsProjectsPage"] = true
 
 	if ctx.HasError() {
 		RenderNewProject(ctx)
@@ -209,6 +211,7 @@ func DeleteProject(ctx *context.Context) {
 // RenderEditProject allows a project to be edited
 func RenderEditProject(ctx *context.Context) {
 	ctx.Data["Title"] = ctx.Tr("repo.projects.edit")
+	ctx.Data["IsProjectsPage"] = true
 	ctx.Data["PageIsEditProjects"] = true
 	ctx.Data["CanWriteProjects"] = ctx.Repo.Permission.CanWrite(unit.TypeProjects)
 	ctx.Data["CardTypes"] = project_model.GetCardConfig()
@@ -243,6 +246,7 @@ func EditProjectPost(ctx *context.Context) {
 	projectID := ctx.PathParamInt64("id")
 
 	ctx.Data["Title"] = ctx.Tr("repo.projects.edit")
+	ctx.Data["IsProjectsPage"] = true
 	ctx.Data["PageIsEditProjects"] = true
 	ctx.Data["CanWriteProjects"] = ctx.Repo.Permission.CanWrite(unit.TypeProjects)
 	ctx.Data["CardTypes"] = project_model.GetCardConfig()

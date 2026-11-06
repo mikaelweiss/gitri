@@ -3,11 +3,13 @@ import {hideToastsAll, showErrorToast} from './toast.ts';
 import {activePageTimerRefresh, addDelegatedEventListener, createElementFromHTML, queryElems} from '../utils/dom.ts';
 import {errorMessage, errorName} from './errors.ts';
 import {confirmModal, createConfirmModal} from '../features/comp/ConfirmModal.ts';
-import {ignoreAreYouSure} from './are-you-sure.ts';
+import {ignoreAreYouSure, recheckAreYouSure} from './are-you-sure.ts';
 import {registerGlobalSelectorFunc} from './observer.ts';
 import {Idiomorph} from 'idiomorph';
 import {parseDom} from '../utils.ts';
 import {html} from '../utils/html.ts';
+import {initFormSubmitState, startFormSubmitting, stopFormSubmitting} from '../features/form-submit-state.ts';
+import {initScrollRestore, saveScrollPosition} from '../features/scroll-restore.ts';
 import type {RequestData} from '../types.ts';
 
 const {appSubUrl, runModeIsProd} = window.config;
@@ -18,6 +20,9 @@ type FetchActionOpts = {
   headers?: HeadersInit;
   data?: RequestData;
   formSubmitter?: HTMLElement | null;
+
+  // the form's submit button shows the loading state instead of "loadingIndicator"
+  isFormSubmit?: boolean;
 
   // pseudo selectors/commands to update the current page with the response text when the response is text (html)
   // e.g.: "$this", "$innerHTML", "$closest(tr) td .the-class", "$body #the-id"
@@ -31,6 +36,8 @@ type FetchActionOpts = {
 // fetchActionDoRedirect does real redirection to bypass the browser's limitations of "location"
 // more details are in the backend's fetch-redirect handler
 function fetchActionDoRedirect(redirect: string) {
+  saveScrollPosition();
+
   // In production, if the link can be directly navigated by browser, we just do normal redirection, which is faster.
   // Otherwise, need to use backend to do redirection:
   // * Also do so in development, to make sure the redirection logic is always tested by real users
@@ -48,23 +55,18 @@ function fetchActionDoRedirect(redirect: string) {
 }
 
 function toggleLoadingIndicator(el: HTMLElement, opt: FetchActionOpts, isLoading: boolean) {
+  if (opt.isFormSubmit) {
+    if (isLoading) startFormSubmitting(el as HTMLFormElement, opt.formSubmitter);
+    else stopFormSubmitting(el as HTMLFormElement);
+    return;
+  }
   const loadingIndicatorElems = opt.loadingIndicator ? execPseudoSelectorCommands(el, opt.loadingIndicator).targets : [];
   for (const indicatorEl of loadingIndicatorElems) {
-    if (isLoading) {
-      // for button or input element, we can directly disable it, it looks better than adding a loading spinner
-      if ('disabled' in indicatorEl) {
-        indicatorEl.disabled = true;
-      } else {
-        indicatorEl.classList.add('is-loading');
-        if (indicatorEl.clientHeight < 50) indicatorEl.classList.add('loading-icon-2px');
-      }
-    } else {
-      if ('disabled' in indicatorEl) {
-        indicatorEl.disabled = false;
-      } else {
-        indicatorEl.classList.remove('is-loading', 'loading-icon-2px');
-      }
-    }
+    const canDisable = 'disabled' in indicatorEl;
+    if (canDisable) indicatorEl.disabled = isLoading;
+    if (canDisable && !indicatorEl.matches('.ui.button')) continue; // a disabled input needs no spinner
+    indicatorEl.classList.toggle('is-loading', isLoading);
+    indicatorEl.classList.toggle('loading-icon-2px', isLoading && indicatorEl.clientHeight < 50);
   }
 }
 
@@ -75,21 +77,26 @@ export function handleFetchActionSuccessJson(el: HTMLElement, respJson: {redirec
     fetchActionDoRedirect(redirect);
   } else {
     // reserved behavior, in the future, there can be more fields to introduce more behaviors
+    saveScrollPosition();
     window.location.reload();
   }
 }
 
-async function handleFetchActionSuccess(el: HTMLElement, opt: FetchActionOpts, resp: Response) {
+// returns true when the page is being left, so the caller keeps its loading state until the navigation replaces it
+async function handleFetchActionSuccess(el: HTMLElement, opt: FetchActionOpts, resp: Response): Promise<boolean> {
   const isRespJson = resp.headers.get('content-type')?.includes('application/json');
   const respText = await resp.text();
   const respJson = isRespJson ? JSON.parse(respText) : null;
   if (isRespJson) {
     handleFetchActionSuccessJson(el, respJson);
-  } else if (opt.successSync) {
+    return true;
+  }
+  if (opt.successSync) {
     await handleFetchActionSuccessSync(el, opt.successSync, respText);
   } else {
     showErrorToast(`Unsupported fetch action response, expected JSON but got: ${respText.substring(0, 200)}`);
   }
+  return false;
 }
 
 function resetFormErrorFields(elForm: HTMLFormElement) {
@@ -180,11 +187,19 @@ export async function performFetchActionRequest(el: HTMLElement, opt: FetchActio
   return null;
 }
 
-// Use "fetch" to send a request and fully handle its response
-export async function performFetchAction(el: HTMLElement, opt: FetchActionOpts) {
-  if (!await confirmFetchAction(opt.formSubmitter ?? el)) return;
+// Use "fetch" to send a request and fully handle its response, returns false when it was cancelled or failed
+export async function performFetchAction(el: HTMLElement, opt: FetchActionOpts): Promise<boolean> {
+  if (!await confirmFetchAction(opt.formSubmitter ?? el)) return false;
   const resp = await performFetchActionRequest(el, opt);
-  if (resp) await handleFetchActionSuccess(el, opt, resp);
+  if (!resp) return false;
+  if (opt.isFormSubmit) toggleLoadingIndicator(el, opt, true);
+  let isLeavingPage = false;
+  try {
+    isLeavingPage = await handleFetchActionSuccess(el, opt, resp);
+  } finally {
+    if (opt.isFormSubmit && !isLeavingPage) toggleLoadingIndicator(el, opt, false);
+  }
+  return true;
 }
 
 type SubmitFormFetchActionOpts = {
@@ -221,7 +236,7 @@ function prepareFormFetchActionOpts(formEl: HTMLFormElement, opts: SubmitFormFet
     url: reqUrl,
     data: reqBody,
     formSubmitter: opts.formSubmitter,
-    loadingIndicator: '$this', // for form submit, by default, the loading indicator is the whole form
+    isFormSubmit: true,
     successSync: formEl.getAttribute('data-fetch-sync') ?? '', // by default, no fetch sync for form submit
   };
 }
@@ -229,7 +244,7 @@ function prepareFormFetchActionOpts(formEl: HTMLFormElement, opts: SubmitFormFet
 export async function submitFormFetchAction(elForm: HTMLFormElement, opts: SubmitFormFetchActionOpts = {}) {
   hideToastsAll();
   resetFormErrorFields(elForm);
-  await performFetchAction(elForm, prepareFormFetchActionOpts(elForm, opts));
+  if (!await performFetchAction(elForm, prepareFormFetchActionOpts(elForm, opts))) recheckAreYouSure(elForm); // the "submit" event already cleared the dirty state
 }
 
 async function confirmFetchAction(el: HTMLElement) {
@@ -446,10 +461,6 @@ export function initGlobalFetchAction() {
 
   registerGlobalSelectorFunc('[data-fetch-url]', initFetchActionTrigger);
 
-  // when the page is reloaded after a fetch action, scroll to the flash message if any
-  const elFlashMessage = document.querySelector('.ui.message.flash-message');
-  if (elFlashMessage) {
-    window.history.scrollRestoration = 'manual';
-    elFlashMessage?.scrollIntoView({block: 'center'});
-  }
+  initFormSubmitState();
+  initScrollRestore();
 }

@@ -19,15 +19,15 @@
 			{{end}}
 			{{if .ShowDiffSummaryInToolbar}}
 				<div class="diff-detail-stats tw-flex tw-items-center tw-flex-wrap">
-					{{svg "octicon-diff" 16 "tw-mr-1"}}{{ctx.Locale.Tr "repo.diff.stats_desc" .DiffShortStat.NumFiles .DiffShortStat.TotalAddition .DiffShortStat.TotalDeletion}}
+					{{svg "octicon-diff" 16 "tw-mr-1"}}{{if ctx.Locale.HasOwnKey "repo.diff.stats_desc_summary"}}{{ctx.Locale.Tr "repo.diff.stats_desc_summary" (ctx.Locale.TrN .DiffShortStat.NumFiles "repo.diff.num_files_changed_1" "repo.diff.num_files_changed_n" .DiffShortStat.NumFiles) (ctx.Locale.TrN .DiffShortStat.TotalAddition "repo.activity.git_stats_addition_1" "repo.activity.git_stats_addition_n" .DiffShortStat.TotalAddition) (ctx.Locale.TrN .DiffShortStat.TotalDeletion "repo.activity.git_stats_deletion_1" "repo.activity.git_stats_deletion_n" .DiffShortStat.TotalDeletion)}}{{else}}{{ctx.Locale.Tr "repo.diff.stats_desc" .DiffShortStat.NumFiles .DiffShortStat.TotalAddition .DiffShortStat.TotalDeletion}}{{end}}
 				</div>
 			{{end}}
 		</div>
 		<div class="diff-detail-actions">
 			{{if and .PageIsPullFiles $.SignedUserID (not .DiffNotAvailable)}}
 				<div class="not-mobile tw-flex tw-items-center tw-flex-col tw-whitespace-nowrap tw-mr-1">
-					<label for="viewed-files-summary" id="viewed-files-summary-label" data-text-changed-template="{{ctx.Locale.Tr "repo.pulls.viewed_files_label"}}">
-						{{ctx.Locale.Tr "repo.pulls.viewed_files_label" .NumViewedFiles .DiffShortStat.NumFiles}}
+					<label for="viewed-files-summary" id="viewed-files-summary-label" data-text-changed-template="{{ctx.Locale.TrN .DiffShortStat.NumFiles "repo.pulls.viewed_files_label_1" "repo.pulls.viewed_files_label"}}">
+						{{ctx.Locale.TrN .DiffShortStat.NumFiles "repo.pulls.viewed_files_label_1" "repo.pulls.viewed_files_label" .NumViewedFiles .DiffShortStat.NumFiles}}
 					</label>
 					<progress id="viewed-files-summary" value="{{.NumViewedFiles}}" max="{{.DiffShortStat.NumFiles}}"></progress>
 				</div>
@@ -146,7 +146,7 @@
 									</label>
 								{{end}}
 								{{if not $file.IsSubmodule}}
-									<button type="button" class="btn tw-p-1" data-global-init="initDiffHeaderPopupMenu">{{svg "octicon-kebab-horizontal" 18}}</button>
+									<button type="button" class="btn interact-bg tw-p-1" data-global-init="initDiffHeaderPopupMenu">{{svg "octicon-kebab-horizontal" 18}}</button>
 									<div class="tippy-target">
 										{{if not (or $file.IsIncomplete $file.IsBin)}}
 											<button type="button" class="unescape-button item" data-unicode-content-selector="#diff-{{$file.NameHash}}">{{ctx.Locale.Tr "repo.unescape_control_characters"}}</button>

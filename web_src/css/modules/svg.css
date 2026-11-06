@@ -6,6 +6,10 @@
   fill: currentcolor;
 }
 
+.svg:is(.octicon-chevron-left, .octicon-chevron-right, .octicon-arrow-left, .octicon-arrow-right):dir(rtl) {
+  transform: scaleX(-1);
+}
+
 /* some browsers like Chrome have a bug: when a SVG is in a "display: none" container and referenced
  somewhere else by `<use href="#id">`, it won't be rendered correctly. e.g.: ".kts -> kotlin" */
 .svg-icon-container {

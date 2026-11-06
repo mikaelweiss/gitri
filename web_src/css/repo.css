@@ -1,10 +1,61 @@
 .repo-header {
-  padding: 1em 0 0.25em;
+  padding: 20px 0 8px;
+}
+
+.repo-header-title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  min-width: 0;
+  font-family: var(--fonts-headline);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: 1.15;
+}
+
+/* lets long names break, "overflow-wrap: anywhere" here wraps short titles in Firefox because of the negative letter-spacing */
+.repo-header-title > a {
+  min-width: 0;
+}
+
+.repo-header-separator {
+  margin: 0 3px;
+}
+
+.repo-header-separator,
+.repo-header a.repo-header-owner:not(:hover) {
+  color: var(--color-text-light-2);
+}
+
+.repo-header-separator,
+.repo-header a.repo-header-owner {
+  font-weight: var(--font-weight-normal);
+}
+
+@media (max-width: 767.98px) {
+  .repo-header-title {
+    font-size: var(--font-size-2xl);
+  }
+
+  /* the switcher's menu grows with its loaded items, so it hangs from the name and not from the arrow */
+  :has(> [data-global-init="initRepoSwitcher"]) {
+    position: relative;
+  }
+
+  .ui.dropdown[data-global-init="initRepoSwitcher"] {
+    position: static;
+  }
+
+  .ui.ui.ui.dropdown[data-global-init="initRepoSwitcher"] > .menu {
+    inset-inline: 0 auto;
+  }
 }
 
 .secondary-nav .secondary-info {
   margin-top: 0.25em;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-light-2);
 }
 
 .repository .data-table .line-num,
@@ -14,13 +65,13 @@
 }
 
 .repository .owner.dropdown {
-  min-width: 40% !important;
+  min-width: 40%;
 }
 
 .issue-content {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
+  gap: var(--page-spacing);
 }
 
 @media (max-width: 767.98px) {
@@ -30,13 +81,17 @@
 }
 
 .issue-content-left {
-  margin: 0 !important;
-  width: calc(100% - 316px);
+  width: calc(100% - 300px - var(--page-spacing));
 }
 
-.issue-content-right {
-  margin: 0 !important;
+.ui.segment.issue-content-right {
+  margin: 0;
   width: 300px;
+  font-size: var(--font-size-sm);
+}
+
+.issue-content-right > .divider {
+  margin-block: 12px;
 }
 
 .issue-content-right .ui.dropdown.full-width {
@@ -85,6 +140,19 @@
   padding: 8px;
 }
 
+.issue-sidebar-combo .fixed-text {
+  font-size: var(--font-size-sm);
+}
+
+.issue-sidebar-combo .fixed-text svg {
+  color: var(--color-text-light-2);
+  transition: color var(--duration-normal) var(--ease-standard);
+}
+
+.issue-sidebar-combo .fixed-text:hover svg {
+  color: var(--color-primary);
+}
+
 .issue-content-right .ui.list.labels-list {
   display: flex;
   gap: var(--gap-inline);
@@ -92,12 +160,33 @@
 }
 
 .issue-content-right .empty-list {
-  font-size: 12px;
+  color: var(--color-text-light-2);
+  font-size: var(--font-size-xs);
+}
+
+/* empty sections recede so the ones with content stand out */
+.issue-sidebar-combo:has(> .ui.list > .empty-list:not(.tw-hidden)),
+.issue-sidebar-section:has(.empty-list) {
+  margin-block: -4px;
+}
+
+.issue-sidebar-combo:has(> .ui.list > .empty-list:not(.tw-hidden)) strong,
+.issue-sidebar-section:has(.empty-list) strong {
+  color: var(--color-text-light-2);
+  font-weight: var(--font-weight-medium);
+}
+
+.issue-content-right .issue-sidebar-combo:has(> .ui.list > .empty-list:not(.tw-hidden)) > .ui.list {
+  margin-block: 2px 0;
+}
+
+.issue-sidebar-section p.empty-list {
+  margin: 2px 0 6px;
 }
 
 @media (max-width: 767.98px) {
   .issue-content-left,
-  .issue-content-right {
+  .ui.segment.issue-content-right {
     width: 100%;
   }
 }
@@ -118,17 +207,6 @@
   min-width: max-content;
   right: unset;
   left: 0;
-}
-
-/* For the secondary pointing menu, respect its own border-bottom */
-/* style reference: https://semantic-ui.com/collections/menu.html#pointing */
-.repository .ui.tabs.container .ui.menu:not(.secondary.pointing) {
-  border-bottom: 0;
-}
-
-.repository .ui.tabs.divider {
-  margin-top: -1px;
-  margin-bottom: 12px;
 }
 
 .latest-commit .commit-summary,
@@ -161,13 +239,20 @@
 
 .non-diff-file-content .header .file-actions .btn-octicon {
   line-height: var(--line-height-default);
-  padding: 8px;
+  padding: 6px;
+  border-radius: var(--border-radius);
   vertical-align: middle;
   color: var(--color-text);
+  transition: color var(--duration-fast) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
 }
 
 .non-diff-file-content .header .file-actions .btn-octicon:hover {
   color: var(--color-primary);
+  background: var(--color-hover);
+}
+
+.non-diff-file-content .header .file-actions .btn-octicon:active {
+  transform: scale(0.97);
 }
 
 .non-diff-file-content .header .file-actions .btn-octicon-danger:hover {
@@ -176,7 +261,9 @@
 
 .non-diff-file-content .header .file-actions .btn-octicon.disabled {
   color: inherit;
+  background: none;
   opacity: var(--opacity-disabled);
+  transform: none;
   cursor: default;
 }
 
@@ -191,7 +278,7 @@
 
 .non-diff-file-content .csv {
   overflow-x: auto;
-  padding: 0 !important;
+  padding: 0;
 }
 
 .non-diff-file-content pre {
@@ -207,12 +294,22 @@
   width: 100%;
 }
 
-.repo-editor-header input {
-  vertical-align: middle !important;
-  width: auto !important;
-  height: 30px !important;
-  padding: 5px 8px !important;
-  margin-right: 5px !important;
+.ui.form .repo-editor-header #file-name {
+  vertical-align: middle;
+  width: auto;
+  height: var(--control-height);
+  padding: 5px 8px;
+  margin-right: 5px;
+}
+
+.repo-button-row-left .breadcrumb,
+.repo-editor-header .breadcrumb {
+  font-size: var(--font-size-lg);
+  letter-spacing: var(--letter-spacing-snug);
+}
+
+.repo-button-row-left .breadcrumb .active.section {
+  font-weight: var(--font-weight-semibold);
 }
 
 .repository.file.editor .commit-form-wrapper {
@@ -226,50 +323,21 @@
 
 .repository.file.editor .commit-form-wrapper .commit-form {
   position: relative;
-  padding: 15px;
+  padding: 16px;
   margin-bottom: 10px;
   border: 1px solid var(--color-secondary);
   background: var(--color-box-body);
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-card);
 }
 
-.avatar-content-left-arrow::before,
-.avatar-content-left-arrow::after {
-  right: 100%;
-  top: 20px;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-}
-
-.avatar-content-left-arrow::before {
-  border-right-color: var(--color-secondary);
-  border-width: 9px;
-  margin-top: -9px;
-}
-
-.avatar-content-left-arrow::after {
-  border-right-color: var(--color-box-body);
-  border-width: 8px;
-  margin-top: -8px;
-}
-
-@media (max-width: 767.98px) {
-  .avatar-content-left-arrow::before,
-  .avatar-content-left-arrow::after {
-    display: none;
-  }
-}
 .repository.file.editor .commit-form-wrapper .commit-form .quick-pull-choice .branch-name {
   display: inline-block;
   padding: 2px 4px;
-  font: 12px var(--fonts-monospace);
+  font: var(--font-size-xs) var(--fonts-monospace);
   color: var(--color-text);
-  background: var(--color-secondary);
-  border-radius: var(--border-radius);
+  background: var(--color-label-bg);
+  border-radius: var(--border-radius-small);
   margin: 0 2px;
 }
 
@@ -279,19 +347,19 @@
 }
 
 .repository.file.editor .commit-form-wrapper .commit-form .quick-pull-choice .new-branch-name-input input {
-  width: 240px !important;
-  padding-left: 26px !important;
+  width: 240px;
+  padding-left: 26px;
 }
 
 .repository.file.editor .commit-form-wrapper .commit-form .quick-pull-choice .octicon-git-branch {
   position: absolute;
-  top: 9px;
+  top: calc((var(--control-height) - 16px) / 2);
   left: 10px;
   color: var(--color-grey);
 }
 
 .repository.options #interval {
-  width: 100px !important;
+  width: 100px;
   min-width: 100px;
 }
 
@@ -299,17 +367,19 @@
 .issue-title-header {
   width: 100%;
   padding-bottom: 4px;
-  margin-bottom: 1rem;
+  margin-bottom: var(--page-spacing);
 }
 
 .repository.view.issue .issue-title-buttons {
   display: flex;
-  gap: 0.5em;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px; /* vertically center with the first line of the title */
 }
 
 .repository.view.issue .issue-title-buttons > .ui.button {
   margin: 0;
-  height: 35px;
+  height: var(--control-height);
 }
 
 .repository.view.issue .issue-title {
@@ -322,9 +392,11 @@
 .repository.view.issue .issue-title h1 {
   flex: 1;
   width: 100%;
-  font-weight: var(--font-weight-normal);
-  font-size: 32px;
-  line-height: 36px; /* vertically center single-line text with .issue-title-buttons */
+  font-family: var(--fonts-headline);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-3xl);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: 36px;
   margin: 0;
   padding-right: 0.25rem;
   overflow-wrap: anywhere;
@@ -338,29 +410,46 @@
     width: 100%;
     justify-content: space-between;
   }
+  .repository.view.issue .issue-title-buttons:not(:has(> *)) {
+    display: none;
+  }
 }
 
 .repository.view.issue .issue-title .ui.input {
+  align-self: center;
   width: 100%;
-  height: 35px;
+  height: var(--control-height);
 }
 
 .repository.view.issue .issue-title .ui.input input {
-  font-size: 1.5em;
-  padding: 2px .5rem;
+  font-size: var(--font-size-xl);
+  padding: 2px 10px;
 }
 
 .issue-title .index {
   color: var(--color-text-light-2);
+  font-weight: var(--font-weight-normal);
 }
 
-.issue-state-label {
-  display: flex !important;
-  align-items: center !important;
-  font-size: 14px !important;
-  padding: 7px 10px !important;
-  border-radius: var(--border-radius-medium) !important;
+.issue-title-meta {
+  color: var(--color-text-light-2);
+  font-size: var(--font-size-sm);
+}
+
+.ui.label.issue-state-label {
+  display: flex;
+  align-items: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  padding: 5px 12px;
+  border-radius: var(--border-radius-full);
   flex-shrink: 0;
+}
+
+@supports (corner-shape: squircle) {
+  .ui.label.issue-state-label {
+    corner-shape: round;
+  }
 }
 
 .issue-state-label .svg {
@@ -373,25 +462,33 @@
 }
 
 .repository.view.issue .pull.tabs.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
   width: 100%;
   max-width: 100%;
+  margin-bottom: var(--page-spacing);
 }
 
 .repository.view.issue .pull.tabular.menu {
-  margin-bottom: 0;
+  margin: 0;
   overflow-x: auto;
   overflow-y: hidden;
 }
 
-.repository.view.issue .pull.tabular.menu .svg {
-  margin-right: 5px;
+/* the three tabs only fit a phone width without their icons */
+@media (max-width: 767.98px) {
+  .repository.view.issue .pull.tabular.menu > .item > .svg {
+    display: none;
+  }
 }
 
 .repository.view.issue .comment-list {
   position: relative;
   display: block;
-  margin-left: 40px;
-  padding-left: 16px;
+  margin-inline-start: 40px;
+  padding-inline-start: 16px;
 }
 
 .repository.view.issue .comment-list::before {
@@ -402,8 +499,8 @@
   margin-bottom: 14px;
   top: 0;
   bottom: 0;
-  left: 30px;
-  width: 2px;
+  inset-inline-start: 31px;
+  width: 1px;
   background-color: var(--color-timeline);
   z-index: -1;
 }
@@ -423,13 +520,13 @@
 }
 
 .repository.view.issue .comment-list .timeline-item {
-  margin-left: 16px;
+  margin-inline-start: 16px;
   position: relative;
 }
 
 .repository.view.issue .comment-list .timeline-item .timeline-avatar {
   position: absolute;
-  left: -68px;
+  inset-inline-start: -68px;
 }
 
 /* Don't show the mobile oriented avatar ".inline-timeline-avatar" on desktop. Desktop uses the avatar with class ".timeline-avatar" */
@@ -438,11 +535,11 @@
 }
 
 .repository.view.issue .comment-list .timeline-item:first-child:not(.commit) {
-  padding-top: 0 !important;
+  padding-top: 0;
 }
 
 .repository.view.issue .comment-list .timeline-item:last-child:not(.commit) {
-  padding-bottom: 0 !important;
+  padding-bottom: 0;
 }
 
 .repository.view.issue .comment-list .timeline-item .badge.badge-commit {
@@ -453,19 +550,29 @@
 .repository.view.issue .comment-list .timeline-item .badge {
   width: 34px;
   height: 34px;
-  background-color: var(--color-timeline);
+  background-color: var(--color-box-body);
+  border: 1px solid var(--color-secondary);
   border-radius: var(--border-radius-full);
   display: flex;
   flex-shrink: 0;
-  margin-left: -33px;
-  margin-right: 4px;
-  color: var(--color-text);
+  margin-inline: -33px 4px;
+  color: var(--color-text-light);
   align-items: center;
   justify-content: center;
 }
 
+.repository.view.issue .comment-list .timeline-item .badge:is(.tw-bg-green, .tw-bg-red, .tw-bg-purple) {
+  border-color: transparent;
+}
+
+@supports (corner-shape: squircle) {
+  .repository.view.issue .comment-list .timeline-item .badge {
+    corner-shape: round;
+  }
+}
+
 .repository.view.issue .comment-list .timeline-item.commits-list .badge {
-  margin-right: 0;
+  margin-inline-end: 0;
   height: 28px;
 }
 
@@ -476,11 +583,12 @@
 }
 
 .repository.view.issue .comment-list .timeline-item.comment > .content {
-  margin-left: -16px;
+  margin-inline-start: -16px;
 }
 
 .comment-text-line {
-  color: var(--color-text-light);
+  color: var(--color-text-light-1);
+  font-size: var(--font-size-sm);
   flex: 1;
   min-width: 0;
 }
@@ -491,6 +599,7 @@
 
 .comment-text-line a {
   color: inherit;
+  transition: color var(--duration-normal) var(--ease-standard);
 }
 
 .comment-text-line a:hover {
@@ -498,7 +607,7 @@
 }
 
 .repository.view.issue .comment-list .timeline-item.commits-list {
-  padding-left: 15px;
+  padding-inline-start: 15px;
   padding-top: 0;
 }
 
@@ -510,7 +619,7 @@
 
 @media (max-width: 767.98px) {
   .repository.view.issue .comment-list .timeline-item .ui.segments {
-    margin-left: -2rem;
+    margin-inline-start: -2rem;
   }
 }
 
@@ -522,29 +631,44 @@
 }
 
 .repository.view.issue .comment-list .comment > .content > div:first-child {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+  border-top-left-radius: calc(var(--border-radius-medium) - 1px);
+  border-top-right-radius: calc(var(--border-radius-medium) - 1px);
 }
 
 .repository.view.issue .comment-list .comment > .content > div:last-child {
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: calc(var(--border-radius-medium) - 1px);
+  border-bottom-right-radius: calc(var(--border-radius-medium) - 1px);
 }
 
 .repository.view.issue .comment-list .comment .comment-container {
   border: 1px solid var(--color-secondary);
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-medium);
   background: var(--color-box-body);
+  box-shadow: var(--shadow-card);
 }
 
 .repository.view.issue .comment-list .conversation-holder .comment .comment-container {
   border: none;
+  box-shadow: none;
+}
+
+.repository.view.issue .comment-list .comment:target .comment-container {
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
 }
 
 @media (max-width: 767.98px) {
   .repository.view.issue .comment-list .comment .content .form .button {
     width: 100%;
     margin: 0;
+  }
+  .repository.view.issue .comment-list .comment .content .form .field.footer > .flex-text-block {
+    flex-wrap: wrap;
+  }
+  .repository.view.issue .comment-list .comment .content .form .field.footer .button {
+    flex: 1 1 auto;
+    width: auto;
+    white-space: nowrap;
   }
 }
 
@@ -566,15 +690,22 @@
   padding: 8px;
 }
 
+.repository.view.issue .comment-list .code-comment:target {
+  border-color: var(--color-primary);
+  border-radius: var(--border-radius);
+  box-shadow: var(--focus-ring);
+}
+
 .repository.view.issue .comment-list .code-comment .comment-header {
   background: transparent;
   border-bottom: 0;
+  min-height: 0;
   padding: 0;
 }
 
 .repository.view.issue .comment-list .code-comment .comment-content {
   margin-top: 6px;
-  margin-left: 24px;
+  margin-inline-start: 24px;
 }
 
 .repository.view.issue .comment-list .comment-code-cloud button.comment-form-reply {
@@ -582,7 +713,7 @@
 }
 
 .repository.view.issue .comment-list .event {
-  padding-left: 15px;
+  padding-inline-start: 15px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -605,7 +736,7 @@
 }
 
 .repository.view.issue .comment-list .event > .detail {
-  margin-left: 15px;
+  margin-inline-start: 15px;
   width: 100%;
 }
 
@@ -669,7 +800,14 @@
 .repository.branches .commit-divergence .bar {
   height: 4px;
   position: absolute;
+  border-radius: var(--border-radius-full);
   background-color: var(--color-secondary-dark-2);
+}
+
+@supports (corner-shape: squircle) {
+  .repository.branches .commit-divergence .bar {
+    corner-shape: round;
+  }
 }
 
 .repository.branches .commit-divergence .bar.bar-behind {
@@ -683,6 +821,12 @@
 @media (forced-colors: active) {
   .repository.branches .commit-divergence .bar {
     background: CanvasText;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .repository.branches .ui.table td.tw-text-right {
+    white-space: normal;
   }
 }
 
@@ -700,36 +844,39 @@
 
 .repository .data-table {
   width: 100%;
+  border: 0;
+  border-radius: 0;
+  border-collapse: collapse;
 }
 
-.repository .data-table tr {
+.repository .data-table tr,
+.repository .data-table tr:nth-child(2n) {
   border-top: 0;
-  background: none !important;
+  background: none;
 }
 
 .repository .data-table td,
 .repository .data-table th {
-  padding: 5px !important;
+  padding: 5px;
   overflow: hidden;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   text-align: left;
   white-space: nowrap;
   border: 1px solid var(--color-secondary);
 }
 
-/* the border css competes with .markup where all tables have outer border which would add a double
-   border here, remove only the outer borders from this table */
+/* the surrounding box draws the outer edge, so only the inner cell borders stay */
 .repository .data-table tr:first-child :is(td,th) {
-  border-top: none !important;
+  border-top: none;
 }
 .repository .data-table tr:last-child :is(td,th) {
-  border-bottom: none !important;
+  border-bottom: none;
 }
 .repository .data-table tr :is(td,th):first-child {
-  border-left: none !important;
+  border-left: none;
 }
 .repository .data-table tr :is(td,th):last-child {
-  border-right: none !important;
+  border-right: none;
 }
 
 .repository .data-table td {
@@ -744,17 +891,17 @@
 
 .repository .data-table td.added,
 .repository .data-table th.added {
-  background-color: var(--color-diff-added-row-bg) !important;
+  background-color: var(--color-diff-added-row-bg);
 }
 
 .repository .data-table td.removed,
 .repository .data-table th.removed {
-  background-color: var(--color-diff-removed-row-bg) !important;
+  background-color: var(--color-diff-removed-row-bg);
 }
 
 .repository .data-table td.moved,
 .repository .data-table th.moved {
-  background-color: var(--color-diff-moved-row-bg) !important;
+  background-color: var(--color-diff-moved-row-bg);
 }
 
 .repository .data-table tbody.section {
@@ -764,7 +911,7 @@
 .repository .data-table .line-num {
   width: 1%;
   min-width: 50px;
-  font-family: monospace;
+  font-family: var(--fonts-monospace);
   line-height: var(--line-height-code);
   color: var(--color-text-light-1);
   white-space: nowrap;
@@ -806,16 +953,16 @@
 }
 
 .repository .diff-detail-box .diff-detail-stats strong:nth-of-type(2) {
-  color: var(--color-green);
+  color: var(--color-diff-added-fg);
 }
 
 .repository .diff-detail-box .diff-detail-stats strong:nth-of-type(3) {
-  color: var(--color-red);
+  color: var(--color-diff-removed-fg);
 }
 
 @media (max-width: 800px) {
   .repository .diff-detail-box .diff-detail-stats {
-    display: none !important;
+    display: none !important; /* overrides tw-flex */
   }
 }
 
@@ -828,22 +975,28 @@
 
 .diff-detail-actions > *,
 .diff-detail-actions .button {
-  margin-left: 0 !important;
-  margin-right: 0 !important;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .repository .diff-detail-box .ui.button {
   padding: 0 12px;
-  height: 30px;
+  height: var(--control-height-small);
+  min-height: 0;
 }
 
 .repository .diff-file-box .header {
   background-color: var(--color-box-header);
 }
 
+.repository .diff-file-box .ui.attached.segment,
+.repository .ui.attached.segment.file-view-container {
+  box-shadow: none; /* Firefox paints a square band under boxes past 8000px tall with mixed corner radii */
+}
+
 .repository .diff-file-box .file-body.file-code {
   background: var(--color-code-bg);
-  border-radius: var(--border-radius);
+  border-radius: 0 0 calc(var(--border-radius-medium) - 1px) calc(var(--border-radius-medium) - 1px);
 }
 
 .repository .diff-file-box .file-body.file-code .lines-num {
@@ -851,17 +1004,17 @@
 }
 
 .repository .diff-file-box .code-diff td {
-  padding: 0 0 0 10px !important;
+  padding: 0 0 0 10px;
   border-top: 0;
 }
 
 .repository .diff-file-box .code-diff .lines-num {
-  padding: 0 5px !important;
+  padding: 0 5px;
 }
 
 .repository .diff-file-box .code-diff .tag-code .lines-num,
 .repository .diff-file-box .code-diff .tag-code td {
-  padding: 0 !important;
+  padding: 0;
 }
 
 .repository .diff-file-box .code-diff table {
@@ -885,7 +1038,7 @@
 }
 
 .repository .diff-file-box .code-diff-split .tag-code .lines-code code.code-inner {
-  padding-left: 10px !important;
+  padding-left: 10px;
 }
 
 .repository .diff-file-box .code-diff-split table,
@@ -900,25 +1053,13 @@
 }
 
 .diff-file-box {
-  border: 1px solid transparent;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-medium);
   scroll-margin-top: 44px; /* .diff-detail-box height plus the :target shadow */
-}
-
-.file.editor .diff-file-box {
-  border: none;
+  transition: box-shadow var(--duration-normal) var(--ease-standard);
 }
 
 .file.editor .diff-file-box .ui.attached.table {
   border: none;
-}
-
-/* TODO: this can potentially be made "global" by removing the class prefix */
-.diff-file-box .ui.attached.header,
-.diff-file-box .ui.attached.table {
-  margin: 0; /* remove fomantic negative margins */
-  width: initial; /* remove fomantic over 100% width */
-  max-width: initial; /* remove fomantic over 100% width */
 }
 
 .repository .repo-search-result {
@@ -930,11 +1071,20 @@
   color: inherit;
 }
 
-.repository .activity-header {
+.repository .ui.header.activity-header .ui.button {
+  font-family: var(--fonts-regular);
+  letter-spacing: normal;
+}
+
+.repository .ui.header.activity-header {
   display: flex;
   justify-content: space-between;
   gap: 8px;
   flex-wrap: wrap;
+  font-family: var(--fonts-headline);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-tight);
 }
 
 /* if the element is for a checkbox, then it should have a padding-left to align to the checkbox's text */
@@ -949,20 +1099,25 @@
 }
 
 .repository .repository-summary {
-  box-shadow: none;
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-card);
 }
 
 .repository .repository-summary .segment.sub-menu {
   border: none;
+  border-radius: calc(var(--border-radius-medium) - 1px);
   display: flex;
   align-items: center;
-  padding: 0;
+  gap: 2px;
+  padding: 2px;
   overflow: hidden;
 }
 
 .repository .repository-summary .sub-menu .item {
   flex: 1;
-  height: 33px; /* match search bar height, need to be improved in the future to use some consistent methods */
+  height: var(--control-height-small);
+  border-radius: calc(var(--border-radius-medium) - 3px);
+  color: var(--color-text-light-1);
   line-height: var(--line-height-default);
   display: flex;
   align-items: center;
@@ -970,14 +1125,21 @@
   gap: 0.25em;
   padding: 0 0.5em; /* make the UI look better for narrow (mobile) view */
   text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard);
+}
+
+.repository .repository-summary .sub-menu .item:hover {
+  color: var(--color-text);
+  background: var(--color-hover);
 }
 
 .repository .repository-summary .sub-menu .item.active {
-  background: var(--color-secondary);
+  color: var(--color-text);
+  background: var(--color-active);
 }
 
 #cite-repo-modal .citation.button {
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   padding: 7.5px 5px;
   border-right: none;
 }
@@ -985,7 +1147,7 @@
 #cite-repo-modal input {
   border-radius: 0;
   padding: 5px 10px;
-  font-size: 1.2em;
+  font-size: var(--font-size-lg);
   line-height: 1.4;
   flex: 1;
 }
@@ -995,11 +1157,11 @@
 }
 
 #cite-repo-modal .action.input > :first-child {
-  border-radius: var(--border-radius) 0 0 var(--border-radius) !important;
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
 }
 
 #cite-repo-modal .action.input > :last-child {
-  border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
 }
 
 #cite-repo-modal .icon.button {
@@ -1008,16 +1170,16 @@
 
 .user-cards .list {
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--page-spacing);
 }
 
 .user-cards .list .item {
   list-style: none;
-  width: 32%;
-  margin: 10px 10px 10px 0;
+  margin: 0;
   padding-bottom: 14px;
-  float: left;
+  min-width: 0;
 }
 
 .user-cards .list .item .avatar {
@@ -1029,11 +1191,12 @@
 .user-cards .list .item .name {
   margin-top: 0;
   margin-bottom: 0;
-  font-weight: var(--font-weight-normal);
+  font-weight: var(--font-weight-medium);
 }
 
 .user-cards .list .item .meta {
   margin-top: 5px;
+  color: var(--color-text-light-2);
 }
 
 #search-user-box .results .result .image {
@@ -1071,60 +1234,19 @@
   }
 }
 
-.comment:target .comment-container {
-  border-color: var(--color-primary) !important;
-  box-shadow: 0 0 0 3px var(--color-primary-alpha-30) !important;
-}
-
-.comment:target .comment-header::before {
-  border-right-color: var(--color-primary) !important;
-  filter: drop-shadow(-4px 0 0 var(--color-primary-alpha-30)) !important;
-}
-
-.code-comment:target {
-  border-color: var(--color-primary) !important;
-  border-radius: var(--border-radius) !important;
-  box-shadow: 0 0 0 3px var(--color-primary-alpha-30) !important;
-}
-
-.code-comment:target .content {
-  box-shadow: none !important;
-}
-
 .comment-header {
   background: var(--color-box-header);
   border-bottom: 1px solid var(--color-secondary);
-  padding: 0.5em 1rem;
+  padding: 8px 16px;
+  min-height: 41px;
   position: relative;
   color: var(--color-text);
+  font-size: var(--font-size-sm);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 0.25em;
-}
-
-.comment-header.avatar-content-left-arrow {
-  min-height: 41px; /* for a comment header with left arrow, the arrow is absolutely positioned, but the header content varies (for example: no "roles", etc), so it needs a min-height */
-}
-
-.comment-header.avatar-content-left-arrow::after {
-  border-right-color: var(--color-box-header);
-}
-
-.comment-header.arrow-top::before,
-.comment-header.arrow-top::after {
-  transform: rotate(90deg);
-}
-
-.comment-header.arrow-top::before {
-  top: -9px;
-  left: 6px;
-}
-
-.comment-header.arrow-top::after {
-  top: -8px;
-  left: 7px;
 }
 
 .comment-header-left,
@@ -1136,21 +1258,32 @@
 }
 
 .comment-header-right {
-  flex: 1;
+  flex: 1 1 auto; /* a zero basis keeps it beside the title and breaks the pills apart */
   justify-content: end;
 }
 
 .comment-header-right > .item.action {
   padding: 4px; /* add some padding to make click area larger for the "item action ... ui dropdown" items */
+  border-radius: var(--border-radius);
+  transition: background-color var(--duration-fast) var(--ease-standard);
 }
 
-.comment-body {
+.comment-header-right > .item.action:hover {
+  background: var(--color-hover);
+}
+
+.ui.attached.segment.comment-body {
   background: var(--color-box-body);
-  border: none !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  padding: 1em;
+  border: none;
+  box-shadow: none;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: var(--page-spacing);
+}
+
+.ui.attached.segment.comment-body:has(+ .bottom-reactions) {
+  border-radius: 0;
 }
 
 .stats-table {
@@ -1169,13 +1302,13 @@
 }
 
 .stats-table .table-cell:first-child {
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
+  border-top-left-radius: var(--border-radius-small);
+  border-bottom-left-radius: var(--border-radius-small);
 }
 
 .stats-table .table-cell:last-child {
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
+  border-top-right-radius: var(--border-radius-small);
+  border-bottom-right-radius: var(--border-radius-small);
 }
 
 .repo-button-row {
@@ -1202,7 +1335,7 @@
 .repo-view-container .ui.button.repo-view-file-tree-toggle {
   flex-shrink: 0;
   margin: 0;
-  min-height: 30px;
+  min-height: var(--control-height);
 }
 
 .repo-view-container .ui.button.repo-view-file-tree-toggle {
@@ -1210,7 +1343,7 @@
 }
 
 .repo-button-row .repo-file-search-container .ui.input {
-  height: 30px;
+  height: var(--control-height);
 }
 
 .repo-button-row .ui.dropdown > .menu {
@@ -1244,6 +1377,8 @@ tbody.commit-list {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   line-height: initial;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
 }
 
 .commit-body a.commit code,
@@ -1280,7 +1415,7 @@ tbody.commit-list {
   font-weight: var(--font-weight-normal);
   cursor: pointer;
   margin: 0;
-  display: inline-block !important;
+  display: inline-block;
 }
 
 #new-dependency-drop-list.ui.selection.dropdown {
@@ -1297,7 +1432,7 @@ tbody.commit-list {
 }
 
 .tag-code {
-  height: 28px;
+  height: var(--control-height-small);
 }
 
 .tag-code,
@@ -1316,11 +1451,11 @@ tbody.commit-list {
 }
 .diff-file-body tr.tag-code:last-child td:first-child,
 .diff-file-body tr.tag-code:last-child td:first-child * {
-  border-bottom-left-radius: 3px;
+  border-bottom-left-radius: calc(var(--border-radius-medium) - 1px);
 }
 .diff-file-body tr.tag-code:last-child td:last-child,
 .diff-file-body tr.tag-code:last-child td:last-child * {
-  border-bottom-right-radius: 3px;
+  border-bottom-right-radius: calc(var(--border-radius-medium) - 1px);
 }
 
 .resolved-placeholder {
@@ -1335,7 +1470,7 @@ tbody.commit-list {
 }
 
 .resolved-placeholder + .comment-code-cloud {
-  padding-top: 0 !important;
+  padding-top: 0;
 }
 
 .line-expanded {
@@ -1343,11 +1478,11 @@ tbody.commit-list {
 }
 
 .issue-keyword {
-  border-bottom: 1px dotted var(--color-text-light-3) !important;
+  border-bottom: 1px dotted var(--color-text-light-3);
 }
 
 .issue-keyword:hover {
-  border-bottom: none !important;
+  border-bottom: none;
 }
 
 .file-header {
@@ -1355,8 +1490,11 @@ tbody.commit-list {
   display: flex;
   justify-content: space-between;
   overflow-x: auto;
-  padding: 6px 12px !important;
-  font-size: 13px !important;
+}
+
+.ui.top.attached.header.file-header {
+  padding: 6px 12px;
+  font-size: var(--font-size-sm);
 }
 
 .file-info {
@@ -1372,7 +1510,7 @@ tbody.commit-list {
 }
 
 .file-info-entry + .file-info-entry {
-  border-left: 1px solid currentcolor;
+  border-left: 1px solid var(--color-secondary);
   margin-left: 8px;
   padding-left: 8px;
 }
@@ -1390,7 +1528,7 @@ tbody.commit-list {
 #diff-file-boxes {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 #diff-file-tree {
@@ -1422,8 +1560,8 @@ tbody.commit-list {
 
 /* fomantic's last-child selector does not work with hidden last child */
 .ui.buttons .unescape-button {
-  border-top-right-radius: 0.28571429rem;
-  border-bottom-right-radius: 0.28571429rem;
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
 }
 
 .webhook-info {
@@ -1432,7 +1570,7 @@ tbody.commit-list {
   background-color: var(--color-markup-code-block);
   border: 1px solid var(--color-secondary);
   border-radius: var(--border-radius);
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   line-height: 1.5;
   overflow: auto;
 }
@@ -1442,30 +1580,30 @@ tbody.commit-list {
 }
 
 .diff-file-box:target {
-  border-color: var(--color-primary) !important;
-  border-radius: var(--border-radius) !important;
-  box-shadow: 0 0 0 3px var(--color-primary-alpha-30) !important;
+  box-shadow: var(--focus-ring);
+}
+
+.ui.top.attached.header.diff-file-header {
+  padding: 5px 8px;
+  /* a sticky header scrolls over the code, this patch hides it behind the rounded corners and stays shorter than the gap between files */
+  box-shadow: 0 -6px 0 6px var(--color-body);
 }
 
 .diff-file-header {
-  padding: 5px 8px !important;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5em;
-
-  /* prevent borders from being visible behind top corners when sticky and scrolled,
-  this "shadow" is used to use body's color to cover the scrolled-up left and right borders at corners */
-  box-shadow: 0 -1px 0 1px var(--color-body);
 }
 
-.diff-file-box:target .diff-file-header {
-  box-shadow: unset; /* when targeted, still use the parent's box-shadow, remove the patched above */
+.diff-file-box:target .ui.attached.header.diff-file-header {
+  box-shadow: none; /* the patch above would hide the parent's focus ring */
 }
 
 .diff-file-header .file-link {
   max-width: fit-content;
+  font-size: var(--font-size-sm);
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -1477,7 +1615,8 @@ tbody.commit-list {
   padding: 0 12px;
   flex: 0 0 auto;
   margin-right: 0;
-  height: 30px;
+  height: var(--control-height-small);
+  min-height: 0;
 }
 
 @media (max-width: 767.98px) {
@@ -1492,8 +1631,8 @@ tbody.commit-list {
   display: none;
 }
 
-.diff-file-box[data-folded="true"] .diff-file-header {
-  border-radius: var(--border-radius) !important;
+.diff-file-box[data-folded="true"] .ui.top.attached.header.diff-file-header {
+  border-radius: var(--border-radius-medium);
 }
 
 .ui.attached.header.diff-file-header.sticky-2nd-row {
@@ -1508,14 +1647,20 @@ tbody.commit-list {
 }
 
 .diff-file-name .ui.label {
-  margin-left: 0 !important;
+  margin-left: 0;
+}
+
+.diff-stats-summary {
+  font-size: var(--font-size-sm);
 }
 
 .diff-stats-bar {
   display: inline-block;
   background-color: var(--color-diff-removed-fg); /* the background is used as "text foreground color" */
+  border-radius: var(--border-radius-small);
   height: 12px;
   width: 44px;
+  overflow: hidden;
 }
 
 .diff-stats-bar .diff-stats-add-bar {
@@ -1533,8 +1678,8 @@ tbody.commit-list {
   background: var(--color-diff-removed-word-bg);
 }
 
-.removed-code span {
-  color: inherit !important;
+.chroma .removed-code span {
+  color: inherit;
 }
 
 .added-code {
@@ -1542,8 +1687,8 @@ tbody.commit-list {
   background: var(--color-diff-added-word-bg);
 }
 
-.added-code span {
-  color: inherit !important;
+.chroma .added-code span {
+  color: inherit;
 }
 
 .code-diff-unified .del-code,
@@ -1603,7 +1748,7 @@ tbody.commit-list {
 .migrate-entries {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 25px;
+  gap: 24px;
 }
 
 @media (max-width: 767.98px) {
@@ -1614,38 +1759,51 @@ tbody.commit-list {
 
 .migrate-entry.ui.button {
   flex-direction: column;
-  padding: 0;
+  justify-content: flex-start;
+  height: auto;
+  padding: var(--page-spacing) 0 0;
   margin: 0;
-  gap: 0;
+  gap: var(--page-spacing);
   white-space: normal;
+  font-weight: var(--font-weight-normal);
   line-height: var(--line-height-default);
+  background: var(--color-box-body);
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-card);
+}
+
+.migrate-entry.ui.button:hover {
+  background: var(--color-hover);
 }
 
 .migrate-entry-content {
   align-self: stretch;
-  padding: 1em;
-  border-top: 1px solid var(--color-light-border);
+  flex: 1;
+  padding: var(--page-spacing);
+  color: var(--color-text-light-2);
+  border-top: 1px solid var(--color-secondary);
 }
 
 .migrate-entry-title {
-  font-size: 18px;
-  font-weight: var(--font-weight-medium);
-  margin-bottom: 0.5em;
+  color: var(--color-text);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: 4px;
 }
 
 @media (max-width: 767.98px) {
   .repository.view.issue .comment-list,
   .repository.view.issue .comment-list .timeline-item {
-    margin-left: 0;
+    margin-inline-start: 0;
   }
   .repository.view.issue .comment-list::before {
-    left: 14px;
+    inset-inline-start: 14px;
   }
   .repository.view.issue .comment-list .inline-timeline-avatar {
     display: flex;
     margin-bottom: auto;
-    margin-left: 6px;
-    margin-right: 2px;
+    margin-inline: 6px 2px;
   }
   /* Don't show the general avatar, we show the inline avatar on mobile.
    * And don't show the role labels, there's no place for that. */
@@ -1653,26 +1811,82 @@ tbody.commit-list {
   .repository.view.issue .comment-list .comment-header-right .role-label {
     display: none;
   }
-  .commit-table {
-    overflow-x: auto;
+  /* five columns leave the message a sliver, so each commit stacks into two lines */
+  #commits-table,
+  #commits-table tbody {
+    display: block;
   }
-  .commit-table td.sha,
-  .commit-table th.sha {
-    display: none !important;
+  #commits-table thead,
+  #commits-table td.sha {
+    display: none;
   }
+  #commits-table tbody tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    column-gap: 8px;
+    padding: 10px var(--page-spacing);
+    border-top: 1px solid var(--color-secondary);
+  }
+  #commits-table tbody tr:first-child {
+    border-top: none;
+  }
+  #commits-table tbody td {
+    padding: 0;
+    border-top: none;
+  }
+  #commits-table tbody td.message {
+    grid-column: 1 / -1;
+    order: -1;
+    padding-bottom: 4px;
+  }
+}
+
+/* the merge box sits at the end of a long timeline, so its state color has to stand out while scrolling past */
+.pull-merge-box {
+  --merge-box-color: var(--color-secondary-dark-4);
+}
+
+.pull-merge-box:has(> .tw-text-green) {
+  --merge-box-color: var(--color-green);
+}
+
+.pull-merge-box:has(> .tw-text-yellow) {
+  --merge-box-color: var(--color-yellow);
+}
+
+.pull-merge-box:has(> .tw-text-red) {
+  --merge-box-color: var(--color-red);
+}
+
+.pull-merge-box:has(> .tw-text-purple) {
+  --merge-box-color: var(--color-purple);
+}
+
+.pull-merge-box > .content > .ui.segment {
+  border-color: var(--merge-box-color);
+  box-shadow: var(--shadow-popover);
+  outline: 3px solid color-mix(in srgb, var(--merge-box-color) 18%, transparent);
+}
+
+.merge-section h3 {
+  font-family: var(--fonts-headline);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-snug);
 }
 
 .commit-status-list {
   max-height: 240px; /* fit exactly 6 items, commit-status-item.height * 6 */
   overflow-x: hidden;
-  transition: max-height .2s;
+  transition: max-height var(--duration-normal) var(--ease-standard);
   width: 100%;
 }
 
-.commit-status-item { /* the item is used in the PR merge box and the commit status popup, both are commit-status-list */
+.flex-divided-list > .item.commit-status-item { /* the item is used in the PR merge box and the commit status popup, both are commit-status-list */
   height: 40px;
-  padding-top: 0 !important; /* use "height" + "align items center", don't use padding-y (from the list container) to layout */
-  padding-bottom: 0 !important;
+  padding-top: 0; /* use "height" + "align items center", don't use padding-y (from the list container) to layout */
+  padding-bottom: 0;
   display: flex;
   gap: var(--gap-block);
   align-items: center;
@@ -1699,8 +1913,8 @@ tbody.commit-list {
 #issue-pins {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
 @media (max-width: 767.98px) {
@@ -1723,6 +1937,7 @@ tbody.commit-list {
 
 .ui.dropdown.branch-selector-dropdown .scrolling.menu {
   max-width: min(400px, 90vw);
+  border-top: none;
 }
 
 .branch-selector-dropdown .ui.button.branch-dropdown-button {
@@ -1747,31 +1962,44 @@ tbody.commit-list {
 }
 
 .branch-selector-dropdown .branch-tag-tab {
-  padding: 0 10px;
+  display: flex;
+  gap: 2px;
+  margin: 0 8px 8px;
+  padding: 2px;
+  border-radius: var(--border-radius);
+  background: var(--color-label-bg);
 }
 
 .branch-selector-dropdown .branch-tag-item {
-  display: inline-block;
-  padding: 10px;
-  border: 1px solid transparent;
-  border-bottom: none;
-  border-radius: 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--control-height-tiny);
+  padding: 0 8px;
+  border-radius: calc(var(--border-radius) - 2px);
+  color: var(--color-text-light-2);
+  font-size: var(--font-size-sm);
+  transition: color var(--duration-fast) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
+}
+
+.branch-selector-dropdown .branch-tag-item:hover {
+  color: var(--color-text);
+}
+
+.branch-selector-dropdown .branch-tag-item:active {
+  transform: scale(0.97);
 }
 
 .branch-selector-dropdown .branch-tag-item.active {
-  border-color: var(--color-secondary);
   background: var(--color-menu);
-  border-top-left-radius: var(--border-radius);
-  border-top-right-radius: var(--border-radius);
+  box-shadow: var(--shadow-card);
+  color: var(--color-text);
+  font-weight: var(--font-weight-medium);
 }
 
 .branch-selector-dropdown .branch-tag-divider {
-  margin-top: -1px !important;
   border-top: 1px solid var(--color-secondary);
-}
-
-.branch-selector-dropdown .scrolling.menu {
-  border-top: none !important;
 }
 
 .branch-selector-dropdown .menu .item .rss-icon {

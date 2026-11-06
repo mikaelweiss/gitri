@@ -299,7 +299,7 @@ function onNodeClick(job: GraphNode | ActionsJob, event: MouseEvent) {
               :y="job.y"
               :width="nodeWidth"
               :height="job.displayHeight"
-              rx="6"
+              rx="8"
               fill="black"
             />
           </mask>
@@ -324,7 +324,7 @@ function onNodeClick(job: GraphNode | ActionsJob, event: MouseEvent) {
             @mouseleave="handleNodeMouseLeave"
           >
             <title>Matrix: {{ job.name }}</title>
-            <rect :x="job.x" :y="job.y" :width="nodeWidth" :height="job.displayHeight" rx="6" class="job-rect"/>
+            <rect :x="job.x" :y="job.y" :width="nodeWidth" :height="job.displayHeight" rx="8" class="job-rect"/>
             <foreignObject :x="job.x" :y="job.y" :width="nodeWidth" :height="job.displayHeight" class="matrix-foreign-object">
               <div class="matrix-panel" xmlns="http://www.w3.org/1999/xhtml">
                 <div class="matrix-panel-label" @click.stop="toggleMatrixExpanded(job.id)">Matrix: {{ job.name }}</div>
@@ -369,7 +369,7 @@ function onNodeClick(job: GraphNode | ActionsJob, event: MouseEvent) {
             @mouseleave="handleNodeMouseLeave"
           >
             <title>{{ job.name }}</title>
-            <rect :x="job.x" :y="job.y" :width="nodeWidth" :height="job.displayHeight" rx="6" class="job-rect"/>
+            <rect :x="job.x" :y="job.y" :width="nodeWidth" :height="job.displayHeight" rx="8" class="job-rect"/>
             <foreignObject :x="job.x" :y="job.y" :width="nodeWidth" :height="job.displayHeight" class="matrix-foreign-object">
               <div class="grouped-panel" xmlns="http://www.w3.org/1999/xhtml" @click.stop>
                 <div
@@ -401,7 +401,7 @@ function onNodeClick(job: GraphNode | ActionsJob, event: MouseEvent) {
             @mouseleave="handleNodeMouseLeave"
           >
             <title>{{ job.name }}</title>
-            <rect :x="job.x" :y="job.y" :width="nodeWidth" :height="job.displayHeight" rx="6" class="job-rect"/>
+            <rect :x="job.x" :y="job.y" :width="nodeWidth" :height="job.displayHeight" rx="8" class="job-rect"/>
             <foreignObject :x="job.x + 10" :y="job.y + 6" :width="nodeWidth - 20" :height="job.displayHeight - 12">
               <div class="job-row job-card" xmlns="http://www.w3.org/1999/xhtml">
                 <div class="job-row-main">
@@ -459,15 +459,16 @@ function onNodeClick(job: GraphNode | ActionsJob, event: MouseEvent) {
 .graph-workflow-name {
   display: block;
   color: var(--color-text);
-  font-size: 16px;
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-snug);
   line-height: 1.25;
 }
 
 .graph-workflow-trigger {
   margin-top: 4px;
   color: var(--color-text-light-2);
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   line-height: 1.4;
 }
 
@@ -476,7 +477,7 @@ function onNodeClick(job: GraphNode | ActionsJob, event: MouseEvent) {
   align-items: baseline;
   column-gap: 8px;
   color: var(--color-text-light-1);
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   white-space: nowrap;
   margin-left: auto;
   padding: 0 16px;
@@ -490,7 +491,7 @@ function onNodeClick(job: GraphNode | ActionsJob, event: MouseEvent) {
   flex: 1;
   overflow: auto;
   padding: 10px 14px 18px;
-  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  border-radius: 0 0 calc(var(--border-radius-medium) - 1px) calc(var(--border-radius-medium) - 1px);
   cursor: grab;
   position: relative;
   background: var(--color-box-body);
@@ -506,7 +507,7 @@ function onNodeClick(job: GraphNode | ActionsJob, event: MouseEvent) {
 }
 
 .graph-svg path {
-  transition: stroke-width 0.2s ease, opacity 0.2s ease;
+  transition: stroke-width var(--duration-normal) var(--ease-standard), opacity var(--duration-normal) var(--ease-standard);
   stroke-linecap: round;
   stroke-linejoin: round;
 }
@@ -524,7 +525,7 @@ function onNodeClick(job: GraphNode | ActionsJob, event: MouseEvent) {
 
 .job-node-group {
   cursor: pointer;
-  transition: opacity 0.15s ease;
+  transition: opacity var(--duration-fast) var(--ease-standard);
 }
 
 .job-node-group.unlinked-node,
@@ -576,7 +577,7 @@ function onNodeClick(job: GraphNode | ActionsJob, event: MouseEvent) {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  border-radius: 6px;
+  border-radius: var(--border-radius-small);
   background: transparent;
   pointer-events: auto;
   user-select: none;
@@ -589,7 +590,7 @@ function onNodeClick(job: GraphNode | ActionsJob, event: MouseEvent) {
 }
 
 .matrix-panel-label {
-  font-size: 10px;
+  font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
   color: var(--color-text-light-2);
   line-height: 1.3;
@@ -615,7 +616,7 @@ function onNodeClick(job: GraphNode | ActionsJob, event: MouseEvent) {
 }
 
 .matrix-panel-summary {
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
   line-height: 1.3;
   color: var(--color-text);
@@ -625,7 +626,7 @@ function onNodeClick(job: GraphNode | ActionsJob, event: MouseEvent) {
 }
 
 .matrix-panel-toggle {
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   color: var(--color-text-light-2);
   padding-left: 24px;
   cursor: pointer;
@@ -659,7 +660,8 @@ function onNodeClick(job: GraphNode | ActionsJob, event: MouseEvent) {
   gap: 8px;
   min-height: 24px;
   padding: 1px 6px;
-  border-radius: 5px;
+  border-radius: var(--border-radius-small);
+  transition: background-color var(--duration-fast) var(--ease-standard);
 }
 
 .graph-list-row:hover {
@@ -679,7 +681,7 @@ function onNodeClick(job: GraphNode | ActionsJob, event: MouseEvent) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text);
 }
@@ -687,7 +689,7 @@ function onNodeClick(job: GraphNode | ActionsJob, event: MouseEvent) {
 .graph-list-row-duration,
 .job-duration {
   flex: 0 0 auto;
-  font-size: 10px;
+  font-size: var(--font-size-xs);
   color: var(--color-text-light-2);
   white-space: nowrap;
 }
@@ -702,7 +704,7 @@ function onNodeClick(job: GraphNode | ActionsJob, event: MouseEvent) {
 }
 
 .job-card {
-  border-radius: 6px;
+  border-radius: var(--border-radius-small);
   padding: 0 2px;
 }
 

@@ -106,7 +106,25 @@
 						</div>
 					</div>
 				</div>
-				{{template "shared/issuelist" dict "listType" "dashboard"}}
+				{{if or .Issues .IssueIndexerUnavailable}}
+					{{template "shared/issuelist" dict "listType" "dashboard"}}
+				{{else}}
+					{{$isFiltered := or .Keyword .FilterPosterUsername .FilterAssigneeUsername .SelectLabels}}
+					<div class="empty-placeholder">
+						{{svg (Iif $isFiltered "octicon-search" (Iif .PageIsPulls "octicon-git-pull-request" "octicon-issue-opened")) 48}}
+						{{if $isFiltered}}
+							<h2>{{ctx.Locale.Tr "repo.issues.filter_no_results"}}</h2>
+							<p>{{ctx.Locale.Tr "repo.issues.filter_no_results_placeholder"}}</p>
+							<a class="ui button" href="{{QueryBuild "?" "type" $.ViewType "sort" $.SortType "state" $.State}}">{{ctx.Locale.Tr "filter.clear"}}</a>
+						{{else if .IsShowClosed}}
+							<h2>{{ctx.Locale.Tr (Iif .PageIsPulls "home.pulls.none_closed" "home.issues.none_closed")}}</h2>
+							<a class="ui button" href="{{QueryBuild $queryLink "state" "open"}}">{{ctx.Locale.Tr (Iif .PageIsPulls "home.pulls.show_open" "home.issues.show_open")}}</a>
+						{{else}}
+							<h2>{{ctx.Locale.Tr (Iif .PageIsPulls "home.pulls.none_open" "home.issues.none_open")}}</h2>
+							<a class="ui button" href="{{AppSubUrl}}/explore/repos">{{ctx.Locale.Tr "home.explore_repos"}}</a>
+						{{end}}
+					</div>
+				{{end}}
 			</div>
 		</div>
 	</div>

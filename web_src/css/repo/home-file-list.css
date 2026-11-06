@@ -4,7 +4,8 @@
   grid-template-columns: 2fr 3fr auto;
   border: 1px solid var(--color-secondary);
   background: var(--color-box-body);
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-card);
   margin: 10px 0; /* match the "clone-panel-popup" margin to avoid "visual double-border" */
 }
 
@@ -26,20 +27,21 @@
 #repo-files-table .repo-file-line,
 #repo-files-table .repo-file-cell {
   border-top: 1px solid var(--color-secondary);
-  padding: 8px 10px;
+  padding: 9px 14px;
+  transition: background-color var(--duration-fast) var(--ease-standard);
 }
 
 #repo-files-table .repo-file-line:first-child {
   border-top: none;
-  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  border-radius: calc(var(--border-radius-medium) - 1px) calc(var(--border-radius-medium) - 1px) 0 0;
 }
 
 #repo-files-table .repo-file-item:last-child .repo-file-cell:first-child {
-  border-bottom-left-radius: calc(var(--border-radius) - 1px);
+  border-bottom-left-radius: calc(var(--border-radius-medium) - 1px);
 }
 
 #repo-files-table .repo-file-item:last-child .repo-file-cell:last-child {
-  border-bottom-right-radius: calc(var(--border-radius) - 1px);
+  border-bottom-right-radius: calc(var(--border-radius-medium) - 1px);
 }
 
 #repo-files-table .repo-file-line {
@@ -71,6 +73,7 @@
 
 #repo-files-table .repo-file-cell.name .entry-name {
   flex-shrink: 1;
+  font-weight: var(--font-weight-medium);
   min-width: 1ch; /* leave about one letter space when shrinking, need to fine tune the "shrinks" in this grid in the future */
 }
 
@@ -84,13 +87,14 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--color-text-light-1);
+  color: var(--color-text-light-2);
 }
 
 #repo-files-table .repo-file-cell.age {
   text-align: right;
   white-space: nowrap;
-  color: var(--color-text-light-1);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light-2);
 }
 
 #repo-files-table .repo-file-cell.is-loading::after {

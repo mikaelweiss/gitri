@@ -76,6 +76,7 @@ const pageDataDefaults = {
   isMirrorsEnabled: false,
   textNoOrg: '',
   textNoRepo: '',
+  textNoMatchingRepo: '',
   textRepository: '',
   textOrganization: '',
   textMyRepos: '',
@@ -108,7 +109,7 @@ const pageDataDefaults = {
 const {
   subUrl, organizations, isOrganization, canCreateOrganization, organizationsTotalCount, organizationId,
   searchLimit, uid, teamId, isMirrorsEnabled,
-  textNoOrg, textNoRepo, textRepository, textOrganization, textMyRepos, textNewRepo, textSearchRepos,
+  textNoOrg, textNoRepo, textNoMatchingRepo, textRepository, textOrganization, textMyRepos, textNewRepo, textSearchRepos,
   textFilter, textShowArchived, textShowPrivate,
   textShowBothArchivedUnarchived, textShowOnlyUnarchived, textShowOnlyArchived,
   textShowBothPrivatePublic, textShowOnlyPublic, textShowOnlyPrivate,
@@ -399,9 +400,10 @@ async function reposFilterKeyControl(e: KeyboardEvent) {
         </a>
       </h4>
       <div v-if="!reposTotalCount" class="ui attached segment">
-        <div v-if="!isLoading" class="empty-repo-or-org">
-          <svg-icon name="octicon-git-branch" :size="24"/>
-          <p>{{ textNoRepo }}</p>
+        <div v-if="!isLoading" class="empty-placeholder">
+          <svg-icon name="octicon-repo" :size="24"/>
+          <h2>{{ textNoRepo }}</h2>
+          <a class="ui small button" :href="subUrl + '/repo/create' + (isOrganization ? '?org=' + organizationId : '')">{{ textNewRepo }}</a>
         </div>
         <!-- using the loading indicator here will cause more (unnecessary) page flickers, so at the moment, not use the loading indicator -->
         <!-- <div v-else class="is-loading loading-icon-2px tw-min-h-16"/> -->
@@ -462,6 +464,12 @@ async function reposFilterKeyControl(e: KeyboardEvent) {
           </div>
         </overflow-menu>
       </div>
+      <div v-if="reposTotalCount && !repos.length && !isLoading" class="ui attached segment">
+        <div class="empty-placeholder">
+          <svg-icon name="octicon-search" :size="24"/>
+          <h2>{{ textNoMatchingRepo }}</h2>
+        </div>
+      </div>
       <div v-if="repos.length" class="ui attached table segment tw-rounded-b">
         <ul class="repo-owner-name-list">
           <li class="tw-flex tw-items-center tw-py-2" v-for="(repo, index) in repos" :class="{'active': index === activeIndex}" :key="repo.id">
@@ -521,9 +529,10 @@ async function reposFilterKeyControl(e: KeyboardEvent) {
         </a>
       </h4>
       <div v-if="!organizations.length" class="ui attached segment">
-        <div class="empty-repo-or-org">
+        <div class="empty-placeholder">
           <svg-icon name="octicon-organization" :size="24"/>
-          <p>{{ textNoOrg }}</p>
+          <h2>{{ textNoOrg }}</h2>
+          <a v-if="canCreateOrganization" class="ui small button" :href="subUrl + '/org/create'">{{ textNewOrg }}</a>
         </div>
       </div>
       <div v-else class="ui attached table segment tw-rounded-b">
@@ -557,24 +566,24 @@ ul {
 
 ul li {
   padding: 0 10px;
+  transition: background-color var(--duration-fast) var(--ease-standard);
 }
 
 ul li:not(:last-child) {
   border-bottom: 1px solid var(--color-secondary);
 }
 
-.repos-search {
-  padding-bottom: 0 !important;
+.ui.attached.segment.repos-search {
+  padding-bottom: 0;
 }
 
-.repos-filter {
-  margin-top: 0 !important;
-  border-bottom-width: 0 !important;
+.ui.secondary.pointing.menu.repos-filter {
+  margin-top: 0;
 }
 
-.repos-filter .item {
-  padding-left: 6px !important;
-  padding-right: 6px !important;
+.ui.secondary.pointing.menu.repos-filter .item {
+  padding-left: 6px;
+  padding-right: 6px;
 }
 
 .repo-list-link {
@@ -604,15 +613,5 @@ ul li:not(:last-child) {
 
 .repo-owner-name-list li.active {
   background: var(--color-hover);
-}
-
-.empty-repo-or-org {
-  margin-top: 1em;
-  text-align: center;
-  color: var(--color-placeholder-text);
-}
-
-.empty-repo-or-org p {
-  margin: 1em auto;
 }
 </style>

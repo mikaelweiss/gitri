@@ -1,13 +1,36 @@
 /* based on Fomantic UI checkbox module, with just the parts extracted that we use. If you find any
    unused rules here after refactoring, please remove them. */
 
-input[type="radio"] {
+input[type="radio"],
+input[type="checkbox"] {
   appearance: none;
   width: var(--checkbox-size);
   height: var(--checkbox-size);
-  border: 1px solid var(--color-input-border);
-  border-radius: 50%;
+  border: 1px solid var(--color-checkbox-border);
   background: var(--color-input-background);
+  transition-property: background-color, border-color, border-width, box-shadow;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-standard);
+}
+
+input[type="radio"]:disabled:not(:checked),
+input[type="checkbox"]:disabled:not(:checked, :indeterminate) {
+  border-color: var(--color-input-border);
+}
+
+input[type="radio"]:hover:not(:checked, :disabled),
+input[type="checkbox"]:hover:not(:checked, :indeterminate, :disabled) {
+  border-color: var(--color-text-light-2);
+}
+
+input[type="radio"]:focus-visible,
+input[type="checkbox"]:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+input[type="radio"] {
+  border-radius: var(--border-radius-full);
 }
 
 input[type="radio"]:checked {
@@ -16,14 +39,9 @@ input[type="radio"]:checked {
 }
 
 input[type="checkbox"] {
-  appearance: none;
   display: inline-grid;
   place-content: center;
-  width: var(--checkbox-size);
-  height: var(--checkbox-size);
-  border: 1px solid var(--color-input-border);
-  border-radius: 3px;
-  background: var(--color-input-background);
+  border-radius: calc(var(--border-radius-small) / 2);
   overflow: hidden;
   print-color-adjust: exact;
 }
@@ -38,6 +56,7 @@ input[type="checkbox"]::before {
   mask-size: 75%;
   mask-repeat: no-repeat;
   mask-position: center;
+  transition: clip-path var(--duration-fast) var(--ease-standard);
 }
 
 input[type="checkbox"]:checked,
@@ -91,6 +110,15 @@ input[type="checkbox"]:indeterminate::before {
   margin-left: 20px;
 }
 
+.ui.checkbox:not(.toggle) label {
+  margin-block: -2px; /* a single line keeps its place beside the box, only wrapped lines gain leading */
+  line-height: 18px;
+}
+
+.ui.checkbox .help {
+  line-height: 18px;
+}
+
 .ui.checkbox + label {
   vertical-align: middle;
 }
@@ -98,26 +126,34 @@ input[type="checkbox"]:indeterminate::before {
 .ui.disabled.checkbox input,
 .ui.disabled.checkbox label,
 .ui.checkbox input[disabled] ~ label {
-  cursor: default !important;
-  opacity: 0.5;
+  cursor: default;
+  opacity: var(--opacity-disabled);
   pointer-events: none;
 }
 
-/* "switch" styled checkbox */
+/* "switch" styled checkbox: the input stretches invisibly over the track, the label draws track and knob */
 
 .ui.toggle.checkbox {
-  min-height: 1.5rem;
+  --toggle-width: 36px;
+  --toggle-height: 20px;
+  --toggle-inset: 2px;
+  --toggle-knob: calc(var(--toggle-height) - 2 * var(--toggle-inset));
+  min-height: var(--toggle-height);
+  padding: 0;
+  line-height: var(--toggle-height);
 }
-.ui.toggle.checkbox input {
-  width: 3.5rem;
-  height: 21px;
+.ui.ui.toggle.checkbox input {
+  top: 0;
+  width: var(--toggle-width);
+  height: var(--toggle-height);
   opacity: 0;
   z-index: 3;
 }
 .ui.toggle.checkbox label {
-  min-height: 1.5rem;
-  padding-left: 4.5rem;
-  padding-top: 0.15em;
+  min-height: var(--toggle-height);
+  margin-left: 0;
+  padding-left: calc(var(--toggle-width) + 8px);
+  color: var(--color-text);
 }
 .ui.toggle.checkbox label::before {
   display: block;
@@ -125,43 +161,36 @@ input[type="checkbox"]:indeterminate::before {
   content: "";
   z-index: 1;
   top: 0;
-  width: 49px;
-  height: 21px;
-  border-radius: 500rem;
   left: 0;
+  width: var(--toggle-width);
+  height: var(--toggle-height);
+  border-radius: var(--border-radius-full);
+  background: var(--color-input-toggle-background);
+  transition-property: background-color, box-shadow;
+  transition-duration: var(--duration-normal);
+  transition-timing-function: var(--ease-standard);
 }
 .ui.toggle.checkbox label::after {
   background: var(--color-white);
-  box-shadow: 1px 1px 4px 1px var(--color-shadow);
+  box-shadow: var(--shadow-card);
   position: absolute;
   content: "";
-  opacity: 1;
   z-index: 2;
-  width: 18px;
-  height: 18px;
-  top: 1.5px;
-  left: 1.5px;
-  border-radius: 500rem;
-  transition: background 0.3s ease, left 0.3s ease;
-}
-.ui.toggle.checkbox input ~ label::after {
-  left: 1.5px;
+  width: var(--toggle-knob);
+  height: var(--toggle-knob);
+  top: var(--toggle-inset);
+  left: var(--toggle-inset);
+  border-radius: var(--border-radius-full);
+  transition: transform var(--duration-normal) var(--ease-standard);
 }
 .ui.toggle.checkbox input:checked ~ label::after {
-  left: 29px;
+  transform: translateX(calc(var(--toggle-width) - var(--toggle-height)));
 }
-.ui.toggle.checkbox input:focus ~ label::before,
-.ui.toggle.checkbox label::before {
-  background: var(--color-input-toggle-background);
+.ui.toggle.checkbox input:checked ~ label::before {
+  background: var(--color-toggle-on);
 }
-.ui.toggle.checkbox label,
-.ui.toggle.checkbox input:checked ~ label,
-.ui.toggle.checkbox input:focus:checked ~ label {
-  color: var(--color-text) !important;
-}
-.ui.toggle.checkbox input:checked ~ label::before,
-.ui.toggle.checkbox input:focus:checked ~ label::before {
-  background: var(--color-primary) !important;
+.ui.toggle.checkbox input:focus-visible ~ label::before {
+  box-shadow: var(--focus-ring);
 }
 
 @media (forced-colors: active) {
@@ -190,7 +219,11 @@ input[type="checkbox"]:indeterminate::before {
 label.gt-checkbox {
   display: inline-flex;
   align-items: center;
-  gap: 0.25em;
+  gap: var(--gap-inline);
+}
+
+label.gt-checkbox > input {
+  flex-shrink: 0;
 }
 
 .ui.form .field > label.gt-checkbox {

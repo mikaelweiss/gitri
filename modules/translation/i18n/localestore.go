@@ -170,6 +170,12 @@ func (l *locale) TrHTML(trKey string, trArgs ...any) template.HTML {
 	return template.HTML(l.TrString(trKey, args...))
 }
 
+// HasOwnKey returns whether this locale itself translates the key, ignoring the default language fallback
+func (l *locale) HasOwnKey(trKey string) bool {
+	idx, ok := l.store.trKeyToIdxMap[trKey]
+	return ok && l.idxToMsgMap[idx] != ""
+}
+
 // HasKey returns whether a key is present in this locale or not
 func (l *locale) HasKey(trKey string) bool {
 	idx, ok := l.store.trKeyToIdxMap[trKey]

@@ -37,11 +37,11 @@
 				<div class="list-header">
 					<div class="small-menu-items ui compact tiny menu list-header-toggle">
 						<a class="item{{if not .IsShowClosed}} active{{end}}" href="?repos=[{{range $.RepoIDs}}{{.}}%2C{{end}}]&sort={{$.SortType}}&state=open&q={{$.Keyword}}">
-							{{svg "octicon-milestone" 16 "tw-mr-2"}}
+							{{svg "octicon-milestone" 16}}
 							{{ctx.Locale.PrettyNumber .MilestoneStats.OpenCount}}&nbsp;{{ctx.Locale.Tr "repo.issues.open_title"}}
 						</a>
 						<a class="item{{if .IsShowClosed}} active{{end}}" href="?repos=[{{range $.RepoIDs}}{{.}}%2C{{end}}]&sort={{$.SortType}}&state=closed&q={{$.Keyword}}">
-							{{svg "octicon-check" 16 "tw-mr-2"}}
+							{{svg "octicon-check" 16}}
 							{{ctx.Locale.PrettyNumber .MilestoneStats.ClosedCount}}&nbsp;{{ctx.Locale.Tr "repo.issues.closed_title"}}
 						</a>
 					</div>
@@ -66,12 +66,12 @@
 								<a class="{{if eq .SortType "mostcomplete"}}active {{end}}item" href="?repos=[{{range $.RepoIDs}}{{.}}%2C{{end}}]&sort=mostcomplete&state={{$.State}}&q={{$.Keyword}}">{{ctx.Locale.Tr "repo.milestones.filter_sort.most_complete"}}</a>
 								<a class="{{if eq .SortType "mostissues"}}active {{end}}item" href="?repos=[{{range $.RepoIDs}}{{.}}%2C{{end}}]&sort=mostissues&state={{$.State}}&q={{$.Keyword}}">{{ctx.Locale.Tr "repo.milestones.filter_sort.most_issues"}}</a>
 								<a class="{{if eq .SortType "leastissues"}}active {{end}}item" href="?repos=[{{range $.RepoIDs}}{{.}}%2C{{end}}]&sort=leastissues&state={{$.State}}&q={{$.Keyword}}">{{ctx.Locale.Tr "repo.milestones.filter_sort.least_issues"}}</a>
-								<a class="{{if eq .SortType "name"}}active {{end}}item" href="{{$.Link}}?sort=name&state={{$.State}}&q={{$.Keyword}}">{{ctx.Locale.Tr "repo.milestones.filter_sort.name"}}</a>
+								<a class="{{if eq .SortType "name"}}active {{end}}item" href="?repos=[{{range $.RepoIDs}}{{.}}%2C{{end}}]&sort=name&state={{$.State}}&q={{$.Keyword}}">{{ctx.Locale.Tr "repo.milestones.filter_sort.name"}}</a>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="flex-divided-list">
+				<div class="flex-divided-list list-card">
 					{{range .Milestones}}
 						<div class="item flex-relaxed-list">
 							<div class="flex-left-right">
@@ -132,11 +132,29 @@
 								<div class="render-content markup">{{.RenderedContent}}</div>
 							{{end}}
 						</div>
+					{{else}}
+						<div class="empty-placeholder">
+							{{svg (Iif .Keyword "octicon-search" "octicon-milestone") 48}}
+							<h2>
+								{{if .Keyword}}
+									{{ctx.Locale.Tr "search.no_results"}}
+								{{else if .IsShowClosed}}
+									{{ctx.Locale.Tr "home.milestones.none_closed"}}
+								{{else}}
+									{{ctx.Locale.Tr "home.milestones.none_open"}}
+								{{end}}
+							</h2>
+							{{if .Keyword}}
+								<a class="ui button" href="?repos=[{{range $.RepoIDs}}{{.}}%2C{{end}}]&sort={{$.SortType}}&state={{$.State}}">{{ctx.Locale.Tr "filter.clear"}}</a>
+							{{else if .IsShowClosed}}
+								<a class="ui button" href="?repos=[{{range $.RepoIDs}}{{.}}%2C{{end}}]&sort={{$.SortType}}&state=open">{{ctx.Locale.Tr "home.milestones.show_open"}}</a>
+							{{else}}
+								<p>{{ctx.Locale.Tr "home.milestones.none_open_desc"}}</p>
+							{{end}}
+						</div>
 					{{end}}
-
-					{{template "base/paginate" .}}
 				</div>
-
+				{{template "base/paginate" .}}
 			</div>
 		</div>
 	</div>

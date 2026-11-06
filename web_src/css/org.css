@@ -8,5 +8,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: var(--color-text-light-3);
+  color: var(--color-text-light-2);
+}
+
+.org-name {
+  font-family: var(--fonts-headline);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-tight);
 }

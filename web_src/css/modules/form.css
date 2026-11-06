@@ -25,9 +25,9 @@
 
 .ui.form .field > label {
   display: block;
-  margin: 0 0 0.28571429rem;
+  margin: 0 0 var(--gap-inline);
   color: var(--color-text);
-  font-size: 0.92857143em;
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   text-transform: none;
 }
@@ -47,20 +47,28 @@
 .ui.search > .prompt {
   font-family: var(--fonts-regular);
   margin: 0;
-  outline: none;
-  line-height: 1.21428571;
-  padding: 0.67857143em 1em;
+  min-height: var(--control-height);
+  line-height: var(--line-height-default);
+  padding: 0 10px;
   font-size: 1em;
   color: var(--color-text);
-  border-radius: 0.28571429rem;
+}
+
+.ui.form input[type="file"] {
+  padding-block: 3px; /* the picker button is top-aligned and has no other way to center */
+}
+
+.ui.form select {
+  min-height: var(--control-height);
+  padding-inline: 8px;
+  font-size: 1em;
+  color: var(--color-text);
 }
 
 .ui.form textarea {
   margin: 0;
-  padding: 0.78571429em 1em;
-  outline: none;
+  padding: 8px 10px;
   color: var(--color-text);
-  border-radius: 0.28571429rem;
   font-size: 1em;
   font-family: var(--fonts-regular);
   line-height: 1.2857;
@@ -84,6 +92,26 @@ textarea,
   background: var(--color-input-background);
   border: 1px solid var(--color-input-border);
   color: var(--color-input-text);
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-standard);
+}
+
+/* zero specificity, so a component's own radius and outline always win */
+:where(input:not([type="checkbox"], [type="radio"]), textarea, select) {
+  border-radius: var(--border-radius);
+  outline: none;
+}
+
+input:not([type="checkbox"], [type="radio"]):hover,
+textarea:hover,
+.ui.input > input:hover,
+.ui.form input:not([type="checkbox"], [type="radio"]):hover,
+.ui.form select:hover,
+.ui.form textarea:hover,
+.ui.selection.dropdown:hover,
+.ui.search > .prompt:hover {
+  border-color: var(--color-text-light-3);
 }
 
 input:not([type="checkbox"], [type="radio"]):focus,
@@ -96,6 +124,7 @@ textarea:focus,
   background: var(--color-input-background);
   border-color: var(--color-primary);
   color: var(--color-input-text);
+  box-shadow: var(--focus-ring);
 }
 
 .ui.form input:not([type="checkbox"], [type="radio"])[readonly],
@@ -118,15 +147,9 @@ textarea:focus,
   min-width: 14em; /* matches the default min width */
   width: 100%;
 }
-.ui.form .field > .selection.dropdown > .dropdown.icon {
-  float: right;
-}
 
 .ui.form .inline.field > .selection.dropdown {
   width: auto;
-}
-.ui.form .inline.field > .selection.dropdown > .dropdown.icon {
-  float: none;
 }
 
 .ui.form .field .ui.input {
@@ -151,11 +174,6 @@ textarea:focus,
   margin-top: 0;
 }
 
-.ui.form .ui.action.input:not([class*="left action"]) input:focus {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
 .ui.form.error .error.message:not(:empty) {
   display: block;
 }
@@ -176,16 +194,12 @@ textarea:focus,
   background-color: var(--color-error-bg);
   border-color: var(--color-error-border);
   color: var(--color-input-text);
+  box-shadow: var(--focus-ring-error);
 }
 
-.ui.form .field.error select {
-  appearance: menulist-button;
-}
-
-.ui.form .field.error .ui.dropdown {
-  border-color: var(--color-error-border);
-}
+.ui.form .field.error .ui.dropdown,
 .ui.form .field.error .ui.dropdown:hover {
+  background-color: var(--color-error-bg);
   border-color: var(--color-error-border);
 }
 
@@ -194,7 +208,7 @@ textarea:focus,
 }
 
 .ui.form .field.error .ui.dropdown .menu .active.item {
-  background-color: var(--color-error-bg-active) !important;
+  background-color: var(--color-error-bg-active);
 }
 
 .ui.form .disabled.fields .field,
@@ -268,6 +282,10 @@ textarea:focus,
   margin: 0 0 1em;
   align-items: center;
 }
+.ui.form .inline.fields:last-child {
+  margin-bottom: 0;
+}
+
 .ui.form .inline.fields .field {
   margin: 0;
   padding: 0 1em 0 0;
@@ -281,14 +299,14 @@ textarea:focus,
   margin-top: 0;
   margin-bottom: 0;
   vertical-align: baseline;
-  font-size: 0.92857143em;
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   color: var(--color-text);
   text-transform: none;
 }
 
 .ui.form .inline.fields > label {
-  margin: 0.035714em 1em 0 0;
+  margin: 0 1em 0 0;
 }
 
 .ui.form .inline.field > input,
@@ -303,20 +321,24 @@ textarea:focus,
 
 .ui.form .inline.fields .field > :first-child,
 .ui.form .inline.field > :first-child {
-  margin: 0 0.85714286em 0 0;
+  margin: 0 12px 0 0;
 }
 .ui.form .inline.fields .field > :only-child,
 .ui.form .inline.field > :only-child {
   margin: 0;
 }
+.ui.form:not(.left-right-form) .inline.field > label:empty {
+  display: none; /* only left-right forms give it a width that lines the button up with the inputs */
+}
+.ui.form .inline.field > .ui.checkbox + .ui.checkbox {
+  margin-inline-start: 12px;
+}
 
 .ui.form,
 .ui.form .field .dropdown,
 .ui.form .field .dropdown .menu > .item {
-  font-size: 1rem;
+  font-size: var(--font-size-md);
 }
-
-/* previously from web_src/css/form.css */
 
 .ui .form .autofill-dummy {
   position: absolute;
@@ -326,34 +348,33 @@ textarea:focus,
   z-index: -10000;
 }
 
-.ui.form .field.error .ui.dropdown,
-.ui.form .field.error .ui.dropdown:hover {
-  border-color: var(--color-error-border) !important;
-}
-
-.ui.form .field.error .dropdown .menu {
-  border-color: var(--color-error-border) !important;
-}
-
 input:-webkit-autofill,
-input:-webkit-autofill:focus,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:active {
   -webkit-text-fill-color: var(--color-text);
-  box-shadow: 0 0 0 100px var(--color-primary-light-6) inset !important;
-  border-color: var(--color-primary-light-4) !important;
+  box-shadow: 0 0 0 100px var(--color-primary-light-6) inset !important; /* an inset shadow is the only way over the browser's autofill fill */
+  border-color: var(--color-primary-light-4) !important; /* must also beat the focus and hover borders of every input variant */
+}
+
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-text);
+  box-shadow: 0 0 0 100px var(--color-primary-light-6) inset, var(--focus-ring) !important; /* see above, and keep the ring */
+  border-color: var(--color-primary) !important; /* see above */
 }
 
 .form .help {
-  color: var(--color-secondary-dark-5);
-  margin-top: 0.25em;
+  color: var(--color-text-light-2);
+  font-size: var(--font-size-sm);
+  margin-top: var(--gap-inline);
   padding-bottom: 0.6em;
   display: inline-block;
+  max-width: 100%;
   text-wrap: balance;
 }
 
 .form .help code {
   color: var(--color-text-light-1);
+  overflow-wrap: anywhere;
 }
 
 .form .help pre.command-block {
@@ -394,6 +415,9 @@ input:-webkit-autofill:active {
     width: 100%;
     margin: 0;
     text-align: left;
+  }
+  .ui.form.left-right-form .inline.field > label:empty {
+    display: none;
   }
   .ui.form.left-right-form .inline.field > .help {
     margin: 0;

@@ -10,14 +10,17 @@
   max-width: 100%;
   background: var(--color-label-bg);
   color: var(--color-label-text);
-  padding: 2px 6px;
+  padding: 2px 8px;
   font-size: var(--font-size-label);
   font-weight: var(--font-weight-medium);
   border: 0 solid transparent;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-full);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition-property: background-color, border-color, color;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-standard);
 }
 
 a.ui.label {
@@ -37,8 +40,8 @@ a.ui.label {
 
 .ui.label > .delete.icon {
   cursor: pointer;
-  font-size: 0.92857143em;
   opacity: 0.5;
+  transition: var(--transition-hover-fade);
 }
 .ui.label > .delete.icon:hover {
   opacity: 1;
@@ -111,12 +114,12 @@ a.ui.ui.ui.basic.red.label:hover {
 .ui.ui.ui.orange.label {
   background: var(--color-orange);
   border-color: var(--color-orange);
-  color: var(--color-white);
+  color: var(--color-orange-contrast);
 }
 a.ui.ui.ui.orange.label:hover {
   background: var(--color-orange-dark-1);
   border-color: var(--color-orange-dark-1);
-  color: var(--color-white);
+  color: var(--color-orange-contrast);
 }
 .ui.ui.ui.basic.orange.label {
   background: transparent;
@@ -132,12 +135,12 @@ a.ui.ui.ui.basic.orange.label:hover {
 .ui.ui.ui.yellow.label {
   background: var(--color-yellow);
   border-color: var(--color-yellow);
-  color: var(--color-white);
+  color: var(--color-yellow-contrast);
 }
 a.ui.ui.ui.yellow.label:hover {
   background: var(--color-yellow-dark-1);
   border-color: var(--color-yellow-dark-1);
-  color: var(--color-white);
+  color: var(--color-yellow-contrast);
 }
 .ui.ui.ui.basic.yellow.label {
   background: transparent;
@@ -152,12 +155,12 @@ a.ui.ui.ui.basic.yellow.label:hover {
 .ui.ui.ui.green.label {
   background: var(--color-green);
   border-color: var(--color-green);
-  color: var(--color-white);
+  color: var(--color-green-contrast);
 }
 a.ui.ui.ui.green.label:hover {
   background: var(--color-green-dark-1);
   border-color: var(--color-green-dark-1);
-  color: var(--color-white);
+  color: var(--color-green-contrast);
 }
 .ui.ui.ui.basic.green.label {
   background: transparent;
@@ -189,13 +192,13 @@ a.ui.ui.ui.purple.label:hover {
 a.ui.ui.ui.grey.label:hover {
   background: var(--color-label-hover-bg);
   border-color: var(--color-label-hover-bg);
-  color: var(--color-white);
+  color: var(--color-label-text);
 }
 
 /* "horizontal label" is actually "fat label" which has enough padding spaces to be used standalone in headers */
 .ui.horizontal.label {
   margin: 0 0.5em 0 0;
-  padding: 0.4em 0.833em;
+  padding: 4px 10px;
   min-width: 3em;
   text-align: center;
 }
@@ -203,24 +206,24 @@ a.ui.ui.ui.grey.label:hover {
 .ui.circular.label {
   min-width: 2em;
   min-height: 2em;
-  padding: 0.5em !important;
+  padding: 0.5em;
   line-height: 1;
   text-align: center;
-  border-radius: 500rem;
   justify-content: center;
 }
 
-.ui.mini.label {
-  font-size: 0.64285714rem;
-}
+.ui.mini.label,
 .ui.tiny.label {
-  font-size: 0.71428571rem;
+  padding-block: 0;
+}
+.ui.mini.label {
+  padding-inline: 6px;
 }
 .ui.small.label {
-  font-size: 0.78571429rem;
+  padding-block: 1px;
 }
 .ui.large.label {
-  font-size: 1rem;
+  font-size: var(--font-size-md);
 }
 
 /* labels-list layout: span.labels-list > a.item > span.ui.label,
@@ -256,15 +259,19 @@ it can also be rendered as flex by adding flex-related classes (the general ".it
   vertical-align: 1.5px;
 }
 
+.timeline-item .labels-list > .item:last-child {
+  margin-right: 0;
+}
+
 /* Scoped labels with different colors on left and right */
-.ui.label.scope-parent {
-  background: none !important;
-  padding: 0 !important;
-  gap: 0 !important;
+.ui.ui.ui.label.scope-parent {
+  background: none;
+  padding: 0;
+  gap: 0;
 }
 
 .ui.label.scope-parent > .ui.label {
-  margin: 0 !important; /* scoped label's margin is handled by the parent */
+  margin: 0; /* scoped label's margin is handled by the parent */
 }
 
 .ui.label.scope-left {

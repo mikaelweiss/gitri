@@ -141,7 +141,7 @@ func TestCompare(t *testing.T) {
 		inspectCompare(t, htmlDoc, 3, []string{"link_hi", "test.csv", "test.txt"})
 		assert.NotContains(t, htmlDoc.doc.Text(), translation.NewLocale("en-US").TrString("repo.commits.nothing_to_compare"))
 		commitsHeader := strings.Join(strings.Fields(htmlDoc.doc.Find(".ui.top.attached.header .flex-text-block").First().Text()), " ")
-		assert.Equal(t, "0 "+translation.NewLocale("en-US").TrString("repo.commits.commits"), commitsHeader)
+		assert.Equal(t, "0 "+translation.NewLocale("en-US").TrString("repo.commits"), commitsHeader)
 	})
 
 	t.Run("CompareWithRefSuffix", func(t *testing.T) {

@@ -1,7 +1,11 @@
+.image-diff overflow-menu {
+  margin-top: 8px;
+}
+
 .image-diff-tabs {
   min-height: 60px;
-
 }
+
 .image-diff-tabs.is-loading .tab {
   display: none;
 }
@@ -12,17 +16,17 @@
 }
 
 .image-diff-container img {
-  border: 1px solid var(--color-primary-light-7);
+  border: 1px solid var(--color-secondary);
   background: var(--background-view-image);
 }
 
 .image-diff-container .before-container {
-  border: 1px solid var(--color-red);
+  border: 1px solid var(--color-diff-removed-fg);
   display: block;
 }
 
 .image-diff-container .after-container {
-  border: 1px solid var(--color-green);
+  border: 1px solid var(--color-diff-added-fg);
   display: block;
 }
 

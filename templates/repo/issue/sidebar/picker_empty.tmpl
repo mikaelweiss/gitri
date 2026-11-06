@@ -1,0 +1,8 @@
+{{/* Template Attributes:
+* CreateLink: optional, page where a user who can manage these items adds one
+* CreateText: optional, text of the link
+*/}}
+<div class="item disabled">{{ctx.Locale.Tr "repo.issues.new.no_items"}}</div>
+{{if .CreateLink}}
+	<a class="item flex-text-block issue-sidebar-picker-link" href="{{.CreateLink}}" target="_blank">{{svg "octicon-plus"}} {{.CreateText}}</a>
+{{end}}

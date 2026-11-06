@@ -53,13 +53,13 @@ export default {
     },
     borderRadius: {
       'none': '0',
-      'sm': '2px',
-      'DEFAULT': 'var(--border-radius)', // 4px
-      'md': 'var(--border-radius-medium)', // 6px
-      'lg': '8px',
-      'xl': '12px',
-      '2xl': '16px',
-      '3xl': '24px',
+      'sm': 'var(--border-radius-small)',
+      'DEFAULT': 'var(--border-radius)',
+      'md': 'var(--border-radius)',
+      'lg': 'var(--border-radius-medium)',
+      'xl': 'var(--border-radius-medium)',
+      '2xl': 'var(--border-radius-large)',
+      '3xl': 'var(--border-radius-large)',
       'full': 'var(--border-radius-full)',
     },
     fontFamily: {
@@ -67,29 +67,18 @@ export default {
       mono: 'var(--fonts-monospace)',
     },
     fontWeight: {
-      light: 'var(--font-weight-light)',
       normal: 'var(--font-weight-normal)',
       medium: 'var(--font-weight-medium)',
       semibold: 'var(--font-weight-semibold)',
-      bold: 'var(--font-weight-bold)',
     },
     fontSize: { // rarely used, but "text-base" (matching body's 1em=14px) is useful to reset font-size in a header container
-      'xs': '11px',
-      'sm': '12px',
-      'base': '14px',
-      'lg': '18px',
-      'xl': '20px',
-      '2xl': '24px',
-      '3xl': '30px',
-      '4xl': '36px',
-      '5xl': '48px',
-      '6xl': '60px',
-      '7xl': '72px',
-      '8xl': '96px',
-      '9xl': '128px',
-      ...Object.fromEntries(Array.from({length: 100}, (_, i) => {
-        return [String(i), i === 0 ? '0' : `${i}px`];
-      })),
+      'xs': 'var(--font-size-xs)',
+      'sm': 'var(--font-size-sm)',
+      'base': 'var(--font-size-md)',
+      'lg': 'var(--font-size-lg)',
+      'xl': 'var(--font-size-xl)',
+      '2xl': 'var(--font-size-2xl)',
+      '3xl': 'var(--font-size-3xl)',
     },
     extend: {
       zIndex: {'1': '1'},

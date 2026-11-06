@@ -10,13 +10,11 @@
 .ui.input > input {
   margin: 0;
   max-width: 100%;
-  flex: 1 0 auto;
-  outline: none;
+  min-height: var(--control-height);
+  min-width: 0;
+  flex: 1 1 auto;
   font-family: var(--fonts-regular);
-  padding: 0.67857143em 1em;
-  border: 1px solid var(--color-input-border);
-  color: var(--color-input-text);
-  border-radius: 0.28571429rem;
+  padding: 0 10px;
   line-height: var(--line-height-default);
   text-align: start;
 }
@@ -24,10 +22,6 @@
 .ui.input:not(.disabled) input[disabled] {
   opacity: var(--opacity-disabled);
   pointer-events: none;
-}
-
-.ui.input > input:focus {
-  border-color: var(--color-primary);
 }
 
 .ui.input.error > input {
@@ -47,17 +41,18 @@
   right: 0;
   margin: 0;
   height: 100%;
-  width: 2.67142857em;
+  width: var(--control-height);
   opacity: 0.5;
-  border-radius: 0 0.28571429rem 0.28571429rem 0;
   pointer-events: none;
   padding: 4px;
+  transition: opacity var(--duration-fast) var(--ease-standard);
+  z-index: 2; /* a focused action input rises to z-index 1 */
 }
 
 .ui.icon.input > i.icon.is-loading {
-  position: absolute !important;
-  height: 28px;
-  top: 4px;
+  position: absolute;
+  height: var(--control-height-small);
+  top: 2px;
 }
 
 .ui.icon.input > i.icon.is-loading > * {
@@ -65,17 +60,16 @@
 }
 
 .ui.ui.ui.ui.icon.input > input {
-  padding-right: 2.67142857em;
+  padding-right: var(--control-height);
 }
 
 .ui[class*="left icon"].input > i.icon {
   right: auto;
   left: 1px;
-  border-radius: 0.28571429rem 0 0 0.28571429rem;
 }
 .ui.ui.ui.ui[class*="left icon"].input > input {
-  padding-left: 2.67142857em;
-  padding-right: 1em;
+  padding-left: var(--control-height);
+  padding-right: 10px;
 }
 
 .ui.icon.input > input:focus ~ .icon {
@@ -87,11 +81,28 @@
   border-bottom: 1px solid var(--color-error-border);
 }
 
+/* a form gives inputs full width, the input has to shrink so the button keeps its place */
+.ui.action.input > input {
+  flex-shrink: 1;
+  min-width: 0;
+}
+
 .ui.action.input > .button {
   display: flex;
   align-items: center;
   flex: 0 0 auto;
   margin: 0;
+}
+
+/* joined controls share edges, so a press stays flat and the focus ring paints over the neighbour */
+.ui.action.input > .button:active {
+  transform: none;
+}
+
+.ui.action.input > input:focus,
+.ui.action.input > .button:focus-visible {
+  position: relative;
+  z-index: 1;
 }
 
 .ui.action.input:not([class*="left action"]) > input,
@@ -103,7 +114,7 @@
 
 .ui.action.input > .dropdown:first-child,
 .ui.action.input > .button:first-child {
-  border-radius: 0.28571429rem 0 0 0.28571429rem;
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
 }
 .ui.action.input > .dropdown:not(:first-child),
 .ui.action.input > .button:not(:first-child) {
@@ -111,21 +122,28 @@
 }
 .ui.action.input > .dropdown:last-child,
 .ui.action.input > .button:last-child {
-  border-radius: 0 0.28571429rem 0.28571429rem 0;
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
 }
 
 .ui.fluid.input {
   display: flex;
 }
-.ui.fluid.input > input {
-  width: 0 !important;
+.ui.ui.ui.ui.fluid.input > input {
+  width: 0;
 }
 
 .ui.tiny.input {
-  font-size: 0.85714286em;
+  font-size: var(--font-size-xs);
 }
 .ui.small.input {
-  font-size: 0.92857143em;
+  font-size: var(--font-size-sm);
+}
+
+.ui.small.input > input {
+  min-height: var(--control-height-small);
+}
+.ui.tiny.input > input {
+  min-height: var(--control-height-tiny);
 }
 
 .ui.action.input .ui.ui.button {
@@ -141,10 +159,6 @@
 }
 .ui.action.input:not([class*="left action"]) > .ui.dropdown.selection:not(.active):hover {
   border-color: var(--color-input-border);
-}
-.ui.action.input:not([class*="left action"]) .ui.dropdown.selection.upward.visible {
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
 }
 .ui.action.input:not([class*="left action"]) > input,
 .ui.action.input:not([class*="left action"]) > input:hover {

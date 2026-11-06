@@ -2,7 +2,12 @@
   display: flex;
   align-items: stretch;
   flex-wrap: wrap;
-  gap: .5rem;
+  gap: var(--gap-block);
+  margin-bottom: var(--gap-block);
+}
+
+.list-header > .ui.button {
+  margin-right: 0;
 }
 
 .list-header-search {
@@ -15,11 +20,11 @@
 
 .list-header-search > .ui.input {
   flex: 1;
-  min-width: 100px !important;
+  min-width: 100px;
 }
 
 .list-header-search > .ui.input .ui.dropdown {
-  min-width: auto !important;
+  min-width: auto;
 }
 
 .list-header-filters {

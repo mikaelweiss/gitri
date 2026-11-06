@@ -20,14 +20,14 @@
 
 .ui.bottom.attached.segment .code-editor-container,
 .ui.bottom.attached.segment .code-editor-container .cm-scroller {
-  border-radius: 0 0 var(--border-radius) var(--border-radius); /* avoid overflow parent's border with radius */
+  border-radius: 0 0 calc(var(--border-radius-medium) - 1px) calc(var(--border-radius-medium) - 1px); /* avoid overflow parent's border with radius */
 }
 
 /* editor layout */
 .code-editor-container .cm-editor {
   color: var(--color-text);
   font-family: var(--fonts-monospace);
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   /* it was written as "min-height: 90vh; max-height: 90vh", so maybe the author prefer to always use about 90vh.
      here, minus 80px to keep spaces for the top toolbar */
   height: max(200px, calc(95vh - 80px));
@@ -57,7 +57,7 @@
   color: var(--color-text);
   border-color: var(--color-secondary);
   font-family: var(--fonts-regular);
-  font-size: 13px;
+  font-size: var(--font-size-sm);
 }
 
 .code-editor-container .cm-panel.cm-search {
@@ -116,7 +116,7 @@
   background-color: currentcolor;
   mask-image: var(--octicon-x);
   mask-size: cover;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-small);
 }
 
 .code-editor-container .cm-panel.cm-search button[name="close"] {
@@ -210,9 +210,11 @@
 }
 
 .code-editor-container .cm-tooltip {
-  background-color: var(--color-body);
+  background-color: var(--color-menu);
   color: var(--color-text);
   border-color: var(--color-secondary);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-popover);
 }
 
 .code-editor-container .cm-tooltip.cm-tooltip-autocomplete > ul > li {
@@ -224,7 +226,7 @@
 .code-editor-container .cm-completionIcon {
   display: flex;
   align-items: center;
-  font-size: 16px;
+  font-size: var(--font-size-lg);
   padding-right: 4px;
   color: var(--color-text-light);
   opacity: 1;
@@ -251,14 +253,19 @@
   color: var(--color-text);
   border: 1px solid var(--color-secondary);
   border-radius: var(--border-radius);
-  height: 28px;
+  height: var(--control-height-small);
   padding: 0 10px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
+  transition: background-color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
 }
 
 .code-editor-container .cm-button:hover {
   background-color: var(--color-hover);
+}
+
+.code-editor-container .cm-button:active {
+  transform: scale(0.97);
 }
 
 .code-editor-container .cm-textfield {
@@ -266,12 +273,14 @@
   color: var(--color-input-text);
   border: 1px solid var(--color-input-border);
   border-radius: var(--border-radius);
-  height: 28px;
+  height: var(--control-height-small);
   padding: 0 6px;
+  transition: border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard);
 }
 
 .code-editor-container .cm-textfield:focus {
   border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
 }
 
 .code-editor-container .cm-specialChar {
@@ -305,7 +314,7 @@
 
 .code-editor-container .cm-panels-bottom {
   border-top-color: var(--color-secondary);
-  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  border-radius: 0 0 calc(var(--border-radius-medium) - 1px) calc(var(--border-radius-medium) - 1px);
 }
 
 .code-editor-container .cm-snippetField {
@@ -328,44 +337,46 @@
 
 .cm-command-palette {
   position: absolute;
-  top: 0;
+  top: 8px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 301;
   width: 400px;
   max-width: min(calc(100% - 16px), 90vw);
-  background-color: var(--color-body);
+  background-color: var(--color-menu);
   border: 1px solid var(--color-secondary);
-  border-radius: 0 0 var(--border-radius) var(--border-radius);
-  box-shadow: 0 4px 12px var(--color-shadow);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-popover);
   font-family: var(--fonts-regular);
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   display: flex;
   flex-direction: column;
   gap: 4px;
   padding: 4px;
 }
 
-.cm-command-palette-input {
+.code-editor-container .cm-command-palette input.cm-command-palette-input {
   display: block;
   width: 100%;
   box-sizing: border-box;
-  padding: 4px 6px !important;
+  padding: 4px 6px;
   border: 1px solid var(--color-secondary);
   border-radius: var(--border-radius);
   background-color: var(--color-input-background);
   color: var(--color-input-text);
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   outline: none;
+  transition: border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard);
 }
 
-.cm-command-palette-input:focus {
+.code-editor-container .cm-command-palette input.cm-command-palette-input:focus {
   border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
 }
 
 .cm-command-palette-list {
   position: relative;
-  max-height: calc(8 * 24px);
+  max-height: calc(8 * var(--control-height-tiny));
   overflow-y: auto;
 }
 
@@ -373,10 +384,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 24px;
+  height: var(--control-height-tiny);
   padding: 0 6px;
-  border-radius: 2px;
+  border-radius: var(--border-radius-small);
   cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-standard);
 }
 
 .cm-command-palette-item[aria-selected="true"] {
@@ -424,7 +436,7 @@
   content: "";
   width: 8px;
   height: 8px;
-  border-radius: 50%;
+  border-radius: var(--border-radius-full);
   background-color: var(--color-red);
 }
 
@@ -432,8 +444,15 @@
   content: "";
   width: 8px;
   height: 8px;
-  border-radius: 50%;
+  border-radius: var(--border-radius-full);
   background-color: var(--color-yellow);
+}
+
+@supports (corner-shape: squircle) {
+  .code-editor-container .cm-lint-marker-error,
+  .code-editor-container .cm-lint-marker-warning {
+    corner-shape: round;
+  }
 }
 
 .code-editor-container .cm-lintRange-error {
@@ -457,7 +476,7 @@
 }
 
 .code-editor-container .cm-tooltip-lint {
-  background-color: var(--color-body);
+  background-color: var(--color-menu);
   color: var(--color-text);
   border-color: var(--color-secondary);
 }
@@ -473,7 +492,7 @@
 }
 
 .code-editor-container .cm-panel.cm-panel-lint [aria-selected] {
-  background-color: var(--color-primary-alpha-30) !important;
+  background-color: var(--color-primary-alpha-30) !important; /* CodeMirror injects its theme after this sheet at equal specificity */
 }
 
 .code-editor-container .cm-diagnostic.cm-diagnostic-error {
@@ -507,7 +526,7 @@
 .code-editor-container .tok-link { color: var(--color-syntax-link); }
 .code-editor-container .tok-heading { color: var(--color-syntax-heading); }
 .code-editor-container .tok-emphasis { color: var(--color-syntax-emph); font-style: italic; }
-.code-editor-container .tok-strong { font-weight: var(--font-weight-bold); }
+.code-editor-container .tok-strong { font-weight: var(--font-weight-semibold); }
 .code-editor-container .tok-inserted { color: var(--color-syntax-string); }
 .code-editor-container .tok-deleted { color: var(--color-syntax-invalid); }
 
@@ -519,16 +538,16 @@
 .code-editor-container[data-language="html"] .tok-propertyName,
 .code-editor-container[data-language="xml"] .tok-propertyName { color: var(--color-syntax-attribute); }
 
-/* context menu — uses tippy "menu" theme for base styling */
+/* context menu, uses tippy "menu" theme for base styling */
 .cm-context-menu {
   min-width: 200px;
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   user-select: none;
 }
 
-.cm-context-menu .item {
-  height: 24px !important;
-  padding: 0 12px !important;
+.tippy-box[data-theme="menu"] .cm-context-menu .item {
+  height: var(--control-height-tiny);
+  padding: 0 12px;
   cursor: pointer;
 }
 

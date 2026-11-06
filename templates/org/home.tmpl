@@ -10,11 +10,14 @@
 				{{end}}
 				{{template "shared/repo/search" .}}
 				<div class="divider"></div>
-				{{if not .Repos}}
+				{{if and (not .Repos) (not .Keyword)}}
 					<div class="empty-placeholder">
 						{{svg "octicon-repo" 48}}
 						<h2>{{ctx.Locale.Tr "org.repos.empty"}}</h2>
 						<p>{{ctx.Locale.Tr "org.repos.empty_description"}}</p>
+						{{if .CanCreateOrgRepo}}
+							<a class="ui primary button" href="{{AppSubUrl}}/repo/create?org={{.Org.ID}}">{{ctx.Locale.Tr "new_repo"}}</a>
+						{{end}}
 					</div>
 				{{else}}
 					{{template "shared/repo/list" .}}
@@ -25,13 +28,12 @@
 			{{if .ShowMemberAndTeamTab}}
 			<div class="ui five wide column">
 				{{if .CanCreateOrgRepo}}
-					<div class="tw-flex tw-flex-wrap tw-justify-center tw-gap-x-1 tw-gap-y-2 tw-mb-4">
+					<div class="tw-flex tw-flex-wrap tw-justify-center tw-gap-x-1 tw-gap-y-2 tw-mb-[--page-spacing]">
 						<a class="ui primary button tw-grow" href="{{AppSubUrl}}/repo/create?org={{.Org.ID}}">{{ctx.Locale.Tr "new_repo"}}</a>
 						{{if not .DisableNewPullMirrors}}
 							<a class="ui primary button tw-grow" href="{{AppSubUrl}}/repo/migrate?org={{.Org.ID}}&mirror=1">{{ctx.Locale.Tr "new_migrate"}}</a>
 						{{end}}
 					</div>
-					<div class="divider"></div>
 				{{end}}
 
 				{{if and .ShowMemberAndTeamTab .ShowOrgProfileReadmeSelector}}
@@ -80,8 +82,8 @@
 							<div>
 								<a href="{{$.OrgLink}}/teams/{{.LowerName | PathEscape}}"><strong>{{.Name}}</strong></a>
 								<p class="tw-text-text-light">
-									<a class="muted" href="{{$.OrgLink}}/teams/{{.LowerName | PathEscape}}"><strong>{{.NumMembers}}</strong> {{ctx.Locale.Tr "org.lower_members"}}</a> ·
-									<a class="muted" href="{{$.OrgLink}}/teams/{{.LowerName | PathEscape}}/repositories"><strong>{{.NumRepos}}</strong> {{ctx.Locale.Tr "org.lower_repositories"}}</a>
+									<a class="muted" href="{{$.OrgLink}}/teams/{{.LowerName | PathEscape}}"><strong>{{.NumMembers}}</strong> {{ctx.Locale.TrN .NumMembers "org.lower_member" "org.lower_members"}}</a> ·
+									<a class="muted" href="{{$.OrgLink}}/teams/{{.LowerName | PathEscape}}/repositories"><strong>{{.NumRepos}}</strong> {{ctx.Locale.TrN .NumRepos "org.lower_repository" "org.lower_repositories"}}</a>
 								</p>
 							</div>
 						{{end}}

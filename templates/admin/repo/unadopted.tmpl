@@ -20,8 +20,8 @@
 				{{if .Dirs}}
 					<div class="ui aligned divided list">
 						{{range $dirI, $dir := .Dirs}}
-							<div class="item flex-text-block">
-								<span class="tw-flex-1"> {{svg "octicon-file-directory-fill"}} {{$dir}}</span>
+							<div class="item flex-text-block tw-py-2">
+								<span class="tw-flex-1 flex-text-inline tw-break-anywhere">{{svg "octicon-file-directory-fill"}} {{$dir}}</span>
 								<div>
 									<button type="button" class="ui button primary show-modal tw-p-2" data-modal="#adopt-unadopted-modal-{{$dirI}}">{{svg "octicon-plus"}} {{ctx.Locale.Tr "repo.adopt_preexisting_label"}}</button>
 									<dialog class="modal-dialog" id="adopt-unadopted-modal-{{$dirI}}">
@@ -61,8 +61,9 @@
 					</div>
 					{{template "base/paginate" .}}
 				{{else}}
-					<div class="item">
-						{{ctx.Locale.Tr "admin.repos.unadopted.no_more"}}
+					<div class="empty-placeholder">
+						{{svg "octicon-check-circle" 48}}
+						<h2>{{ctx.Locale.Tr "admin.repos.unadopted.no_more"}}</h2>
 					</div>
 					{{template "base/paginate" .}}
 				{{end}}

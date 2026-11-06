@@ -1,5 +1,5 @@
 <h4 class="ui top attached header">
-	{{ctx.Locale.Tr "repo.issues.label_count" .NumLabels}}
+	{{ctx.Locale.TrN .NumLabels "repo.issues.label_count_1" "repo.issues.label_count" .NumLabels}}
 	<div class="ui right">
 		<!-- Sort -->
 		<div class="item ui jump dropdown tw-py-2">
@@ -20,10 +20,9 @@
 <div class="ui attached segment">
 	{{if and (not $.PageIsOrgSettingsLabels) (or $.CanWriteIssues $.CanWritePulls) (eq .NumLabels 0) (not $.Repository.IsArchived)}}
 		{{template "repo/issue/labels/label_load_template" .}}
-		<div class="divider"></div>
+		{{if .OrgLabels}}<div class="divider"></div>{{end}}
 	{{else if and ($.PageIsOrgSettingsLabels) (eq .NumLabels 0)}}
 		{{template "repo/issue/labels/label_load_template" .}}
-		<div class="divider"></div>
 	{{end}}
 
 	<ul class="issue-label-list muted-links">
@@ -37,9 +36,9 @@
 			</div>
 			<div class="label-issues">
 				{{if $.PageIsOrgSettingsLabels}}
-					<a class="open-issues" href="{{AppSubUrl}}/issues?labels={{.ID}}">{{svg "octicon-issue-opened"}} {{ctx.Locale.Tr "repo.issues.label_open_issues" .NumOpenIssues}}</a>
+					<a class="open-issues" href="{{AppSubUrl}}/issues?labels={{.ID}}">{{svg "octicon-issue-opened"}} {{ctx.Locale.TrN .NumOpenIssues "repo.issues.label_open_issues_1" "repo.issues.label_open_issues" .NumOpenIssues}}</a>
 				{{else}}
-					<a class="open-issues" href="{{$.RepoLink}}/issues?labels={{.ID}}">{{svg "octicon-issue-opened"}} {{ctx.Locale.Tr "repo.issues.label_open_issues" .NumOpenIssues}}</a>
+					<a class="open-issues" href="{{$.RepoLink}}/issues?labels={{.ID}}">{{svg "octicon-issue-opened"}} {{ctx.Locale.TrN .NumOpenIssues "repo.issues.label_open_issues_1" "repo.issues.label_open_issues" .NumOpenIssues}}</a>
 				{{end}}
 			</div>
 			<div class="label-operation">
@@ -77,7 +76,7 @@
 					{{if .Description}}<br><small class="desc">{{.Description | ctx.RenderUtils.RenderEmoji}}</small>{{end}}
 				</div>
 				<div class="label-issues">
-					<a class="open-issues" {{if .IsArchived}}data-is-archived{{end}} href="{{$.RepoLink}}/issues?labels={{.ID}}">{{svg "octicon-issue-opened"}} {{ctx.Locale.Tr "repo.issues.label_open_issues" .NumOpenRepoIssues}}</a>
+					<a class="open-issues" {{if .IsArchived}}data-is-archived{{end}} href="{{$.RepoLink}}/issues?labels={{.ID}}">{{svg "octicon-issue-opened"}} {{ctx.Locale.TrN .NumOpenRepoIssues "repo.issues.label_open_issues_1" "repo.issues.label_open_issues" .NumOpenRepoIssues}}</a>
 				</div>
 				<div class="label-operation">
 					{{template "repo/issue/labels/label_archived" .}}

@@ -240,7 +240,7 @@ func (l *locale) TrN(cnt any, key1, keyN string, args ...any) template.HTML {
 		ruleFunc = trNLangRules["en-US"]
 	}
 
-	if ruleFunc(c) == 0 {
+	if ruleFunc(c) == 0 && l.HasOwnKey(key1) {
 		return l.Tr(key1, args...)
 	}
 	return l.Tr(keyN, args...)

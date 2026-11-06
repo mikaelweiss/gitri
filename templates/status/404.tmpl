@@ -7,9 +7,7 @@
 			<div class="status-page-error-title">404 Not Found</div>
 			<div class="tw-text-center">
 				<div class="tw-my-4">{{if .NotFoundPrompt}}{{.NotFoundPrompt}}{{else}}{{ctx.Locale.Tr "error404"}}{{end}}</div>
-				{{if .NotFoundGoBackURL}}
-					<a class="tw-block tw-my-4" href="{{.NotFoundGoBackURL}}">{{ctx.Locale.Tr "go_back"}}</a>
-				{{end}}
+				<a class="ui button" href="{{or .NotFoundGoBackURL (print AppSubUrl "/")}}">{{ctx.Locale.Tr (Iif .NotFoundGoBackURL "go_back" "return_to_gitea")}}</a>
 			</div>
 		</div>
 	</div>

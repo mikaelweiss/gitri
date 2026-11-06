@@ -2,23 +2,30 @@
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  gap: var(--gap-block);
   min-width: 0;
+  min-height: var(--control-height);
+  margin: 0;
+  margin-inline-end: var(--gap-inline);
+  padding: 3px 14px; /* the block padding keeps wrapped and CJK text off the border */
   outline: none;
   font-family: var(--fonts-regular);
-  margin: 0 0.25em 0 0;
-  font-weight: var(--font-weight-normal);
-  font-size: 1rem;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-default);
   text-align: center;
   text-decoration: none;
-  line-height: var(--line-height-default);
+  white-space: nowrap;
+  color: var(--color-text);
+  background: var(--color-button);
+  border: 1px solid var(--color-light-border);
   border-radius: var(--border-radius);
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  justify-content: center;
-  background: var(--color-button);
-  border: 1px solid var(--color-light-border);
-  color: var(--color-text);
-  white-space: nowrap;
+  transition-property: background-color, border-color, color, box-shadow, opacity, transform;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-standard);
 }
 
 @media (max-width: 767.98px) {
@@ -27,38 +34,35 @@
   }
 }
 
+/* --color-hover is translucent and vanishes over --color-button, so the fill is mixed instead */
 .ui.button:hover {
-  background: var(--color-hover);
+  background: color-mix(in srgb, var(--color-button), var(--color-text) 6%);
   color: var(--color-text);
-}
-
-.ui.ui.ui.buttons.hover-opaque {
-  background: var(--color-body)
-}
-
-.ui.ui.ui.button.hover-opaque:hover {
-  /* ".ui.button:hover" uses alpha channel to "highlight", it doesn't work when the background is not body: the inherited color is not right
-   for such case, use this opaque color */
-  background: var(--color-hover-opaque);
 }
 
 .ui.active.button,
 .ui.button:active,
 .ui.active.button:active,
 .ui.active.button:hover {
-  background: var(--color-active);
+  background: color-mix(in srgb, var(--color-button), var(--color-text) 12%);
   color: var(--color-text);
 }
 
-.ui.buttons .disabled.button:not(.basic),
+.ui.button:active {
+  transform: scale(0.97);
+}
+
+.ui.button:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
 .ui.disabled.button,
 .ui.button:disabled,
-.ui.disabled.button:hover,
-.ui.disabled.active.button {
+.ui.buttons .disabled.button,
+.ui.buttons .button:disabled {
   cursor: default;
-  opacity: var(--opacity-disabled) !important;
-  background-image: none;
-  pointer-events: none !important;
+  opacity: var(--opacity-disabled);
+  pointer-events: none;
 }
 
 /* there is no "ui labeled icon button" support" because it is not used */
@@ -69,106 +73,114 @@
   border: none;
   min-height: unset;
 }
+.ui.labeled.button:active,
+.ui.labeled.button > .button:active {
+  transform: none;
+}
 .ui.labeled.button > .button {
   margin: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
 }
 .ui.labeled.button > .label {
   display: flex;
   align-items: center;
-  margin: 0 0 0 -1px !important;
-  font-size: 1em;
+  margin: 0 0 0 -1px;
+  font-size: var(--font-size-sm);
   border-color: var(--color-light-border);
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
 }
 .ui.labeled.button > .label:hover {
-  background: var(--color-hover);
+  background: color-mix(in srgb, var(--color-button), var(--color-text) 6%);
 }
 .ui.labeled.button > .button:hover + .label {
-  border-left-color: var(--color-secondary-dark-2);
+  border-inline-start-color: var(--color-secondary-dark-2);
 }
 
 .ui.button > .icon:not(.button) {
   height: auto;
   opacity: 0.8;
 }
-.ui.button:not(.icon) > .icon:not(.button):not(.dropdown) {
-  margin: 0 0.42857143em 0 -0.21428571em;
-}
 
-/* reference sizes (not exactly at the moment): normal: padding-x=21, height=38 ; compact: padding-x=15, height=32 */
-.ui.button { /* stylelint-disable-line no-duplicate-selectors -- deliberate second block for the reference sizes */
-  gap: var(--gap-block);
-  min-height: 38px;
-  padding: 0.43em /* around 6px, keeps CJK text within min-height */ 1.43em /* around 20px */;
-}
 .ui.compact.buttons .button,
 .ui.compact.button {
   gap: var(--gap-inline);
-  padding: 3px 15px;
-  min-height: 32px;
-}
-.ui.compact.icon.buttons .button,
-.ui.compact.icon.button {
-  padding: 6px 8px;
+  padding: 3px 10px;
+  min-height: var(--control-height-small);
 }
 
-/* reference size: mini: padding-x=16, height=30 ; compact: padding-x=12, height=26 */
+.ui.ui.ui.ui.small.button.compact,
+.ui.small.compact.buttons .button,
+.ui.tiny.buttons .button,
+.ui.ui.ui.ui.tiny.button,
 .ui.ui.ui.ui.mini.button {
   gap: var(--gap-inline);
-  font-size: 11px;
-  min-height: 30px;
-}
-.ui.ui.ui.ui.mini.button.compact {
-  min-height: 26px;
+  padding-block: 1px;
+  min-height: var(--control-height-tiny);
 }
 
-/* reference size: tiny: padding-x=18, height=32 ; compact: padding-x=13, height=28 */
-.ui.tiny.buttons .dropdown,
-.ui.tiny.buttons .dropdown .menu > .item,
-.ui.tiny.buttons .button,
-.ui.ui.ui.ui.tiny.button {
-  gap: var(--gap-inline);
-  font-size: 12px;
-  min-height: 32px;
-}
-.ui.ui.ui.ui.tiny.button.compact {
-  min-height: 28px;
+.ui.small.buttons:not(.compact) .button,
+.ui.ui.ui.ui.small.button:not(.compact) {
+  min-height: var(--control-height-small);
 }
 
-/* reference size: small: padding-x=19, height=34 ; compact: padding-x=14, height=30 */
 .ui.small.buttons .dropdown,
 .ui.small.buttons .dropdown .menu > .item,
 .ui.small.buttons .button,
 .ui.ui.ui.ui.small.button {
-  font-size: 13px;
-  min-height: 34px;
-}
-.ui.ui.ui.ui.small.button.compact {
-  min-height: 30px;
+  font-size: var(--font-size-sm);
 }
 
+.ui.tiny.buttons .dropdown,
+.ui.tiny.buttons .dropdown .menu > .item,
+.ui.tiny.buttons .button,
+.ui.ui.ui.ui.tiny.button,
+.ui.ui.ui.ui.mini.button {
+  font-size: var(--font-size-xs);
+}
+
+.ui.small.button:not(.compact) {
+  padding-inline: 12px;
+}
+.ui.tiny.button:not(.compact) {
+  padding-inline: 10px;
+}
+.ui.mini.button,
+.ui.tiny.compact.button {
+  padding-inline: 8px;
+}
+.ui.mini.compact.button {
+  padding-inline: 6px;
+}
+
+/* icon buttons are square at every height, the x padding is (height - 16px icon - 2px border) / 2 */
 .ui.icon.buttons .button,
 .ui.icon.button:not(.compact) {
-  padding-inline: 0.57em;
+  padding-inline: 7px;
+}
+.ui.compact.icon.buttons .button,
+.ui.compact.icon.button,
+.ui.small.icon.button:not(.compact) {
+  padding-inline: 5px;
+}
+.ui.tiny.icon.buttons .button,
+.ui.small.compact.icon.button,
+.ui.ui.tiny.icon.button,
+.ui.ui.mini.icon.button {
+  padding-inline: 3px;
 }
 .ui.icon.buttons .button > .icon,
 .ui.icon.button > .icon {
-  margin: 0 !important;
+  margin: 0;
   vertical-align: top;
 }
 
 .ui.basic.button {
-  border-radius: var(--border-radius);
   color: var(--color-text-light);
-  background: var(--color-button);
 }
 
 .ui.basic.button:hover {
   color: var(--color-text);
-  background: var(--color-hover);
   border-color: var(--color-secondary-dark-2);
 }
 
@@ -176,7 +188,6 @@
 .ui.basic.active.button,
 .ui.basic.active.button:hover {
   color: var(--color-text);
-  background: var(--color-active);
 }
 
 .ui.fluid.button {
@@ -250,7 +261,7 @@
 
 .ui.green.button,
 .ui.green.buttons .button {
-  color: var(--color-white);
+  color: var(--color-green-contrast);
   background: var(--color-green);
 }
 
@@ -280,12 +291,57 @@
   border-color: var(--color-green-dark-2);
 }
 
+.ui:is(.primary, .red, .green).button:not(.basic) {
+  border-color: transparent;
+}
+
+.ui.basic:is(.primary, .red, .green).button:hover,
+.ui.basic:is(.primary, .red, .green).button:active {
+  background: color-mix(in srgb, currentcolor 10%, transparent);
+}
+
+/* the label stays in the layout, invisible, so the button keeps its width */
+.ui.button.loading,
+.ui.ui.button.is-loading {
+  position: relative;
+  cursor: default;
+  pointer-events: none;
+  -webkit-text-fill-color: transparent;
+}
+
+.ui.button.loading > *,
+.ui.ui.button.is-loading > * {
+  visibility: hidden;
+}
+
+.ui.button.loading::after,
+.ui.ui.button.is-loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  transform: translate(-50%, -50%);
+  animation: isloadingspin 1000ms infinite linear;
+  border: 2px solid;
+  border-color: currentcolor currentcolor transparent transparent;
+  border-radius: var(--border-radius-full);
+}
+
+@supports (corner-shape: squircle) {
+  .ui.button.loading::after {
+    corner-shape: round;
+  }
+}
+
 .ui.buttons {
   display: inline-flex;
   flex-direction: row;
   font-size: 0;
   vertical-align: baseline;
-  margin: 0 0.25em 0 0;
+  margin: 0;
+  margin-inline-end: var(--gap-inline);
   border-radius: var(--border-radius);
 }
 
@@ -298,12 +354,19 @@
   color: inherit;
   margin: 0;
   padding: 0;
+  transition-property: background-color, color, opacity, transform;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-standard);
 }
 
 .btn:hover,
 .btn:active {
   background: none;
   border: none;
+}
+
+.btn:active {
+  transform: scale(0.97);
 }
 
 /* sometimes, we'd like to make "<a href>" look like a button */
@@ -313,7 +376,7 @@ a.btn:hover {
 }
 
 .btn.tiny {
-  font-size: 12px;
+  font-size: var(--font-size-xs);
 }
 
 /* By default, Fomantic UI doesn't support "bordered" buttons group, but Gitea would like to use it.
@@ -321,20 +384,24 @@ And the default buttons always have borders now (not the same as Fomantic UI's d
 It needs some tricks to tweak the left/right borders with active state */
 
 .ui.buttons .button {
-  border-right: none;
+  border-inline-end: none;
   border-radius: 0;
   flex-shrink: 0;
   margin: 0;
 }
 .ui.buttons .button:first-child {
-  border-left: none;
-  margin-left: 0;
-  border-top-left-radius: var(--border-radius);
-  border-bottom-left-radius: var(--border-radius);
+  border-inline-start: none;
+  margin-inline-start: 0;
+  border-start-start-radius: var(--border-radius);
+  border-end-start-radius: var(--border-radius);
 }
 .ui.buttons .button:last-child {
-  border-top-right-radius: var(--border-radius);
-  border-bottom-right-radius: var(--border-radius);
+  border-start-end-radius: var(--border-radius);
+  border-end-end-radius: var(--border-radius);
+}
+
+.ui.buttons .button:not(:first-child, .basic) {
+  border-inline-start-color: var(--color-light-border); /* a separator, also inside colored groups */
 }
 
 .ui.buttons .button:hover {
@@ -342,7 +409,17 @@ It needs some tricks to tweak the left/right borders with active state */
 }
 
 .ui.buttons .button:hover + .button {
-  border-left: 1px solid var(--color-secondary-dark-2);
+  border-inline-start: 1px solid var(--color-secondary-dark-2);
+}
+
+/* a joined button scales away from its neighbours, and its focus ring must paint over them */
+.ui.buttons .button:active {
+  transform: none;
+}
+
+.ui.buttons .button:focus-visible {
+  position: relative;
+  z-index: 1;
 }
 
 .ui:is(.primary, .red, .green).buttons .button:hover {
@@ -350,25 +427,25 @@ It needs some tricks to tweak the left/right borders with active state */
 }
 
 .ui:is(.primary, .red, .green).buttons .button:hover + .button {
-  border-left-color: transparent;
+  border-inline-start-color: transparent;
 }
 
 /* TODO: these "tw-hidden" selectors are only used by "blame.tmpl" buttons: Raw/Normal View/History/Unescape, need to be refactored to a clear solution later */
 .ui.buttons .button:first-child,
 .ui.buttons .button.tw-hidden:first-child + .button {
-  border-left: 1px solid var(--color-light-border);
+  border-inline-start: 1px solid var(--color-light-border);
 }
 
 .ui.buttons .button:last-child,
 .ui.buttons .button:nth-last-child(2):has(+ .button.tw-hidden) {
-  border-right: 1px solid var(--color-light-border);
+  border-inline-end: 1px solid var(--color-light-border);
 }
 
 .ui.buttons .button.active {
-  border-left: 1px solid var(--color-light-border);
-  border-right: 1px solid var(--color-light-border);
+  border-inline-start: 1px solid var(--color-light-border);
+  border-inline-end: 1px solid var(--color-light-border);
 }
 
 .ui.buttons .button.active + .button {
-  border-left: none;
+  border-inline-start: none;
 }

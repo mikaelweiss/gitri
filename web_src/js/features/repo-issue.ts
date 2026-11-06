@@ -13,6 +13,7 @@ import {setFileFolding} from './file-fold.ts';
 import {ComboMarkdownEditor, getComboMarkdownEditor, initComboMarkdownEditor} from './comp/ComboMarkdownEditor.ts';
 import {GET, POST} from '../modules/fetch.ts';
 import {showErrorToast} from '../modules/toast.ts';
+import {startFormSubmitting, stopFormSubmitting} from './form-submit-state.ts';
 import {fomanticQuery} from '../modules/fomantic/base.ts';
 import {showModal} from '../modules/modal.ts';
 import {ignoreAreYouSure} from '../modules/are-you-sure.ts';
@@ -249,7 +250,7 @@ export function initRepoPullRequestReview() {
     const tippy = createTippy(elReviewBtn, {
       content: elReviewPanel,
       theme: 'default',
-      placement: 'bottom',
+      placement: 'bottom-end',
       trigger: 'click',
       maxWidth: 'none',
       interactive: true,
@@ -358,12 +359,8 @@ export function initRepoIssueWipToggle() {
 
     const params = new URLSearchParams();
     params.append('title', title?.startsWith(wipPrefix) ? title.slice(wipPrefix.length).trim() : `${wipPrefix.trim()} ${title}`);
-    const response = await POST(updateUrl, {data: params});
-    if (!response.ok) {
-      showErrorToast(`Failed to toggle 'work in progress' status`);
-      return;
-    }
-    window.location.reload();
+    const response = await performFetchActionRequest(toggleWip, {method: 'POST', url: updateUrl, data: params, loadingIndicator: '$this'});
+    if (response) window.location.reload();
   }));
 }
 
@@ -409,6 +406,7 @@ export function initRepoIssueTitleEdit() {
   const editSaveButton = issueTitleEditor.querySelector('.ui.primary.button')!;
   issueTitleEditor.addEventListener('submit', async (e) => {
     e.preventDefault();
+    startFormSubmitting(issueTitleEditor, e.submitter);
     const newTitle = issueTitleInput.value.trim();
     try {
       if (newTitle && newTitle !== oldTitle) {
@@ -433,6 +431,7 @@ export function initRepoIssueTitleEdit() {
     } catch (error) {
       console.error(error);
       showErrorToast(errorMessage(error));
+      stopFormSubmitting(issueTitleEditor);
     }
   });
 }

@@ -1,5 +1,6 @@
 <div class="issue-content">
 	{{$createdStr:= DateUtils.TimeSince .Issue.CreatedUnix}}
+	{{$openedAtKey := Iif .Issue.IsPull "repo.pulls.opened_at" "repo.issues.opened_at"}}
 	<div class="issue-content-left">
 		<div class="comment-list">
 			<div id="{{.Issue.HashTag}}" class="timeline-item comment issue-content-comment">
@@ -13,7 +14,7 @@
 				</a>
 				{{end}}
 				<div class="content comment-container">
-					<div class="comment-header avatar-content-left-arrow" role="heading" aria-level="3">
+					<div class="comment-header" role="heading" aria-level="3">
 						<div class="comment-header-left">
 							{{if .Issue.OriginalAuthor}}
 								<span class="tw-text-text tw-font-semibold">
@@ -21,7 +22,7 @@
 									{{.Issue.OriginalAuthor}}
 								</span>
 								<span class="tw-text-text-light muted-links">
-									{{ctx.Locale.Tr "repo.issues.commented_at" .Issue.HashTag $createdStr}}
+									{{ctx.Locale.Tr $openedAtKey .Issue.HashTag $createdStr}}
 								</span>
 								<span class="text migrate">
 									{{if .Repository.OriginalURL}} ({{ctx.Locale.Tr "repo.migrated_from" .Repository.OriginalURL .Repository.GetOriginalURLHostname}}){{end}}
@@ -32,7 +33,7 @@
 								</a>
 								<span class="tw-text-text-light muted-links">
 									{{template "shared/user/authorlink" .Issue.Poster}}
-									{{ctx.Locale.Tr "repo.issues.commented_at" .Issue.HashTag $createdStr}}
+									{{ctx.Locale.Tr $openedAtKey .Issue.HashTag $createdStr}}
 								</span>
 							{{end}}
 						</div>
@@ -77,7 +78,7 @@
 						{{ctx.AvatarUtils.Avatar .SignedUser 40}}
 					</a>
 					<div class="content">
-						<div class="ui segment avatar-content-left-arrow">
+						<div class="ui segment">
 							<form class="ui form form-fetch-action" id="comment-form" action="{{$.RepoLink}}/issues/{{.Issue.Index}}/comments" method="post">
 								{{template "repo/issue/comment_tab" .}}
 								<div class="field footer">

@@ -7,8 +7,8 @@ text-expander .suggestions,
   overflow-y: auto;
   white-space: nowrap;
   background: var(--color-menu);
-  box-shadow: 0 6px 18px var(--color-shadow);
-  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-popover);
+  border-radius: var(--border-radius-medium);
   border: 1px solid var(--color-secondary);
   z-index: 100; /* needs to be > 20 to be on top of dropzone's .dz-details */
 }
@@ -35,24 +35,13 @@ text-expander .suggestions li,
 
 text-expander .suggestions li,
 .tribute-container li {
-  padding: 3px 6px;
+  padding: 6px 10px;
+  transition: background-color var(--duration-fast) var(--ease-standard);
 }
 
 text-expander .suggestions li + li,
 .tribute-container li + li {
   border-top: 1px solid var(--color-secondary);
-}
-
-text-expander .suggestions li:first-child {
-  border-radius: var(--border-radius) var(--border-radius) 0 0;
-}
-
-text-expander .suggestions li:last-child {
-  border-radius: 0 0 var(--border-radius) var(--border-radius);
-}
-
-text-expander .suggestions li:only-child {
-  border-radius: var(--border-radius);
 }
 
 text-expander .suggestions .fullname,

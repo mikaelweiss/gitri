@@ -1,7 +1,7 @@
 /* container for full-page content with sidebar on left */
 
 .flex-container {
-  display: flex !important;
+  display: flex;
   gap: var(--page-spacing);
   margin-top: var(--page-spacing);
 }

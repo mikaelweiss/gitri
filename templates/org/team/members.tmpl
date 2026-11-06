@@ -42,8 +42,9 @@
 								</div>
 							</div>
 						{{else}}
-							<div class="item">
-								<span class="tw-text-text-light tw-italic">{{ctx.Locale.Tr "org.teams.members.none"}}</span>
+							<div class="empty-placeholder">
+								{{svg "octicon-people" 48}}
+								<h2>{{ctx.Locale.Tr "org.teams.members.none"}}</h2>
 							</div>
 						{{end}}
 					</div>

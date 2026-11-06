@@ -6,7 +6,7 @@ import {initExpandAndCollapseFilesButton, initDiffFileViewedForm} from './pull-v
 import {showErrorToast} from '../modules/toast.ts';
 import {queryElemSiblings, hideElem, showElem, animateOnce, addDelegatedEventListener, createElementFromHTML, queryElems} from '../utils/dom.ts';
 import {errorMessage} from '../modules/errors.ts';
-import {POST, GET} from '../modules/fetch.ts';
+import {GET} from '../modules/fetch.ts';
 import {createTippy} from '../modules/tippy.ts';
 import {invertFileFolding} from './file-fold.ts';
 import {parseDom} from '../utils.ts';
@@ -103,19 +103,16 @@ function initRepoDiffConversationForm() {
     const action = el.getAttribute('data-action')!;
     const url = el.getAttribute('data-update-url')!;
 
-    try {
-      const response = await POST(url, {data: new URLSearchParams({origin, action, comment_id})});
-      const data = await response.text();
+    const response = await performFetchActionRequest(el, {method: 'POST', url, data: new URLSearchParams({origin, action, comment_id}), loadingIndicator: '$this'});
+    if (!response) return;
+    const data = await response.text();
 
-      const elConversationHolder = el.closest('.conversation-holder');
-      if (elConversationHolder) {
-        const elNewConversation = createElementFromHTML(data);
-        elConversationHolder.replaceWith(elNewConversation);
-      } else {
-        window.location.reload();
-      }
-    } catch (error) {
-      console.error('Error:', error);
+    const elConversationHolder = el.closest('.conversation-holder');
+    if (elConversationHolder) {
+      const elNewConversation = createElementFromHTML(data);
+      elConversationHolder.replaceWith(elNewConversation);
+    } else {
+      window.location.reload();
     }
   });
 }

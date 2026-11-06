@@ -1,14 +1,18 @@
 #navbar {
+  position: relative;
+  z-index: 20; /* backdrop-filter opens a stacking context, this keeps the dropdowns above positioned page content */
   background: var(--color-nav-bg);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--color-secondary);
-  padding: 0 10px;
+  padding: 0 var(--page-spacing);
 }
 
 #navbar,
 .navbar-list {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: var(--gap-inline);
 }
 
 #navbar > .item,
@@ -18,14 +22,15 @@
   align-items: center;
   color: var(--color-nav-text);
   text-decoration: none;
-  min-height: 36px;
-  min-width: 36px;
-  padding: 3px 13px;
-  border-radius: 4px;
+  min-height: var(--control-height);
+  min-width: var(--control-height);
+  padding: 0 10px;
+  border-radius: var(--border-radius);
+  transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
 }
 
 #navbar-logo {
-  margin: 6.5px 0; /* center the 36px items in the 49px row */
+  margin: 8px 0; /* sets the height of the row, the other items center in it */
 }
 
 #navbar > .item.active,
@@ -40,6 +45,10 @@
 
 #navbar > .navbar-list > .item.ui.dropdown {
   padding-right: 5px;
+}
+
+#navbar .item.active-stopwatch {
+  padding-right: 28px; /* the elapsed time pill is wider than a count, this keeps it clear of the bell */
 }
 
 #navbar > .navbar-left {
@@ -85,19 +94,19 @@
 #navbar .notification_count,
 #navbar .header-stopwatch-dot,
 #navbar .navbar-admin-badge {
-  color: var(--color-nav-bg);
+  color: var(--color-primary-contrast);
   padding: 0 3.75px;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   line-height: 12px;
-  font-weight: var(--font-weight-bold);
-  background: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  background: var(--color-primary) padding-box; /* the translucent border must not show the fill through */
   border: 2px solid var(--color-nav-bg);
   position: absolute;
   left: calc(100% - 9px);
   bottom: calc(100% - 9px);
   min-width: 17px;
   height: 17px;
-  border-radius: 11px; /* (height + 2 * borderThickness) / 2 */
+  border-radius: var(--border-radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -105,6 +114,14 @@
   user-select: none;
   white-space: nowrap;
   overflow: visible;
+}
+
+@supports (corner-shape: squircle) {
+  #navbar .notification_count,
+  #navbar .header-stopwatch-dot,
+  #navbar .navbar-admin-badge {
+    corner-shape: round;
+  }
 }
 
 .navbar-avatar {
@@ -119,11 +136,16 @@
   padding: 1.5px;
 }
 
-.secondary-nav {
-  background: var(--color-secondary-nav-bg) !important; /* important because of .ui.secondary.menu */
+.secondary-nav,
+.ui.secondary.menu.secondary-nav {
+  background: var(--color-secondary-nav-bg);
 }
 
 .issue-navbar {
   display: flex;
   justify-content: space-between;
+}
+
+.issue-navbar .ui.button {
+  margin-right: 0;
 }

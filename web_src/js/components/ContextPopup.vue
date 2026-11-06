@@ -27,7 +27,7 @@ const body = computed(() => {
 <template>
   <div class="tw-p-4">
     <div v-if="issue" class="tw-flex tw-flex-col tw-gap-2">
-      <div class="tw-text-12">
+      <div class="tw-text-xs">
         <a :href="`${appSubUrl}/${issue.repository.full_name}`" class="muted">{{ issue.repository.full_name }}</a>
         on {{ createdAt }}
       </div>

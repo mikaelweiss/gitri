@@ -11,7 +11,7 @@
 </button>
 <div class="clone-panel-popup tippy-target">
 	{{if $showCloneLinks}}
-		<div class="flex-text-block clone-panel-field">{{svg "octicon-terminal"}} Clone</div>
+		<div class="flex-text-block clone-panel-field clone-panel-title">{{svg "octicon-terminal"}} {{ctx.Locale.Tr "repo.clone"}}</div>
 		<div class="clone-panel-tab">
 			<!-- gt repo clone also uses the git HTTPS/SSH transports, so the whole clone section is hidden when both are disabled -->
 			{{if $cloneLink.SupportHTTPS}}
@@ -24,7 +24,6 @@
 				<button type="button" class="item repo-clone-cli" data-link="{{$cloneLink.CLI}}">Gitea CLI</button>
 			{{end}}
 		</div>
-		<div class="divider"></div>
 
 		<div class="clone-panel-field">
 			<div class="ui input tiny action">

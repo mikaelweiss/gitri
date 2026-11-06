@@ -26,7 +26,7 @@
 				</a>
 			{{end}}
 				<div class="content comment-container">
-					<div class="comment-header avatar-content-left-arrow" role="heading" aria-level="3">
+					<div class="comment-header" role="heading" aria-level="3">
 						<div class="comment-header-left">
 							{{if .OriginalAuthor}}
 								<span class="tw-text-text tw-font-semibold tw-mr-1">
@@ -365,7 +365,7 @@
 						{{ctx.AvatarUtils.Avatar .Poster 40}}
 					</a>
 					{{end}}
-					<span class="badge tw-text-white {{if eq $reviewType 1}}{{Iif .Review.Official "tw-bg-green" "tw-bg-grey"}}{{else if eq $reviewType 3}}tw-bg-red{{end}}">
+					<span class="badge {{if eq $reviewType 1}}{{Iif .Review.Official "tw-bg-green" "tw-bg-grey"}} tw-text-white{{else if eq $reviewType 3}}tw-bg-red tw-text-white{{end}}">
 						{{- if .Review -}}
 							{{- svg (printf "octicon-%s" .Review.Type.Icon) -}}
 						{{- else -}}
@@ -390,7 +390,7 @@
 				{{if or .Content .Attachments}}
 				<div class="timeline-item comment">
 					<div class="content comment-container">
-						<div class="comment-header avatar-content-left-arrow">
+						<div class="comment-header">
 							<div class="comment-header-left">
 								{{if gt .Poster.ID 0}}
 									<a class="inline-timeline-avatar" href="{{.Poster.HomeLink}}">
@@ -615,7 +615,7 @@
 				{{if .Content}}
 					<div class="timeline-item comment">
 						<div class="content comment-container">
-							<div class="comment-header avatar-content-left-arrow arrow-top">
+							<div class="comment-header">
 								{{if gt .Poster.ID 0}}
 									<a class="inline-timeline-avatar" href="{{.Poster.HomeLink}}">
 										{{ctx.AvatarUtils.Avatar .Poster 24}}

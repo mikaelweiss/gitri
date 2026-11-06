@@ -1,51 +1,44 @@
 /* based on Fomantic UI segment module, with just the parts extracted that we use. If you find any
    unused rules here after refactoring, please remove them. */
 
-.ui.segment {
-  position: relative;
-  margin: 1rem 0;
-  padding: 1em;
-  border-radius: 0.28571429rem;
-  border: 1px solid var(--color-secondary);
-  background: var(--color-box-body);
-  color: var(--color-text);
-}
-.ui.segment:first-child {
-  margin-top: 0;
-}
-.ui.segment:last-child {
-  margin-bottom: 0;
-}
-
-.ui.grid.segment {
-  margin: 1rem 0;
-  border-radius: 0.28571429rem;
-}
-
-.ui.segment.tab:last-child {
-  margin-bottom: 1rem;
-}
-
+/* --corner-top and --corner-bottom let the rows and cells inside a stack follow its outer corners */
+.ui.segment,
 .ui.segments {
-  flex-direction: column;
+  --corner-top: var(--border-radius-medium);
+  --corner-bottom: var(--border-radius-medium);
   position: relative;
-  margin: 1rem 0;
+  margin: var(--page-spacing) 0;
   border: 1px solid var(--color-secondary);
-  border-radius: 0.28571429rem;
+  border-radius: var(--corner-top) var(--corner-top) var(--corner-bottom) var(--corner-bottom);
   background: var(--color-box-body);
   color: var(--color-text);
+  box-shadow: var(--shadow-card);
 }
+
+.ui.segment {
+  padding: var(--page-spacing);
+}
+
+.ui.segment:first-child,
 .ui.segments:first-child {
   margin-top: 0;
 }
+.ui.segment:last-child,
 .ui.segments:last-child {
   margin-bottom: 0;
 }
 
+.ui.segment.tab:last-child {
+  margin-bottom: var(--page-spacing);
+}
+
+.ui.segments {
+  flex-direction: column;
+}
+
 .ui.segments > .segment {
-  top: 0;
-  bottom: 0;
-  border-radius: 0;
+  --corner-top: 0px;
+  --corner-bottom: 0px;
   margin: 0;
   width: auto;
   box-shadow: none;
@@ -53,25 +46,13 @@
   border-top: 1px solid var(--color-secondary);
 }
 .ui.segments:not(.horizontal) > .segment:first-child {
-  top: 0;
-  bottom: 0;
+  --corner-top: calc(var(--border-radius-medium) - 1px);
   border-top: none;
-  margin-top: 0;
-  margin-bottom: 0;
-  border-radius: 0.28571429rem 0.28571429rem 0 0;
 }
 
-.ui.segments:not(.horizontal) > .segment:last-child {
-  top: 0;
-  bottom: 0;
-  margin-top: 0;
-  margin-bottom: 0;
-  border-radius: 0 0 0.28571429rem 0.28571429rem;
-}
-
-.ui.segments:not(.horizontal) > .segment:only-child,
+.ui.segments:not(.horizontal) > .segment:last-child,
 .ui.segments:not(.horizontal) > .segment:has(~ .tw-hidden) { /* workaround issue with :last-child ignoring hidden elements */
-  border-radius: 0.28571429rem;
+  --corner-bottom: calc(var(--border-radius-medium) - 1px);
 }
 
 .ui.horizontal.segments {
@@ -79,28 +60,37 @@
   flex-direction: row;
   background-color: transparent;
   padding: 0;
-  margin: 1rem 0;
-  border-radius: 0.28571429rem;
-  border: 1px solid var(--color-secondary);
 }
 
 .ui.horizontal.segments > .segment {
-  margin: 0;
   min-width: 0;
-  border-radius: 0;
   border: none;
-  box-shadow: none;
-  border-left: 1px solid var(--color-secondary);
+  border-inline-start: 1px solid var(--color-secondary);
 }
 
-.ui.horizontal.segments:not(.stackable) > .segment:first-child {
-  border-left: none;
-}
 .ui.horizontal.segments > .segment:first-child {
-  border-radius: 0.28571429rem 0 0 0.28571429rem;
+  border-inline-start: none;
+  border-start-start-radius: calc(var(--border-radius-medium) - 1px);
+  border-end-start-radius: calc(var(--border-radius-medium) - 1px);
 }
 .ui.horizontal.segments > .segment:last-child {
-  border-radius: 0 0.28571429rem 0.28571429rem 0;
+  border-start-end-radius: calc(var(--border-radius-medium) - 1px);
+  border-end-end-radius: calc(var(--border-radius-medium) - 1px);
+}
+
+/* cells inside an attached stack take their corners from the stack */
+.ui.attached.horizontal.segments {
+  overflow: clip;
+}
+.ui.attached.horizontal.segments > .segment,
+.ui.attached.horizontal.segments > .segment:is(:first-child, :last-child) {
+  flex: 1;
+  border-radius: 0;
+}
+@media (max-width: 767.98px) {
+  .ui.attached.horizontal.segments > .segment.center {
+    padding-inline: 8px;
+  }
 }
 
 .ui.clearing.segment::after {
@@ -112,54 +102,38 @@
 .ui.secondary.segment {
   background: var(--color-secondary-bg);
   color: var(--color-text-light);
+  box-shadow: none;
 }
 
+/* every piece keeps the shadow, the next positioned piece paints over the seam */
 .ui.attached.segment {
-  top: 0;
-  bottom: 0;
-  border-radius: 0;
-  margin: 0 -1px;
-  width: calc(100% + 2px);
-  max-width: calc(100% + 2px);
-  box-shadow: none;
-  border: 1px solid var(--color-secondary);
-  background: var(--color-box-body);
-  color: var(--color-text);
+  --corner-top: 0px;
+  --corner-bottom: 0px;
+  margin: 0;
 }
 .ui.attached:not(.message) + .ui.attached.segment:not(.top) {
   border-top: none;
 }
 
 .ui.attached.segment:last-child,
-.ui.attached.segment:has(+ :not(.ui.attached.segment)) {
-  border-bottom-left-radius: 0.28571429rem;
-  border-bottom-right-radius: 0.28571429rem;
+.ui.attached.segment:has(+ :not(.ui.attached:is(.segment, .table, .message))),
+.ui.attached.segment:has(+ .ui[class*="top attached"]) {
+  --corner-bottom: var(--border-radius-medium);
 }
 
 .ui[class*="top attached"].segment {
-  bottom: 0;
+  --corner-top: var(--border-radius-medium);
+  margin-top: var(--page-spacing);
   margin-bottom: 0;
-  top: 0;
-  margin-top: 1rem;
-  border-radius: 0.28571429rem 0.28571429rem 0 0;
 }
 .ui.segment[class*="top attached"]:first-child {
   margin-top: 0;
 }
-.ui[class*="top attached"].segment:last-child {
-  border-top-left-radius: 0.28571429rem;
-  border-top-right-radius: 0.28571429rem;
-}
 
 .ui.segment[class*="bottom attached"] {
-  bottom: 0;
+  --corner-bottom: var(--border-radius-medium);
   margin-top: 0;
-  top: 0;
-  margin-bottom: 1rem;
-  border-radius: 0 0 0.28571429rem 0.28571429rem;
-}
-.ui.segment[class*="bottom attached"]:last-child {
-  margin-bottom: 1rem;
+  margin-bottom: var(--page-spacing);
 }
 
 .ui.fitted.segment {
@@ -168,13 +142,13 @@
 
 .ui.segments .segment,
 .ui.segment {
-  font-size: 1rem;
+  font-size: var(--font-size-md);
 }
 
 .ui.error.segment {
-  border-color: var(--color-error-border) !important;
+  border-color: var(--color-error-border);
 }
 
 .ui.warning.segment {
-  border-color: var(--color-warning-border) !important;
+  border-color: var(--color-warning-border);
 }

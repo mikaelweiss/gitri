@@ -1,6 +1,6 @@
 <div class="commit-form-wrapper">
 	{{ctx.AvatarUtils.Avatar .SignedUser 40 "commit-avatar"}}
-	<div class="commit-form avatar-content-left-arrow">
+	<div class="commit-form">
 		<h3>
 		{{- if .CommitFormOptions.WillSign}}
 			<span data-tooltip-content="{{ctx.Locale.Tr "repo.signing.will_sign" .CommitFormOptions.SigningKeyFormDisplay}}">{{svg "octicon-lock" 24}}</span>
@@ -82,5 +82,5 @@
 	<button id="commit-button" type="submit" class="ui primary button">
 		{{if eq .commit_choice "commit-to-new-branch"}}{{ctx.Locale.Tr "repo.editor.propose_file_change"}}{{else}}{{ctx.Locale.Tr "repo.editor.commit_changes"}}{{end}}
 	</button>
-	<a class="ui button red" href="{{if .ReturnURI}}{{.ReturnURI}}{{else}}{{$.BranchLink}}/{{PathEscapeSegments .TreePath}}{{end}}">{{ctx.Locale.Tr "repo.editor.cancel"}}</a>
+	<a class="ui basic button" href="{{if .ReturnURI}}{{.ReturnURI}}{{else}}{{$.BranchLink}}/{{PathEscapeSegments .TreePath}}{{end}}">{{ctx.Locale.Tr "repo.editor.cancel"}}</a>
 </div>

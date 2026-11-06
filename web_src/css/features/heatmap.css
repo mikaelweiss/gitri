@@ -1,40 +1,38 @@
 #user-heatmap {
   width: 100%;
-  font-size: 9px;
+  font-size: 9px; /* in SVG units, the viewBox scales it with the width */
   position: relative;
 }
 
 .activity-heatmap-container {
   container-type: inline-size;
+  margin-bottom: var(--page-spacing);
+  padding: 16px;
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--border-radius-medium);
+  background: var(--color-box-body);
 }
 
 @container (width > 0) {
   #user-heatmap {
     /* Set element to fixed height so that it does not resize after load. The calculation is complex
        because the element does not scale with a fixed aspect ratio. */
-    height: calc((100cqw / 5) - (100cqw / 25) + 20px);
+    min-height: calc((100cqw / 5) - (100cqw / 25) + 20px);
   }
 }
 
-/* Fallback height adjustment above for browsers that don't support container queries */
-@supports not (container-type: inline-size) {
-  /* Before the Vue component is mounted, show a loading indicator with dummy size */
-  /* The ratio is guesswork for legacy browsers, new browsers use the "@container" approach above  */
-  #user-heatmap.is-loading {
-    aspect-ratio: 5.4823972051; /* the size is about 816 x 148.84 */
-  }
-  .user.profile #user-heatmap.is-loading {
-    aspect-ratio: 5.6290608387; /* the size is about 953 x 169.3 */
-  }
+#user-heatmap .heatmap-svg {
+  overflow: visible; /* the last month label can start in the final column */
 }
 
 #user-heatmap text {
-  fill: currentcolor !important;
+  fill: var(--color-text-light-2);
 }
 
 #user-heatmap .heatmap-footer {
   display: flex;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-light-2);
   justify-content: space-between;
 }
 
@@ -57,4 +55,5 @@
 
 #user-heatmap .heatmap-day:hover {
   outline: 1.5px solid var(--color-text);
+  outline-offset: -0.75px;
 }

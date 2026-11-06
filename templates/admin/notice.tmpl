@@ -3,7 +3,8 @@
 		<h4 class="ui top attached header">
 			{{ctx.Locale.Tr "admin.notices.system_notice_list"}} ({{ctx.Locale.Tr "admin.total" .Total}})
 		</h4>
-		<table class="ui attached segment select selectable table unstackable g-table-auto-ellipsis">
+		<div class="ui attached table segment">
+		<table class="ui very basic select selectable table unstackable g-table-auto-ellipsis">
 			<thead>
 				<tr>
 					<th></th>
@@ -25,39 +26,35 @@
 						<td class="view-detail"><a href="#">{{svg "octicon-note" 16}}</a></td>
 					</tr>
 				{{else}}
-					<tr><td class="tw-text-center" colspan="6">{{ctx.Locale.Tr "no_results_found"}}</td></tr>
+					<tr><td colspan="6"><div class="empty-placeholder">{{svg "octicon-search" 48}}<h2>{{ctx.Locale.Tr "no_results_found"}}</h2></div></td></tr>
 				{{end}}
 			</tbody>
-			{{if .Notices}}
-				<tfoot>
-						<tr>
-							<th></th>
-							<th colspan="5">
-								<form class="tw-float-right" method="post" action="{{AppSubUrl}}/-/admin/notices/empty">
-									<button type="submit" class="ui red small button">{{ctx.Locale.Tr "admin.notices.delete_all"}}</button>
-								</form>
-								<div class="ui floating upward dropdown small button">
-									<span class="text">{{ctx.Locale.Tr "admin.notices.operations"}}</span>
-									<div class="menu">
-										<div class="item select action" data-action="select-all">
-											{{ctx.Locale.Tr "admin.notices.select_all"}}
-										</div>
-										<div class="item select action" data-action="deselect-all">
-											{{ctx.Locale.Tr "admin.notices.deselect_all"}}
-										</div>
-										<div class="item select action" data-action="inverse">
-											{{ctx.Locale.Tr "admin.notices.inverse_selection"}}
-										</div>
-									</div>
-								</div>
-								<button type="button" class="ui small button" id="delete-selection" data-link="{{.Link}}/delete">
-									<span class="text">{{ctx.Locale.Tr "admin.notices.delete_selected"}}</span>
-								</button>
-							</th>
-						</tr>
-				</tfoot>
-			{{end}}
 		</table>
+		</div>
+		{{if .Notices}}
+			<div class="ui bottom attached segment flex-text-block tw-flex-wrap">
+				<div class="ui floating upward dropdown small button">
+					<span class="text">{{ctx.Locale.Tr "admin.notices.operations"}}</span>
+					<div class="menu">
+						<div class="item select action" data-action="select-all">
+							{{ctx.Locale.Tr "admin.notices.select_all"}}
+						</div>
+						<div class="item select action" data-action="deselect-all">
+							{{ctx.Locale.Tr "admin.notices.deselect_all"}}
+						</div>
+						<div class="item select action" data-action="inverse">
+							{{ctx.Locale.Tr "admin.notices.inverse_selection"}}
+						</div>
+					</div>
+				</div>
+				<button type="button" class="ui small button" id="delete-selection" data-link="{{.Link}}/delete">
+					<span class="text">{{ctx.Locale.Tr "admin.notices.delete_selected"}}</span>
+				</button>
+				<form class="tw-ms-auto" method="post" action="{{AppSubUrl}}/-/admin/notices/empty">
+					<button type="submit" class="ui red small button">{{ctx.Locale.Tr "admin.notices.delete_all"}}</button>
+				</form>
+			</div>
+		{{end}}
 		{{template "base/paginate" .}}
 	</div>
 

@@ -28,10 +28,10 @@
 					{{end}}
 				</div>
 				<div class="flex-text-block">
-					<button type="button" id="show-outdated-{{$firstComment.ID}}" data-comment="{{$firstComment.ID}}" class="btn tiny show-outdated">
+					<button type="button" id="show-outdated-{{$firstComment.ID}}" data-comment="{{$firstComment.ID}}" class="btn interact-fg tiny show-outdated">
 						{{svg "octicon-unfold" 16 "tw-mr-2"}}{{ctx.Locale.Tr "repo.issues.review.show_resolved"}}
 					</button>
-					<button type="button" id="hide-outdated-{{$firstComment.ID}}" data-comment="{{$firstComment.ID}}" class="btn tiny hide-outdated tw-hidden">
+					<button type="button" id="hide-outdated-{{$firstComment.ID}}" data-comment="{{$firstComment.ID}}" class="btn interact-fg tiny hide-outdated tw-hidden">
 						{{svg "octicon-fold" 16 "tw-mr-2"}}{{ctx.Locale.Tr "repo.issues.review.hide_resolved"}}
 					</button>
 				</div>

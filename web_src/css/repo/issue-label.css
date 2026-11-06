@@ -7,7 +7,7 @@
 .issue-label-list > .item {
   border-bottom: 1px solid var(--color-secondary);
   display: flex;
-  padding: 1em 0;
+  padding: 12px 0;
   margin: 0;
 }
 
@@ -25,9 +25,16 @@
   padding-right: 1em;
 }
 
+.issue-label-list > .item .label-title .desc {
+  color: var(--color-text-light-2);
+  font-size: var(--font-size-xs);
+}
+
 .issue-label-list > .item .label-issues {
   width: 33%;
   padding-right: 1em;
+  color: var(--color-text-light-2);
+  font-size: var(--font-size-sm);
 }
 
 .issue-label-list > .item .label-operation {
@@ -40,7 +47,7 @@
 }
 
 .issue-label-list > .item .label-operation a {
-  font-size: 12px;
+  font-size: var(--font-size-xs);
 }
 
 .issue-label-list > .item.org-label {
@@ -49,6 +56,26 @@
 
 .label-operation .label {
   height: fit-content;
+}
+
+@media (max-width: 767.98px) {
+  .issue-label-list > .item {
+    flex-wrap: wrap;
+    gap: 6px 8px;
+  }
+  .issue-label-list > .item .label-title {
+    width: 100%;
+    padding-right: 0;
+  }
+  .issue-label-list > .item .label-issues {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    padding-right: 0;
+  }
+  .issue-label-list > .item .label-operation {
+    width: auto;
+  }
 }
 
 .archived-label-hint {

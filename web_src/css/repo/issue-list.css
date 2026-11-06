@@ -2,14 +2,21 @@
   display: flex;
   flex-wrap: wrap-reverse;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-  margin-top: 1rem;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+#issue-filters + #issue-list,
+#issue-actions + #issue-list {
+  margin-top: 12px;
 }
 
 .issue-list-toolbar-left {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  row-gap: 8px;
 }
 
 .issue-list-toolbar-right .filter.menu {
@@ -18,20 +25,36 @@
 }
 
 @media (max-width: 767.98px) {
-  .issue-list-toolbar-right .dropdown .menu {
-    left: auto !important;
-    right: auto !important;
+  .issue-list-toolbar .issue-list-toolbar-right .ui.dropdown .menu {
+    left: auto;
+    right: auto;
   }
   .issue-list-navbar {
     order: 0;
   }
-  .issue-list-new {
+  .ui.button.issue-list-new {
     order: 1;
-    margin-left: auto !important;
+    margin-left: auto;
   }
-  .issue-list-search {
-    order: 2 !important;
+  .list-header .issue-list-search {
+    order: 2;
   }
+}
+
+#issue-list .item-body {
+  font-size: var(--font-size-sm);
+}
+
+#issue-list > .ui.message {
+  margin: 12px;
+}
+
+#issue-list:not(:has(> .item)),
+.milestone-list:not(:has(> .item)) {
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--border-radius-medium);
+  background: var(--color-box-body);
+  box-shadow: var(--shadow-card);
 }
 
 #issue-list .branches {
@@ -39,9 +62,10 @@
 }
 
 #issue-list .branches .branch {
-  background-color: var(--color-secondary-alpha-50);
-  border-radius: var(--border-radius);
-  padding: 0 4px;
+  background-color: var(--color-label-bg);
+  border-radius: var(--border-radius-small);
+  font-size: var(--font-size-xs);
+  padding: 0 6px;
 }
 
 #issue-list .branches .truncated-name {
@@ -70,14 +94,14 @@
 
 .label-filter-archived-toggle {
   margin: 8px 10px;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   min-width: fit-content;
 }
 
 .label-filter-exclude-info {
   display: inline-block;
   padding: 0.5rem 0;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   width: 100%;
   white-space: nowrap;
   margin-left: 10px;
@@ -100,11 +124,13 @@
 }
 
 .list-item-large-title {
-  font-size: 16px;
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-snug);
   color: var(--color-text);
   text-decoration: none;
   overflow-wrap: anywhere;
+  transition: color var(--duration-normal) var(--ease-standard);
 }
 
 .list-item-title-progress {
@@ -118,13 +144,19 @@
   gap: var(--gap-block);
   justify-content: space-between;
   color: var(--color-text-light-2);
+  font-size: var(--font-size-sm);
 }
 
 .list-item-secondary-bar a {
   color: var(--color-text-light-2);
   text-decoration: none;
+  transition: color var(--duration-normal) var(--ease-standard);
 }
 
 .list-item-secondary-bar a:hover {
   color: var(--color-text);
+}
+
+.milestone-list {
+  margin-top: 12px;
 }

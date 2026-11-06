@@ -17,6 +17,7 @@ export default defineConfig({
     timeout,
   },
   use: {
+    contextOptions: {reducedMotion: 'reduce'}, // animations otherwise count against each test's short timeout
     baseURL: env.GITEA_TEST_E2E_URL?.replace?.(/\/$/, ''),
     locale: 'en-US',
     actionTimeout: timeout,

@@ -19,7 +19,7 @@
 
 		<div class="ui two column stackable grid">
 			{{range $team := $.OrgListTeams}}
-				<div class="column team-item-box">
+				<div class="column team-item-box tw-flex tw-flex-col">
 					<div class="ui top attached header muted-links flex-left-right team-item-header">
 						<div class="flex-text-inline">
 							<a href="{{$.OrgLink}}/teams/{{.LowerName | PathEscape}}"><strong>{{.Name}}</strong></a>
@@ -32,9 +32,9 @@
 							{{end}}
 						</div>
 						<div class="flex-text-block tw-flex-wrap">
-							<a href="{{$.OrgLink}}/teams/{{.LowerName | PathEscape}}">{{.NumMembers}} {{ctx.Locale.Tr "org.lower_members"}}</a>
+							<a href="{{$.OrgLink}}/teams/{{.LowerName | PathEscape}}">{{.NumMembers}} {{ctx.Locale.TrN .NumMembers "org.lower_member" "org.lower_members"}}</a>
 							·
-							<a href="{{$.OrgLink}}/teams/{{.LowerName | PathEscape}}/repositories">{{.NumRepos}} {{ctx.Locale.Tr "org.lower_repositories"}}</a>
+							<a href="{{$.OrgLink}}/teams/{{.LowerName | PathEscape}}/repositories">{{.NumRepos}} {{ctx.Locale.TrN .NumRepos "org.lower_repository" "org.lower_repositories"}}</a>
 							{{if .IsMember ctx $.SignedUser.ID}}
 								<button type="button" class="ui red mini compact button show-modal" data-modal="#org-member-leave-team"
 									data-modal-form.url="{{$.OrgLink}}/teams/{{.LowerName | PathEscape}}/action/leave?uid={{$.SignedUser.ID}}"
@@ -48,7 +48,7 @@
 						{{if $team.Description}}{{$team.Description}}{{end}}
 					</div>
 					{{end}}
-					<div class="ui attached segment">
+					<div class="ui attached segment tw-flex-1">
 						<div class="flex-text-block tw-flex-wrap">
 							{{range .Members}}
 								{{template "shared/user/avatarlink" dict "user" . "size" 32 "tooltip" true}}

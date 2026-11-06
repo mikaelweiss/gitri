@@ -134,7 +134,7 @@ let singleton: CreateSingletonInstance | null = null;
 onMounted(() => {
   singleton = createSingleton([], {
     overrides: [],
-    moveTransition: 'transform 0.1s ease-out',
+    moveTransition: 'transform var(--duration-fast) var(--ease-standard)',
     allowHTML: true,
     theme: 'tooltip',
     role: 'tooltip',
@@ -212,6 +212,7 @@ function handleDayClick(date: Date) {
               :transform="`translate(0, ${d * cellSize})`"
               :width="squareSize"
               :height="squareSize"
+              rx="2"
               :style="{fill: colorRange[day.colorIndex]}"
               :aria-label="day.ariaLabel"
               :data-tooltip="day.tooltip"
@@ -231,6 +232,7 @@ function handleDayClick(date: Date) {
             :key="i"
             :width="squareSize"
             :height="squareSize"
+            rx="2"
             :x="(i + 1) * cellSize"
             :style="{fill: color}"
           />

@@ -1,4 +1,4 @@
-<div id="activity-feed" class="flex-divided-list items-with-main" data-ref-issue-container>
+<div id="activity-feed" class="flex-divided-list items-with-main list-card" data-ref-issue-container>
 	{{range .Feeds}}
 		<div class="item">
 			<div class="item-leading">
@@ -100,7 +100,7 @@
 						{{end}}
 					</div>
 					{{if and (gt $push.Len 1) $push.CompareURL}}
-						<a href="{{AppSubUrl}}/{{$push.CompareURL}}">{{ctx.Locale.Tr "action.compare_commits" $push.Len}} »</a>
+						<a href="{{AppSubUrl}}/{{$push.CompareURL}}">{{ctx.Locale.TrN $push.Len "action.compare_commits_1" "action.compare_commits" $push.Len}} »</a>
 					{{end}}
 				{{else if .GetOpType.InActions "create_issue"}}
 					<span class="tw-inline-block tw-truncate issue title">{{index .GetIssueInfos 1 | ctx.RenderUtils.RenderIssueSimpleTitle}}</span>
@@ -123,8 +123,13 @@
 				{{end}}
 			</div>
 			<div class="item-trailing">
-				{{svg (printf "octicon-%s" (ActionIcon .GetOpType)) 32 "tw-text-text-light tw-mr-1"}}
+				{{svg (printf "octicon-%s" (ActionIcon .GetOpType)) 20 "tw-text-text-light-2"}}
 			</div>
+		</div>
+	{{else}}
+		<div class="empty-placeholder">
+			{{svg "octicon-rss" 48}}
+			<h2>{{ctx.Locale.Tr "home.guide_title"}}</h2>
 		</div>
 	{{end}}
 	{{template "base/paginate" .}}

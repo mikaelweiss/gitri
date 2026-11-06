@@ -9,7 +9,7 @@
 >
 	<div class="timeline-avatar {{$data.TimelineIconClass}}">{{svg "octicon-git-merge" 40}}</div>
 	<div class="content">
-		<div class="ui segment fitted avatar-content-left-arrow">
+		<div class="ui segment fitted">
 			<div class="merge-section flex-divided-list items-px-default">
 			{{if $data.ShowStatusCheck}}
 				{{template "repo/issue/view_content/pull_merge_status_checks" (dict "StatusCheckData" $data.StatusCheckData)}}

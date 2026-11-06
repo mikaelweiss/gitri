@@ -53,7 +53,10 @@
 
 	{{/* only shown when there is no visible "self-check-problem" */}}
 	<div class="ui attached segment tw-hidden self-check-no-problem">
-		{{ctx.Locale.Tr "admin.self_check.no_problem_found"}}
+		<div class="empty-placeholder">
+			{{svg "octicon-check-circle" 48}}
+			<h2>{{ctx.Locale.Tr "admin.self_check.no_problem_found"}}</h2>
+		</div>
 	</div>
 </div>
 

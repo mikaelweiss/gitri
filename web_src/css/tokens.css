@@ -1,0 +1,124 @@
+:root {
+  /* fonts */
+  --fonts-proportional: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, Roboto, "Helvetica Neue", Arial;
+  --fonts-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, Roboto, "Helvetica Neue", Arial;
+  --fonts-monospace: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace, var(--fonts-emoji);
+  /* sturdier fonts precede "math", which is thin Latin Modern Math in Firefox and Linux Chromium, DejaVu Math follows it for its small display operators, https://issues.chromium.org/issues/40069293 */
+  --fonts-math: "Cambria Math", "STIX Two Math", gitea-math-book, "Libertinus Math", math, "DejaVu Math TeX Gyre", "Noto Sans Math";
+  /* GitHub explicitly sets font names like: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla";
+  Actually "Twemoji Mozilla" emoji font is widely used by browsers like Firefox, Pale Moon, and it is more likely up-to-dated than the system emoji font.
+  So not setting emoji font seems to be the best choice, here we just use a non-existing dummy font name and let browsers choose. */
+  --fonts-emoji: -emoji-fallback;
+  /* font weights - use between 400 and 600 for general purposes. Avoid 700 as it is perceived too bold */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --line-height-default: normal; /* line-height: use the default value as "modules/normalize.css" */
+  --line-height-code: 20px; /* line-height for code, also used by the editor */
+  /* images */
+  --checkbox-mask-checked: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="9" viewBox="0 0 12 9"><path fill-rule="evenodd" d="M11.78.22a.75.75 0 0 1 0 1.061L4.52 8.541a.75.75 0 0 1-1.062 0L.202 5.285a.75.75 0 0 1 1.061-1.061l2.725 2.723L10.718.22a.75.75 0 0 1 1.062 0"/></svg>');
+  --checkbox-mask-indeterminate: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="2" viewBox="0 0 10 2"><path fill-rule="evenodd" d="M0 1a1 1 0 0 1 1-1h8a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1" clip-rule="evenodd"/></svg>');
+  --octicon-alert-fill: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575ZM8 5a.75.75 0 0 0-.75.75v2.5a.75.75 0 0 0 1.5 0v-2.5A.75.75 0 0 0 8 5Zm1 6a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z"/></svg>');
+  --octicon-chevron-right: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"></path></svg>');
+  --octicon-x: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.75.75 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215L8 9.06l-3.22 3.22a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06"/></svg>');
+  --select-arrows: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="m4.074 9.427 3.396 3.396a.25.25 0 0 0 .354 0l3.396-3.396A.25.25 0 0 0 11.043 9H4.251a.25.25 0 0 0-.177.427m0-1.957L7.47 4.073a.25.25 0 0 1 .354 0L11.22 7.47a.25.25 0 0 1-.177.426H4.251a.25.25 0 0 1-.177-.426"/></svg>');
+  /* other variables */
+  --border-radius-small: 6px; /* labels inside controls, small chips, code spans */
+  --border-radius: 8px; /* buttons, inputs, menu items, tabs */
+  --border-radius-medium: 12px; /* cards, segments, menus, popovers */
+  --border-radius-large: 14px; /* modals */
+  --border-radius-full: 99999px; /* TODO: use calc(infinity * 1px) */
+  --control-height: 32px;
+  --control-height-small: 28px;
+  --control-height-tiny: 24px;
+  --font-size-xs: 12px;
+  --font-size-sm: 13px;
+  --font-size-md: 14px;
+  --font-size-lg: 15px;
+  --font-size-xl: 17px;
+  --font-size-2xl: 21px;
+  --font-size-3xl: 28px;
+  --letter-spacing-tight: -0.022em;
+  --letter-spacing-snug: -0.01em;
+  --duration-fast: 120ms;
+  --duration-normal: 220ms;
+  --duration-slow: 320ms;
+  --ease-standard: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --shadow-card: 0 1px 2px var(--color-shadow);
+  --shadow-popover: 0 8px 28px var(--color-shadow);
+  --shadow-modal: 0 20px 60px var(--color-shadow);
+  --focus-ring: 0 0 0 3px var(--color-primary-alpha-30);
+  --focus-ring-error: 0 0 0 3px var(--color-error-border);
+  --opacity-disabled: 0.55;
+  --height-loading: 16rem;
+  --min-height-textarea: 132px; /* padding + 6 lines + border = calc(1.57142em + 6lh + 2px), but lh is not fully supported */
+  --tab-size: 4;
+  --checkbox-size: 14px; /* height and width of checkbox and radio inputs */
+  --page-content-width: 1280px;
+  --page-spacing: 16px; /* space between page elements */
+  --page-margin-x: 32px; /* minimum space on left and right side of page */
+  --page-space-bottom: 64px; /* space between last page element and footer */
+  --transition-hover-fade: opacity var(--duration-normal) var(--ease-standard); /* fade transition for elements that show on hover */
+
+  /* z-index */
+  --z-index-modal: 1001; /* modal dialog */
+  --z-index-toast: 1002; /* should be larger than modal */
+
+  --font-size-label: 12px; /* font size of individual labels */
+
+  --gap-inline: 0.25rem; /* gap for inline texts and elements, for example: the spaces for sentence with labels, button text, etc */
+  --gap-block: 0.5rem; /* gap for element blocks, for example: spaces between buttons, menu image & title, header icon & title etc */
+
+  --background-view-image: repeating-conic-gradient(var(--color-transparency-grid-dark) 0 25%, var(--color-transparency-grid-light) 0 50%) 0 0 / 18px 18px;
+}
+
+/* continuous corners read tighter than circular ones at the same radius, so the radii rise to compensate */
+@supports (corner-shape: squircle) {
+  :root {
+    --border-radius-small: 8px;
+    --border-radius: 11px;
+    --border-radius-medium: 17px;
+    --border-radius-large: 20px;
+  }
+
+  *, ::before, ::after {
+    corner-shape: squircle;
+  }
+
+  /* fully round shapes must stay true circles and pills */
+  .ui.avatar, img.avatar, .tw-rounded-full, .ui.circular, .ui.label:not(.ui.labeled.button > .label), .ui.toggle.checkbox label, .ui.toggle.checkbox label::before, .ui.toggle.checkbox label::after, input[type="radio"], input[type="radio"]::before {
+    corner-shape: round;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 1ms !important; /* the motion preference outranks every component */
+    transition-duration: 1ms !important; /* the motion preference outranks every component */
+  }
+
+  .is-loading::after, .rotate-clockwise, .ui.loading.dropdown > i.icon::after {
+    animation-duration: 1000ms !important; /* a spinner shows progress, an endless loop at 1ms would strobe */
+  }
+
+  .ansi-blink, .term-fg5 {
+    animation: none !important; /* an endless loop at 1ms would strobe */
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+  :root {
+    --page-margin-x: 16px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  :root {
+    --page-margin-x: 8px;
+  }
+}
+
+:root * {
+  --fonts-regular: var(--fonts-override, var(--fonts-proportional)), "Noto Sans", "Liberation Sans", sans-serif, var(--fonts-emoji);
+  --fonts-headline: var(--fonts-override, var(--fonts-display)), "Noto Sans", "Liberation Sans", sans-serif, var(--fonts-emoji);
+}

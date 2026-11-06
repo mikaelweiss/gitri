@@ -83,7 +83,6 @@ const onItemClick = (e: MouseEvent) => {
 .tree-item.selected {
   color: var(--color-text);
   background: var(--color-active);
-  border-radius: 4px;
 }
 
 .tree-item.type-directory {
@@ -96,13 +95,14 @@ const onItemClick = (e: MouseEvent) => {
   grid-template-areas: "toggle content";
   gap: 0.25em;
   padding: 6px;
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard);
 }
 
 .tree-item:hover {
   color: var(--color-text);
   background: var(--color-hover);
-  border-radius: 4px;
-  cursor: pointer;
 }
 
 .item-toggle {

@@ -1,5 +1,5 @@
-.file-view-container {
-  padding: 0 !important; /* the file-view itself provides padding */
+.ui.bottom.attached.segment.file-view-container {
+  padding: 0; /* the file-view itself provides padding */
 }
 
 .file-view tr.active .lines-num,
@@ -10,7 +10,7 @@
 
 /* set correct border radius on the last active lines, to avoid border overflow */
 .file-view tr.active:last-of-type .lines-code {
-  border-bottom-right-radius: var(--border-radius);
+  border-bottom-right-radius: calc(var(--border-radius-medium) - 1px);
 }
 
 .file-view tr.active .lines-num {
@@ -30,14 +30,14 @@
 .file-view .file-not-rendered-prompt {
   padding: 1rem;
   text-align: center;
-  font-size: 1rem !important; /* use consistent styles for various containers (code, markup, etc) */
-  line-height: var(--line-height-default) !important; /* same as above */
+  font-size: var(--font-size-md); /* use consistent styles for various containers (code, markup, etc) */
+  line-height: var(--line-height-default); /* same as above */
 }
 
 /* ".code-view" is always used with ".file-view", to show the code of a file */
 .file-view.code-view {
   background: var(--color-code-bg);
-  border-radius: var(--border-radius);
+  border-radius: 0 0 calc(var(--border-radius-medium) - 1px) calc(var(--border-radius-medium) - 1px);
 }
 
 .file-view.code-view table {
@@ -48,12 +48,17 @@
   cursor: pointer;
 }
 
+.file-view.code-view .lines-num {
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
 .file-view.code-view .lines-num:hover {
   color: var(--color-text-dark);
 }
 
 .file-view.code-view .ui.button.code-line-button {
   border: 1px solid var(--color-secondary);
+  border-radius: var(--border-radius-small);
   padding: 1px 4px;
   margin: 0;
   min-height: 0;
@@ -78,13 +83,13 @@
 .view-raw video,
 .view-raw img {
   margin: 1rem;
-  border-radius: 0;
+  border-radius: var(--border-radius);
   object-fit: contain;
 }
 
 .view-raw img[src$=".svg" i] {
-  max-height: 600px !important;
-  max-width: 600px !important;
+  max-height: 600px;
+  max-width: 600px;
   background: var(--background-view-image);
 }
 
@@ -93,5 +98,5 @@
 }
 
 .file-view-render-container :last-child {
-  border-radius: 0 0 var(--border-radius) var(--border-radius); /* to match the "ui segment" bottom radius */
+  border-radius: 0 0 calc(var(--border-radius-medium) - 1px) calc(var(--border-radius-medium) - 1px); /* to match the "ui segment" bottom radius */
 }

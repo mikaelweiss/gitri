@@ -3,17 +3,43 @@
   margin: auto;
 }
 
+.page-content.install .ui.top.attached.header {
+  padding-block: 16px;
+  font-family: var(--fonts-headline);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-snug);
+}
+
+@media (max-width: 767.98px) {
+  .page-content.install form.ui.form .inline.field > label {
+    width: 100%;
+    text-align: start;
+  }
+
+  .page-content.install .ui.form .field > .help,
+  .page-content.install .ui.form .field > .ui.checkbox:first-child,
+  .page-content.install .ui.form .field > .right-content {
+    margin-inline-start: 0;
+  }
+
+  .page-content.install form.ui.form input:not([type="checkbox"],[type="radio"]),
+  .page-content.install form.ui.form .ui.selection.dropdown {
+    width: 100%;
+  }
+}
+
 .page-content.install form.ui.form .inline.field > label {
-  text-align: right;
+  text-align: end;
   width: 30%;
-  padding-right: 10px;
-  margin-right: 0;
+  padding-inline-end: 10px;
+  margin-inline-end: 0;
 }
 
 .page-content.install .ui.form .field > .help,
 .page-content.install .ui.form .field > .ui.checkbox:first-child,
 .page-content.install .ui.form .field > .right-content {
-  margin-left: calc(30% + 5px);
+  margin-inline-start: calc(30% + 5px);
   width: auto;
 }
 
@@ -37,19 +63,19 @@
 }
 
 .page-content.install form.ui.form .field {
-  text-align: left;
+  text-align: start;
 }
 
 .page-content.install .ui .reinstall-message {
   width: 70%;
   margin: 20px auto;
   color: var(--color-red);
-  text-align: left;
+  text-align: start;
   font-weight: var(--font-weight-semibold);
 }
 
 .page-content.install .ui .reinstall-confirm {
   width: 70%;
-  text-align: left;
+  text-align: start;
   margin: 10px auto;
 }

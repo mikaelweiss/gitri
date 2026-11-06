@@ -105,7 +105,7 @@ onUnmounted(() => {
 .diff-ext-filter-header {
   padding: 6px 18px;
   color: var(--color-text-light-2);
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
 }
 
@@ -120,25 +120,36 @@ onUnmounted(() => {
   padding: 2px 6px;
   border-radius: var(--border-radius-full);
   background: var(--color-label-bg);
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
   line-height: 12px;
 }
 
+@supports (corner-shape: squircle) {
+  .diff-ext-filter-count {
+    corner-shape: round;
+  }
+}
+
 .diff-ext-filter-trigger {
-  height: 32px;
-  width: 32px;
+  height: var(--control-height);
+  width: var(--control-height);
   padding: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--color-secondary);
-  border-radius: var(--border-radius-medium);
+  border: 1px solid var(--color-light-border);
+  border-radius: var(--border-radius);
   background: var(--color-button);
   color: var(--color-text-light-2);
+  transition: background-color var(--duration-normal) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
 }
 
 .diff-ext-filter-trigger:hover {
   background: var(--color-hover);
+}
+
+.diff-ext-filter-trigger:active {
+  transform: scale(0.97);
 }
 </style>

@@ -3,7 +3,7 @@
 {{- if .Flash.InfoMsg}}{{ctx.RenderUtils.RenderFlashMessage "info" .Flash.InfoMsg}}{{end -}}
 {{- if .Flash.SuccessMsg}}{{ctx.RenderUtils.RenderFlashMessage "success" .Flash.SuccessMsg}}{{end -}}
 {{- if .ShowTwoFactorRequiredMessage -}}
-<div class="ui error message flash-message flash-error">
+<div class="ui error message flash-message flash-error flash-keep-inline">
 	<a href="{{AppSubUrl}}/user/settings/security/two_factor/enroll">{{ctx.Locale.Tr "auth.twofa_required"}}</a>
 </div>
 {{- end -}}

@@ -10,9 +10,9 @@
 				<th>{{ctx.Locale.Tr "admin.monitor.queue.name"}}</th>
 				<th>{{ctx.Locale.Tr "admin.monitor.queue.type"}}</th>
 				<th>{{ctx.Locale.Tr "admin.monitor.queue.exemplar"}}</th>
-				<th>{{ctx.Locale.Tr "admin.monitor.queue.numberworkers"}}</th>
-				<th>{{ctx.Locale.Tr "admin.monitor.queue.activeworkers"}}</th>
-				<th>{{ctx.Locale.Tr "admin.monitor.queue.numberinqueue"}}</th>
+				<th class="tw-whitespace-normal">{{ctx.Locale.Tr "admin.monitor.queue.numberworkers"}}</th>
+				<th class="tw-whitespace-normal">{{ctx.Locale.Tr "admin.monitor.queue.activeworkers"}}</th>
+				<th class="tw-whitespace-normal">{{ctx.Locale.Tr "admin.monitor.queue.numberinqueue"}}</th>
 				<th></th>
 			</tr>
 			</thead>
@@ -25,7 +25,7 @@
 				<td>{{$q.GetWorkerNumber}}</td>
 				<td>{{$q.GetWorkerActiveNumber}}</td>
 				<td>{{$sum := $q.GetQueueItemNumber}}{{if lt $sum 0}}-{{else}}{{$sum}}{{end}}</td>
-				<td><a href="{{$.Link}}/{{$qid}}" class="button">{{ctx.Locale.Tr "admin.monitor.queue.review_add"}}</a></td>
+				<td class="tw-whitespace-nowrap"><a href="{{$.Link}}/{{$qid}}" class="button">{{ctx.Locale.Tr "admin.monitor.queue.review_add"}}</a></td>
 			</tr>
 			{{end}}
 			</tbody>

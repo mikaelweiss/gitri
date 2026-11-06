@@ -1,23 +1,30 @@
 .modal-backdrop {
   position: fixed;
-  display: none;
+  display: flex;
   inset: 0;
   background: var(--color-overlay-backdrop);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   z-index: var(--z-index-modal);
   overflow-y: auto;
   justify-content: center;
   padding: 8px 0;
-  animation-name: fadein;
-  animation-duration: .2s;
+  animation: fadein var(--duration-normal) var(--ease-standard);
+  transition: opacity var(--duration-normal) var(--ease-standard);
   overscroll-behavior: contain;
   user-select: none;
 }
 
-.modal-backdrop:has(> [open]) {
-  display: flex;
+/* visibility, not display: only Chromium transitions display, the exit fade must run in Firefox and Safari too */
+.modal-backdrop:not(.modal-backdrop-open) {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--duration-normal) var(--ease-standard), visibility var(--duration-normal);
 }
 
 .modal-backdrop > .modal-dialog {
+  display: block;
   position: static;
   margin-top: auto;
   margin-bottom: auto;

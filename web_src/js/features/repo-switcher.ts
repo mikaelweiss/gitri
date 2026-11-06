@@ -18,6 +18,7 @@ export function initRepoSwitcher(el: HTMLElement) {
   const $dropdown = fomanticQuery(el);
   $dropdown.dropdown({
     showOnFocus: false, // don't auto popup the dropdown menu, avoid interrupting users keyboard navigation on the page
+    direction: 'downward', // it sits at the top of the page, its statically positioned phone menu has no room to flip
     apiSettings: {
       url: el.getAttribute('data-query-url')!,
       onResponse: (response: RepoSearchResponse) => ({results: response.data.map(({repository: repo}) => {

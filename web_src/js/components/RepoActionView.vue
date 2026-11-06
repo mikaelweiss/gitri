@@ -170,7 +170,7 @@ onBeforeUnmount(() => {
           <ActionStatusIcon :locale-status="locale.status[run.status]" :status="run.status" :size="22" icon-variant="circle-fill"/>
           <!-- eslint-disable-next-line vue/no-v-html -->
           <h2 class="action-info-summary-title-text" v-html="run.titleHTML"/>
-          <span class="action-info-summary-title-index">#{{ run.index }}</span>
+          <span v-if="run.index" class="action-info-summary-title-index">#{{ run.index }}</span>
         </div>
         <div class="flex-text-block tw-shrink-0 tw-flex-wrap">
           <button class="ui basic small compact button primary" @click="approveRun()" v-if="run.canApprove">
@@ -230,6 +230,11 @@ onBeforeUnmount(() => {
           </div>
         </div>
       </div>
+    </div>
+    <div v-if="run.runnerNotice" class="ui warning message runner-notice">
+      <SvgIcon name="octicon-alert"/>
+      <span class="runner-notice-text">{{ run.runnerNotice.message }}</span>
+      <a v-if="run.runnerNotice.runnersLink" class="ui small button" :href="run.runnerNotice.runnersLink">{{ run.runnerNotice.linkText }}</a>
     </div>
     <div class="action-view-body">
       <div class="action-view-left">
@@ -405,7 +410,7 @@ onBeforeUnmount(() => {
 }
 
 .left-list-header {
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-light-2);
 }
@@ -421,6 +426,7 @@ onBeforeUnmount(() => {
 .action-view-sidebar-list > .item {
   padding: 6px 10px;
   border-radius: var(--border-radius);
+  transition: background-color var(--duration-fast) var(--ease-standard);
 }
 
 .action-view-sidebar-list > .item:hover {
@@ -428,7 +434,7 @@ onBeforeUnmount(() => {
 }
 
 .action-view-sidebar-list > .item.selected {
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-semibold);
   background-color: var(--color-active);
 }
 
@@ -444,7 +450,7 @@ onBeforeUnmount(() => {
 
 .job-brief-toggle-icon {
   flex-shrink: 0;
-  transition: transform 0.15s ease;
+  transition: transform var(--duration-fast) var(--ease-standard);
   /* sit between name and duration; duration uses order:2 with margin-left:auto to float right */
   order: 1;
 }
@@ -493,7 +499,7 @@ onBeforeUnmount(() => {
 .action-view-right-panel {
   flex: 1; /* fill the right column so the summary graph stretches even without a job-summary section */
   border: 1px solid var(--color-secondary);
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-medium);
   background: var(--color-console-bg);
   display: flex;
   flex-direction: column;
@@ -533,7 +539,7 @@ onBeforeUnmount(() => {
 }
 
 .job-summary-section {
-  flex: 0 0 auto; /* size to its content; let the summary panel keep the remaining height */
+  flex: 0 0 auto; /* size to its content, the summary panel keeps the remaining height */
   overflow: hidden;
 }
 
@@ -554,12 +560,13 @@ onBeforeUnmount(() => {
 
 .job-summary-item {
   padding: 12px;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-medium);
   background: var(--color-console-hover-bg);
   border: 1px solid var(--color-secondary);
 }
 
 .job-summary-header {
+  display: flex; /* lets the job name ellipsize */
   color: var(--color-console-fg);
   margin-bottom: 8px;
 }

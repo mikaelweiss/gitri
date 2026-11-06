@@ -1,6 +1,20 @@
 <div class="empty-placeholder">
-	{{svg "octicon-no-entry" 48}}
+	{{svg "octicon-workflow" 48}}
 	<h2>{{ctx.Locale.Tr "actions.runs.no_workflows"}}</h2>
+	<p>{{ctx.Locale.Tr "actions.runs.no_workflows.example_intro"}}</p>
+	<div class="actions-workflow-example">
+		<div class="actions-workflow-example-path">{{svg "octicon-file-code" 14}}<span>.gitea/workflows/build.yaml</span></div>
+		<pre>on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Hello from Actions"</pre>
+	</div>
+	{{if and .CanWriteCode .Repository.CanContentChange}}
+		<a class="ui primary button" href="{{.RepoLink}}/_new/{{PathEscapeSegments .Repository.DefaultBranch}}/.gitea/workflows">{{ctx.Locale.Tr "actions.runs.no_workflows.add_file"}}</a>
+	{{end}}
 	{{if and .CanWriteCode .CanWriteActions}}
 		<p>{{ctx.Locale.Tr "actions.runs.no_workflows.quick_start" "https://docs.gitea.com/usage/actions/quickstart/"}}</p>
 	{{end}}

@@ -17,6 +17,8 @@ type Locale interface {
 	TrHTML(trKey string, trArgs ...any) template.HTML
 	// HasKey reports if a locale has a translation for a given key
 	HasKey(trKey string) bool
+	// HasOwnKey reports if a locale itself, without the default language fallback, translates a given key
+	HasOwnKey(trKey string) bool
 }
 
 // LocaleTranslation represents an interface to translation

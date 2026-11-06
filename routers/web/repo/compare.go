@@ -522,7 +522,6 @@ func CompareDiff(ctx *context.Context) {
 		return
 	}
 	ci := comparePageInfo.compareInfo
-	ctx.Data["PageIsViewCode"] = true
 	ctx.Data["PullRequestWorkInProgressPrefixes"] = setting.Repository.PullRequest.WorkInProgressPrefixes
 	ctx.Data["CompareInfo"] = ci
 
@@ -569,6 +568,9 @@ func CompareDiff(ctx *context.Context) {
 		ctx.Data["CommitCount"] = 0
 	}
 	ctx.Data["PageIsComparePull"] = comparePageInfo.allowCreatePull
+	isPullCompare := comparePageInfo.allowCreatePull && ctx.Repo.Repository.CanEnablePulls()
+	ctx.Data["PageIsPullList"] = isPullCompare
+	ctx.Data["PageIsViewCode"] = !isPullCompare
 	ctx.Data["IsNothingToCompare"] = comparePageInfo.nothingToCompare
 	ctx.HTML(http.StatusOK, tplCompare)
 }

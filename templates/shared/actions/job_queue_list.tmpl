@@ -85,7 +85,10 @@
 			</tbody>
 		</table>
 	{{else}}
-		<div class="tw-text-center tw-p-4">{{ctx.Locale.Tr "actions.job_queue.no_jobs"}}</div>
+		<div class="empty-placeholder">
+			{{svg "octicon-list-ordered" 48}}
+			<h2>{{ctx.Locale.Tr "actions.job_queue.no_jobs"}}</h2>
+		</div>
 	{{end}}
 	{{template "base/paginate" .}}
 	</div>

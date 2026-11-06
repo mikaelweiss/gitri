@@ -59,7 +59,7 @@ const ansiStyleInitial: Readonly<AnsiStyle> = {
 };
 
 // 0-7 normal, 8-15 bright, 16-231 a 6x6x6 rgb cube, 232-255 grayscale, the values the
-// ".term-fgx*" rules hardcode for the console renderer
+// "--color-xterm-*" tokens hold for the console renderer
 const colorNames = ['black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white'];
 const cubeLevels = [0, 95, 135, 175, 215, 255];
 const palette256: AnsiColor[] = [

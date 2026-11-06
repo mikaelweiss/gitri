@@ -1153,6 +1153,7 @@ func MergePullRequest(ctx *context.Context) {
 			return
 		}
 
+		ctx.Flash.Success(ctx.Tr("repo.pulls.merged_success"))
 		ctx.JSONRedirect(issue.Link())
 		return
 	}
@@ -1264,8 +1265,9 @@ func MergePullRequest(ctx *context.Context) {
 		return
 	}
 
+	ctx.Flash.Success(ctx.Tr("repo.pulls.merged_success"))
 	if deleteBranchAfterMerge {
-		deleteBranchAfterMergeAndFlashMessage(ctx, pr.ID)
+		deleteBranchAfterMergeAndFlashMessage(ctx, pr.ID, "repo.pulls.merged_success_branch_deleted")
 		if ctx.Written() {
 			return
 		}
@@ -1273,7 +1275,7 @@ func MergePullRequest(ctx *context.Context) {
 	ctx.JSONRedirect(issue.Link())
 }
 
-func deleteBranchAfterMergeAndFlashMessage(ctx *context.Context, prID int64) {
+func deleteBranchAfterMergeAndFlashMessage(ctx *context.Context, prID int64, successKey string) {
 	var fullBranchName string
 	err := repo_service.DeleteBranchAfterMerge(ctx, ctx.Doer, prID, &fullBranchName)
 	if errors.Is(err, util.ErrPermissionDenied) || errors.Is(err, util.ErrNotExist) {
@@ -1284,7 +1286,7 @@ func deleteBranchAfterMergeAndFlashMessage(ctx *context.Context, prID int64) {
 		ctx.Flash.Error(errTr.Translate(ctx.Locale))
 		return
 	} else if err == nil {
-		ctx.Flash.Success(ctx.Tr("repo.branch.deletion_success", fullBranchName))
+		ctx.Flash.Success(ctx.Tr(successKey, fullBranchName))
 		return
 	}
 	// catch unknown errors
@@ -1503,7 +1505,7 @@ func CleanUpPullRequest(ctx *context.Context) {
 	if !ok {
 		return
 	}
-	deleteBranchAfterMergeAndFlashMessage(ctx, issue.PullRequest.ID)
+	deleteBranchAfterMergeAndFlashMessage(ctx, issue.PullRequest.ID, "repo.branch.deletion_success")
 	if ctx.Written() {
 		return
 	}

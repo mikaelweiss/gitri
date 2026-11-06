@@ -1,7 +1,7 @@
 <div class="ui attached segment">
 	<form class="ui form ignore-dirty tw-flex tw-flex-wrap tw-gap-2">
 		{{if .AuditSort}}<input type="hidden" name="sort" value="{{.AuditSort}}">{{end}}
-		<div class="ui small action input tw-flex-1">
+		<div class="ui small action input tw-flex-1 tw-min-w-[200px]">
 			<input type="text" name="actor" value="{{.AuditFilterActor}}" placeholder="{{ctx.Locale.Tr "audit.filter.actor"}}">
 			{{template "shared/search/button"}}
 		</div>
@@ -23,19 +23,21 @@
 		</div>
 	</form>
 </div>
-<div class="ui attached table segment">
+<div class="ui attached table segment tw-overflow-x-auto">
 	<table class="ui very basic striped table unstackable">
-		<thead>
-			<tr>
-				<th>{{ctx.Locale.Tr "audit.actor"}}</th>
-				<th>{{ctx.Locale.Tr "audit.scope"}}</th>
-				<th>{{ctx.Locale.Tr "audit.action"}}</th>
-				<th>{{ctx.Locale.Tr "audit.origin"}}</th>
-				<th>{{ctx.Locale.Tr "audit.details"}}</th>
-				<th>{{ctx.Locale.Tr "audit.ip_address"}}</th>
-				<th data-sortt-asc="timestamp_asc" data-sortt-desc="timestamp_desc">{{ctx.Locale.Tr "audit.timestamp"}}{{SortArrow "timestamp_asc" "timestamp_desc" $.AuditSort false}}</th>
-			</tr>
-		</thead>
+		{{if .AuditEvents}}
+			<thead>
+				<tr>
+					<th>{{ctx.Locale.Tr "audit.actor"}}</th>
+					<th>{{ctx.Locale.Tr "audit.scope"}}</th>
+					<th>{{ctx.Locale.Tr "audit.action"}}</th>
+					<th>{{ctx.Locale.Tr "audit.origin"}}</th>
+					<th>{{ctx.Locale.Tr "audit.details"}}</th>
+					<th>{{ctx.Locale.Tr "audit.ip_address"}}</th>
+					<th data-sortt-asc="timestamp_asc" data-sortt-desc="timestamp_desc">{{ctx.Locale.Tr "audit.timestamp"}}{{SortArrow "timestamp_asc" "timestamp_desc" $.AuditSort false}}</th>
+				</tr>
+			</thead>
+		{{end}}
 		<tbody>
 			{{range $event := .AuditEvents}}
 				<tr>
@@ -81,7 +83,7 @@
 					<td>{{DateUtils.FullTime $event.Time}}</td>
 				</tr>
 			{{else}}
-				<tr><td colspan="7">{{ctx.Locale.Tr "audit.no_events"}}</td></tr>
+				<tr><td colspan="7"><div class="empty-placeholder">{{svg "octicon-log" 48}}<h2>{{ctx.Locale.Tr "audit.no_events"}}</h2></div></td></tr>
 			{{end}}
 		</tbody>
 	</table>

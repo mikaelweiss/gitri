@@ -361,6 +361,7 @@ func RenderUserCards(ctx *context.Context, total int, getter func(opts db.ListOp
 // Watchers render repository's watch users
 func Watchers(ctx *context.Context) {
 	ctx.Data["Title"] = ctx.Tr("repo.watchers")
+	ctx.Data["PageIsViewCode"] = true
 	ctx.Data["CardsTitle"] = ctx.Tr("repo.watchers")
 	RenderUserCards(ctx, ctx.Repo.Repository.NumWatches, func(opts db.ListOptions) ([]*user_model.User, error) {
 		return repo_model.GetRepoWatchers(ctx, ctx.Repo.Repository.ID, opts)
@@ -370,6 +371,7 @@ func Watchers(ctx *context.Context) {
 // Stars render repository's starred users
 func Stars(ctx *context.Context) {
 	ctx.Data["Title"] = ctx.Tr("repo.stargazers")
+	ctx.Data["PageIsViewCode"] = true
 	ctx.Data["CardsTitle"] = ctx.Tr("repo.stargazers")
 	RenderUserCards(ctx, ctx.Repo.Repository.NumStars, func(opts db.ListOptions) ([]*user_model.User, error) {
 		return repo_model.GetStargazers(ctx, ctx.Repo.Repository, opts)
@@ -379,6 +381,7 @@ func Stars(ctx *context.Context) {
 // Forks render repository's forked users
 func Forks(ctx *context.Context) {
 	ctx.Data["Title"] = ctx.Tr("repo.forks")
+	ctx.Data["PageIsViewCode"] = true
 
 	page := ctx.FormInt("page")
 	if page <= 0 {
