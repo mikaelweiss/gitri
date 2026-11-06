@@ -150,3 +150,15 @@ func TestArchive_Basic(t *testing.T) {
 		assert.ErrorContains(t, err, "path doesn't exist or is invalid")
 	})
 }
+
+func TestNixImmutableLink(t *testing.T) {
+	sha1 := "65f1bf27bc3bf70f64657658635e66094edbcb4d"
+	assert.Equal(t,
+		`<https://example.com/api/v1/repos/o/r/archive/`+sha1+`.tar.gz?rev=`+sha1+`>; rel="immutable"`,
+		nixImmutableLink("https://example.com/api/v1/repos/o/r", sha1, "tar.gz"))
+
+	sha256 := "f7b69d80c453e36b79f0b80418c354df98cda9b1e5417132b155987847621466"
+	assert.Equal(t,
+		`<https://example.com/api/v1/repos/o/r/archive/`+sha256+`.tar.gz>; rel="immutable"`,
+		nixImmutableLink("https://example.com/api/v1/repos/o/r", sha256, "tar.gz"))
+}

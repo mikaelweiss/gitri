@@ -352,15 +352,19 @@ func DeleteRepositoryArchives(ctx context.Context) error {
 	return storage.Clean(storage.RepoArchives)
 }
 
+// nixImmutableLink is the Link header that lets nix lock archive downloads:
+// https://github.com/nixos/nix/blob/56763ff918eb308db23080e560ed2ea3e00c80a7/doc/manual/src/protocols/tarball-fetcher.md
+func nixImmutableLink(repoAPIURL, commitID, archiveExt string) string {
+	link := fmt.Sprintf("%s/archive/%s.%s", repoAPIURL, commitID, archiveExt)
+	// nix parses rev as SHA-1 and fails the whole fetch on a SHA-256 commit, so those lock by content hash
+	if len(commitID) == git.Sha1ObjectFormat.FullLength() {
+		link += "?rev=" + commitID
+	}
+	return "<" + link + `>; rel="immutable"`
+}
+
 func ServeRepoArchive(ctx *gitea_context.Base, archiveReq *ArchiveRequest) error {
-	// Add nix format link header so tarballs lock correctly:
-	// https://github.com/nixos/nix/blob/56763ff918eb308db23080e560ed2ea3e00c80a7/doc/manual/src/protocols/tarball-fetcher.md
-	ctx.Resp.Header().Add("Link", fmt.Sprintf(`<%s/archive/%s.%s?rev=%s>; rel="immutable"`,
-		archiveReq.Repo.APIURL(),
-		archiveReq.CommitID,
-		archiveReq.Type.String(),
-		archiveReq.CommitID,
-	))
+	ctx.Resp.Header().Add("Link", nixImmutableLink(archiveReq.Repo.APIURL(), archiveReq.CommitID, archiveReq.Type.String()))
 	downloadName := archiveReq.Repo.Name + "-" + archiveReq.GetArchiveName()
 
 	if setting.Repository.StreamArchives || len(archiveReq.Paths) > 0 {
